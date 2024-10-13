@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/view_drivers.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="drivers__wrapper">
+        {% for driver in drivers %}
+        <div class="driver__wrapper">
+            <h2 class="driver__name">{{driver["name"]}}</h2>
+            <p class="driver__route">{{driver["route"]}}</p>
+            <p class="driver__shift">{{driver["shift"]}}</p>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+
+</html>
