@@ -1,18 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     {% block body %}
     <form action="/login" method="post">
-        <input type="email" name="email" placeholder="email">
+        <input type="text" name="user_name" placeholder="username">
         <input type="password" name="password" placeholder="password">
         <button type="submit">login</button>
     </form>
     <a href="/register">Register</a>
     {% endblock %}
+    {% if message %}
+    <p>{{message}}</p>
+    {%endif%}
 </body>
+
 </html>

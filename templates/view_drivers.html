@@ -9,6 +9,28 @@
 </head>
 
 <body>
+    <button type="button" onclick="toggleAddFormVisibility(); id = 'drivers__add-button'">Add Driver</button>
+    {% if message %}
+    <p>{{message}}</p>
+    {% endif %}
+    <form id="drivers__add-form" style="display: none;" class="driver-form">
+        <input type="text" placeholder="name" name="driver-name" id="driver-name">
+        <div>
+            <p>Shift</p>
+            <select name="driver-shift" class="driver-form__select" id="driver-shift">
+                <option value="morning">Morning</option>
+                <option value="night">Night</option>
+            </select>
+        </div>
+        <div>
+            <p>Route</p>
+            <select name="driver-route" id="driver-route">
+                <option value="route1">Route 1</option>
+                <option value="route2">Route 2</option>
+            </select>
+        </div>
+        <button type="submit">Add Driver</button>
+    </form>
     <div class="drivers__wrapper">
         {% for driver in drivers %}
         <div class="driver__wrapper">
@@ -18,6 +40,7 @@
         </div>
         {% endfor %}
     </div>
+    <script src="static/js/view_drivers.js"></script>
 </body>
 
 </html>

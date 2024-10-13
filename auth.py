@@ -1,18 +1,10 @@
 from flask import render_template, url_for, request, Blueprint, redirect, flash
 import json
+import os
+from helper import get_users, write_user
 
 auth = Blueprint("auth", __name__)
 
-def get_users():
-    with open("data/users.json") as file:
-        users = json.load(file)
-    return users
-
-def write_user(user):
-    with open("data/users.json", "a") as file:
-        json.dump(user, file, indent=4)
-    return True
-    
 
 @auth.route("/register", methods = ["POST", "GET"])
 def register():
@@ -29,6 +21,16 @@ def register():
             message = "There is an issue! "
     return render_template('register.html', message = message)
 
-@auth.route("/login")
+@auth.route("/login", methods = ["POST", "GET"])
 def login():
-    return render_template("admin_dashboard.html")
+    if request.method == "POST":
+        user_name = request.form.get("user_name")
+        password = request.form.get("password")
+        for user in get_users("users.json"):
+            if user["user_name"] == user_name and user["password"] == password:
+                if user["role"] == "admin":
+                    return render_template("admin_dashboard.html")
+                else:
+                    return "Hii, Employee"
+    return render_template("login.html", message="Logged in successfully!")
+    
