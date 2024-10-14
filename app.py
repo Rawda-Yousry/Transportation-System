@@ -1,6 +1,6 @@
 from flask import Flask, render_template
-from auth import auth 
-from drivers import drivers_bp
+from blueprints.auth import auth
+from blueprints.drivers_bp import drivers_bp
 
 app = Flask(__name__)
 

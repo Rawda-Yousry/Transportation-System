@@ -1,8 +1,9 @@
 from flask import Flask, render_template, url_for, request, Blueprint
-import json
 from helper import get_users, write_user
+from models.driver import Driver
+from models.employee import Admin
 
-drivers_bp = Blueprint("drivers",__name__)
+drivers_bp = Blueprint("drivers_bp",__name__)
 
 def to_dict(name, route, shift):
     driver = {
@@ -23,9 +24,10 @@ def add_driver():
     name = request.json.get("name")
     route = request.json.get("route")
     shift = request.json.get("shift")
-    driver = to_dict(name, route, shift)
-    check_write = write_user(driver, "drivers.json")
-    return driver
+    new_driver = Driver(name, route, shift)
+    new_driver_dict = new_driver.to_dict()
+    check_write = write_user(new_driver_dict , "drivers.json")
+    return new_driver_dict
 
 
     

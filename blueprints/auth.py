@@ -1,7 +1,7 @@
-from flask import render_template, url_for, request, Blueprint, redirect, flash
-import json
-import os
+from flask import render_template, request, Blueprint
 from helper import get_users, write_user
+
+
 
 auth = Blueprint("auth", __name__)
 
@@ -32,5 +32,5 @@ def login():
                     return render_template("admin_dashboard.html")
                 else:
                     return "Hii, Employee"
-    return render_template("login.html", message="Logged in successfully!")
+    return render_template("login.html", message="You should register first")
     
