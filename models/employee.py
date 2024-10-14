@@ -1,6 +1,7 @@
 from models.driver import Driver
 from helper import write_user, get_users
 import uuid
+import json
 
 
 class Employee:
@@ -34,6 +35,26 @@ class Admin(Employee):
     def view_drivers(self):
         drivers = get_users("drivers.json")
         return drivers
+    
+    def delete_driver(self, driver_id):
+        updated_drivers_list = []
+        deleted_driver = dict()
+        drivers = get_users("drivers.json")
+        for driver in drivers:
+            if driver["id"] != driver_id:
+                updated_drivers_list.append(driver)
+            else:
+                deleted_driver = {
+                    "name": driver["name"],
+                    "route": driver["route"],
+                    "shift": driver["shift"]
+                }
+        with open("data/drivers.json", "w") as file:
+            json.dump(updated_drivers_list, file, indent=4)
+        return deleted_driver
+                
+
+
 
     
 

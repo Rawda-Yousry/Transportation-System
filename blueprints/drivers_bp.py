@@ -22,13 +22,13 @@ def add_driver():
     new_driver_dict = admin.add_driver(name,route,shift)
     return new_driver_dict
 
-@drivers_bp.route("/drivers/delete/<id>", methods = ["POST"])
+@drivers_bp.route("/drivers/delete/<id>", methods = ["DELETE"])
 def delete_driver(id):
-    drivers = get_users("drivers")
-    for driver in drivers:
-        if driver["id"] == id:
-            del driver["id"]
-    return drivers
+    drivers = get_users("drivers.json")
+    admin = Admin(role=session["role"], name="", email="", password="")
+    deleted_driver = admin.delete_driver(id)
+    return deleted_driver
+
             
 
 
