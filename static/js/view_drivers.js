@@ -1,5 +1,7 @@
 const formAddDriver = document.getElementById("drivers__add-form");
 const driverDiv = document.getElementsByClassName("drivers__wrapper")[0];
+
+
 const toggleAddFormVisibility = () => {
   if (formAddDriver.style.display == "block")
     formAddDriver.style.display = "none";
@@ -20,12 +22,9 @@ const createDriver = (data) => {
 const onSubmitAddDriverForm = (e) => {
   e.preventDefault();
   const driverName = document.getElementById("driver-name").value;
-
-  console.log(driverName);
   const driverShift = document.getElementById("driver-shift").value;
-  console.log(driverShift);
   const driverRoute = document.getElementById("driver-route").value;
-  console.log(driverRoute);
+
 
   const formData = {
     name: driverName,
@@ -40,7 +39,7 @@ const onSubmitAddDriverForm = (e) => {
     },
     body: JSON.stringify(formData),
   })
-    .then((respone) => respone.json())
+    .then((response) => response.json())
     .then((data) => {
       createDriver(data);
     })

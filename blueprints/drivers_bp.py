@@ -12,6 +12,7 @@ def view_drivers():
     drivers = admin.view_drivers()
     return render_template("view_drivers.html", drivers=drivers)
 
+
 @drivers_bp.route("/drivers/add", methods=["POST"])
 def add_driver():
     name = request.json.get("name")
@@ -20,6 +21,16 @@ def add_driver():
     admin = Admin(role=session["role"], name="", email="", password="")
     new_driver_dict = admin.add_driver(name,route,shift)
     return new_driver_dict
+
+@drivers_bp.route("/drivers/delete/<id>", methods = ["POST"])
+def delete_driver(id):
+    drivers = get_users("drivers")
+    for driver in drivers:
+        if driver["id"] == id:
+            del driver["id"]
+    return drivers
+            
+
 
 
     

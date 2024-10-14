@@ -1,9 +1,11 @@
 from models.driver import Driver
 from helper import write_user, get_users
+import uuid
 
 
 class Employee:
     def __init__(self, name, email, password, role):
+        self.id = str(uuid.uuid4())
         self.name = name
         self.email = email
         self.password = password
