@@ -43,5 +43,10 @@
         "name": "Ali",
         "route": "route1",
         "shift": "night"
+    },
+    {
+        "name": "Hatem",
+        "route": "route1",
+        "shift": "morning"
     }
 ]
