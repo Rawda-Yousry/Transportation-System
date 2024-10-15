@@ -1,4 +1,3 @@
-//// '''''' ||
 import { checkErrorExists, showError } from "./utilities.js";
 const formAddDriver = document.getElementById("add-form");
 const driverDiv = document.getElementsByClassName("drivers__wrapper")[0];
@@ -93,9 +92,8 @@ const deleteDriver = (event) => {
   }
 };
 
-addDriverButton.addEventListener("click", toggleAddFormVisibility)
-formAddDriver.addEventListener("submit", onSubmitAddDriverForm )
-
+addDriverButton.addEventListener("click", toggleAddFormVisibility);
+formAddDriver.addEventListener("submit", onSubmitAddDriverForm);
 
 document.addEventListener("click", (event) => {
   if (event.target.classList.contains("delete-button")) {

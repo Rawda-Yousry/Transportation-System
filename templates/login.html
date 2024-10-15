@@ -1,23 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
 
-  <body>
-    {% block body %}
-    <form id="form-login">
-      <input type="text" placeholder="username" id="username-login" />
-      <input type="password" placeholder="password" id="password-login" />
-      <button type="submit">login</button>
-    </form>
-    <a href="/register">Register</a>
-    {% endblock %} {% if message %}
-    <p>{{message}}</p>
-    {%endif%}
-    <script type="module" src="static/js/utilities.js"></script>
-    <script src="static/js/login-register.js" type="module"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="static/css/login.css">
+  <link rel="stylesheet" href="static/css/register.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet">
+  <title>Document</title>
+</head>
+
+<body class="home">
+  {% block body %}
+  <form id="form-login" class="form-login">
+    <div class="form__field">
+      <label for="username" class="form__label">Name</label>
+      <input type="text" placeholder="username" id="username-login" class="form__field-input" />
+    </div>
+    <div class="form__field">
+      <label for="password" class="form__label">Password</label>
+      <input type="password" placeholder="password" id="password-login" class="form__field-input" />
+    </div>
+    <button type="submit" class="form__button">Login</button>
+    <div class="form__link">Don't have an account? <a href="/register">Register</a></div>
+  </form>
+  {% endblock %} {% if message %}
+  <p>{{message}}</p>
+  {%endif%}
+  <script type="module" src="static/js/login-register.js"></script>
+</body>
+
 </html>
