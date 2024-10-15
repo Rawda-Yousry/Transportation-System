@@ -1,17 +1,16 @@
-{% extends "login.html" %}
-{% block body %}
-<form action="/register" method="post">
-    <input type="email" name="email" placeholder="Email">
-    <input type="password" name="password" placeholder="Password">
-    <input type="text" name="user_name" placeholder="Name">
-    <select name="role">
-        <option value="admin">Admin</option>
-        <option value="employee">Employee</option>
-    </select>
-    <button type="submit">register</button>
+{% extends "login.html" %} {% block body %}
+<form id="form-register" autocomplete="off">
+  <input type="email" placeholder="Email" id="email-register" />
+  <input type="password" placeholder="Password" id="password-register" />
+  <input type="text" placeholder="Name" id="username-register" />
+  <select id = "role-register">
+    <option value="" disabled selected>Role</option>
+    <option value="admin">Admin</option>
+    <option value="employee">Employee</option>
+  </select>
+  <button type="submit">register</button>
 </form>
 <a href="/login">Already Logged In</a>
 {% if message %}
 <p>{{message}}</p>
-{% endif %}
-{%endblock%}
+{% endif %} {%endblock%}

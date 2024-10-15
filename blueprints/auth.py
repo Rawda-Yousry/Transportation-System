@@ -10,6 +10,7 @@ auth = Blueprint("auth", __name__)
 def register():
     message = ""
     if request.method == "POST":
+        data = request.get_json()
         email = request.form.get('email')
         password = request.form.get('password')
         user_name = request.form.get('user_name')

@@ -1,6 +1,13 @@
+//
 const formLogin = document.getElementById("form-login");
-const userName = document.getElementById("user-name");
-const password = document.getElementById("user-id");
+const userNameLogin = document.getElementById("username-login");
+const passwordLogin = document.getElementById("password-login");
+
+const formRegister = document.getElementById("form-register");
+const userNameRegister = document.getElementById("username-register");
+const passwordRegister = document.getElementById("password-register");
+const emailRegister = document.getElementById("email-register");
+const roleRegister = document.getElementById("role-register");
 
 const showError = (field, errorMessage) => {
   const existingError = field.nextElementSibling;
@@ -14,28 +21,32 @@ const showError = (field, errorMessage) => {
   }
 };
 
-const validateUserInput = (event) => {
+const checkErrorExists = (field) => {
+  const errorElement = field.nextElementSibling;
+  if (errorElement.classList.contains("error")) {
+    errorElement.remove();
+  }
+};
+
+const validateUserInputLogin = (event) => {
   event.preventDefault();
-  const existingError = userName.nextElementSibling;
-  if (userName.value.trim() === "") {
-    showError(userName, "You should enter username");
+  if (userNameLogin.value.trim() === "") {
+    showError(userNameLogin, "You should enter username");
   } else {
-    if (existingError.classList.contains("error")) {
-      existingError.remove();
-    }
+    checkErrorExists(userNameLogin);
   }
-  if (password.value === "") {
-    showError(password, "You should enter the password");
+
+  if (passwordLogin.value === "") {
+    showError(passwordLogin, "You should enter the password");
   } else {
-    if (existingError.classList.contains("error")) {
-      existingError.remove();
-    }
+    checkErrorExists(passwordLogin);
   }
+
   const errorsNumber = document.getElementsByClassName("error").length;
   if (errorsNumber === 0) {
     const loginData = {
-      name: userName.value,
-      password: password.value,
+      name: userNameLogin.value,
+      password: passwordLogin.value,
     };
     fetch("/login", {
       method: "POST",
@@ -44,9 +55,7 @@ const validateUserInput = (event) => {
       },
       body: JSON.stringify(loginData),
     })
-      .then((response) => 
-        response.json()
-      )
+      .then((response) => response.json())
       .then((data) => {
         console.log(data);
         window.location.href = data.redirectURL;
@@ -55,4 +64,33 @@ const validateUserInput = (event) => {
   }
 };
 
-formLogin.addEventListener("submit", validateUserInput);
+const validateUserInputRegister = (event) => {
+  event.preventDefault();
+  if (emailRegister.value.trim() === "") {
+    showError(emailRegister, "You should enter the email");
+  } else {
+    checkErrorExists(emailRegister);
+  }
+  if (passwordRegister.value === "") {
+    showError(passwordRegister, "You should enter the password");
+  } else {
+    checkErrorExists(passwordRegister);
+  }
+  if (roleRegister.value === "") {
+    showError(roleRegister, "You should enter the password");
+  } else {
+    checkErrorExists(roleRegister);
+  }
+  if (userNameRegister.value === "") {
+    showError(userNameRegister, "You should enter the password");
+  } else {
+    checkErrorExists(userNameRegister);
+  }
+};
+if (formLogin) {
+  formLogin.addEventListener("submit", validateUserInputLogin);
+}
+
+if (formRegister) {
+  formRegister.addEventListener("submit", validateUserInputRegister);
+}
