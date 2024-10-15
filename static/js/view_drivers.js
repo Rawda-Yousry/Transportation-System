@@ -16,7 +16,7 @@ const createDriver = (data) => {
     <h2 class="driver__name">${data.name}</h2>
     <p class="driver__route">${data.route}</p>
     <p class="driver__shift">${data.shift}</p>
-    <button type="button" class="delete-button">Delete</button>
+    <button type="button" class="delete-button" onclick = "deleteDriver(event)" data-id = ${data.id}>Delete</button>
 `;
 
   newDriverDiv.setAttribute("data-id", data.id);
@@ -49,36 +49,29 @@ const onSubmitAddDriverForm = (e) => {
     .catch((error) => console.log(error));
 };
 
-const deleteDriver = (id) => {
+const deleteDriver = (event) => {
+  const clickedButton = event.target;
+  console.log("clickeddd " + clickedButton)
+  const deletedDriverId = clickedButton.getAttribute("data-id");
+  console.log("Button ID: " + deletedDriverId);
   const driverDivs = document.getElementsByClassName("driver__wrapper");
-  fetch(`/drivers/delete/${id}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => console.log(data))
-    .catch((error) => console.log(error));
+  for (let i = 0; i < driverDivs.length; i++) {
+    const deletedDriverDivId = driverDivs[i].getAttribute("data-id");
+    if (deletedDriverDivId == deletedDriverId) {
+      console.log("hhhhhh")
+      fetch(`/drivers/delete/${deletedDriverId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          driverDivs[i].remove()
+        })
+        .catch((error) => console.log(error));
+    }
+  }
 };
 
-const deleteButtons = document.getElementsByClassName("delete-button");
-
-for (let i = 0; i < deleteButtons.length; i++) {
-  const driverDivs = document.getElementsByClassName("driver__wrapper");
-  const deletedDriverDivId = driverDivs[i].getAttribute("data-id");
-  deleteButtons[i].addEventListener("click", () => {
-    fetch(`/drivers/delete/${deletedDriverDivId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        driverDivs[i].remove();
-      })
-      .catch((error) => console.log(error));
-  });
-}

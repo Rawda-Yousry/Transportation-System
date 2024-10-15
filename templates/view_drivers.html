@@ -37,7 +37,7 @@
             <h2 class="driver__name">{{driver["name"]}}</h2>
             <p class="driver__route">{{driver["route"]}}</p>
             <p class="driver__shift">{{driver["shift"]}}</p>
-            <button type="button" class="delete-button">Delete</button>
+            <button type="button" class="delete-button" onclick="deleteDriver(event)" data-id = '{{driver["id"]}}'>Delete</button>
         </div>
         {% endfor %}
     </div>
