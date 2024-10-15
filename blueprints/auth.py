@@ -1,4 +1,4 @@
-from flask import render_template, request, Blueprint, session
+from flask import render_template, request, Blueprint, session, jsonify
 from helper import get_users, write_user
 from models.employee import Employee, Admin
 
@@ -29,15 +29,19 @@ def register():
 @auth.route("/login", methods = ["POST", "GET"])
 def login():
     if request.method == "POST":
-        user_name = request.form.get("user_name")
-        password = request.form.get("password")
+        data = request.get_json()
+        user_name = data.get("name")
+        password = data.get("password")
         for user in get_users("users.json"):
             if user["user_name"] == user_name and user["password"] == password:
                 if user["role"] == "admin":
                     session["role"] = "admin"
-                    return render_template("admin_dashboard.html")
+                    return jsonify({"redirectURL":"/admin_dashboard"})
                 else:
                     session["employee"] = "employee"
                     return "Hii, Employee"
     return render_template("login.html", message="You should register first")
     
+@auth.route("/admin_dashboard")
+def admin_dashboard():
+    return render_template("admin_dashboard.html")

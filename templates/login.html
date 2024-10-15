@@ -9,9 +9,9 @@
 
 <body>
     {% block body %}
-    <form action="/login" method="post">
-        <input type="text" name="user_name" placeholder="username">
-        <input type="password" name="password" placeholder="password">
+    <form action="/login" method="post" id="form-login">
+        <input type="text" name="user_name" placeholder="username" id="user-name">
+        <input type="password" name="password" placeholder="password" id = "user-id">
         <button type="submit">login</button>
     </form>
     <a href="/register">Register</a>
@@ -19,6 +19,7 @@
     {% if message %}
     <p>{{message}}</p>
     {%endif%}
+    <script src="static/js/login-register.js"></script>
 </body>
 
 </html>
