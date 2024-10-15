@@ -1,4 +1,4 @@
-//
+import { showError, checkErrorExists } from "./utilities.js";
 const formLogin = document.getElementById("form-login");
 const userNameLogin = document.getElementById("username-login");
 const passwordLogin = document.getElementById("password-login");
@@ -9,24 +9,6 @@ const passwordRegister = document.getElementById("password-register");
 const emailRegister = document.getElementById("email-register");
 const roleRegister = document.getElementById("role-register");
 
-const showError = (field, errorMessage) => {
-  const existingError = field.nextElementSibling;
-  if (!existingError.classList.contains("error")) {
-    const errorElement = document.createElement("span");
-    errorElement.className = "error";
-    errorElement.textContent = errorMessage;
-    field.insertAdjacentElement("afterend", errorElement);
-  } else {
-    existingError.textContent = errorMessage;
-  }
-};
-
-const checkErrorExists = (field) => {
-  const errorElement = field.nextElementSibling;
-  if (errorElement.classList.contains("error")) {
-    errorElement.remove();
-  }
-};
 
 const validateUserInputLogin = (event) => {
   event.preventDefault();

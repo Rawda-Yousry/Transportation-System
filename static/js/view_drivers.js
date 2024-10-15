@@ -1,7 +1,8 @@
 //// '''''' ||
-
-const formAddDriver = document.getElementById("drivers__add-form");
+import { checkErrorExists, showError } from "./utilities.js";
+const formAddDriver = document.getElementById("add-form");
 const driverDiv = document.getElementsByClassName("drivers__wrapper")[0];
+const addDriverButton = document.getElementById("add-button");
 
 const toggleAddFormVisibility = () => {
   if (formAddDriver.style.display == "block")
@@ -25,40 +26,57 @@ const createDriver = (data) => {
 
 const onSubmitAddDriverForm = (e) => {
   e.preventDefault();
-  const driverName = document.getElementById("driver-name").value;
-  const driverShift = document.getElementById("driver-shift").value;
-  const driverRoute = document.getElementById("driver-route").value;
+  const driverName = document.getElementById("driver-name");
+  const driverShift = document.getElementById("driver-shift");
+  const driverRoute = document.getElementById("driver-route");
+  const errorElements = document.getElementsByClassName("error");
 
-  const formData = {
-    name: driverName,
-    shift: driverShift,
-    route: driverRoute,
-  };
+  if (driverName.value.trim() === "") {
+    showError(driverName, "You should enter a mail");
+  } else {
+    checkErrorExists(driverName);
+  }
+  if (driverShift.value === "") {
+    showError(driverShift, "You should enter a shift");
+  } else {
+    checkErrorExists(driverShift);
+  }
+  if (driverRoute.value === "") {
+    showError(driverRoute, "You should enter a route");
+  } else {
+    checkErrorExists(driverRoute);
+  }
+  if (errorElements.length === 0) {
+    const formData = {
+      name: driverName.value,
+      shift: driverShift.value,
+      route: driverRoute.value,
+    };
 
-  fetch("/drivers/add", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      createDriver(data);
+    fetch("/drivers/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
     })
-    .catch((error) => console.log(error));
+      .then((response) => response.json())
+      .then((data) => {
+        createDriver(data);
+      })
+      .catch((error) => console.log(error));
+  }
 };
 
 const deleteDriver = (event) => {
   const clickedButton = event.target;
-  console.log("clickeddd " + clickedButton)
+  console.log("clickeddd " + clickedButton);
   const deletedDriverId = clickedButton.getAttribute("data-id");
   console.log("Button ID: " + deletedDriverId);
   const driverDivs = document.getElementsByClassName("driver__wrapper");
   for (let i = 0; i < driverDivs.length; i++) {
     const deletedDriverDivId = driverDivs[i].getAttribute("data-id");
     if (deletedDriverDivId == deletedDriverId) {
-      console.log("hhhhhh")
       fetch(`/drivers/delete/${deletedDriverId}`, {
         method: "DELETE",
         headers: {
@@ -68,10 +86,19 @@ const deleteDriver = (event) => {
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          driverDivs[i].remove()
+          driverDivs[i].remove();
         })
         .catch((error) => console.log(error));
     }
   }
 };
 
+addDriverButton.addEventListener("click", toggleAddFormVisibility)
+formAddDriver.addEventListener("submit", onSubmitAddDriverForm )
+
+
+document.addEventListener("click", (event) => {
+  if (event.target.classList.contains("delete-button")) {
+    deleteDriver(event);
+  }
+});
