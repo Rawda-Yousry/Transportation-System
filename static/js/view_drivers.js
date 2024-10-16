@@ -31,7 +31,7 @@ const onSubmitAddDriverForm = (e) => {
   const errorElements = document.getElementsByClassName("error");
 
   if (driverName.value.trim() === "") {
-    showError(driverName, "You should enter a mail");
+    showError(driverName, "You should enter a name");
   } else {
     checkErrorExists(driverName);
   }

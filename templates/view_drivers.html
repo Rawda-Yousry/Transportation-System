@@ -1,53 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="static/css/view_drivers.css" />
+    <title>View Drivers</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="static/css/view_drivers.css" />
-  <title>Document</title>
-</head>
+  <body class="drivers-home">
+    <button type="button" id="add-button" class="drivers-home__button">
+      Add Driver
+    </button>
+    {% if message %}
+    <p>{{message}}</p>
+    {% endif %}
 
-<body>
-  <button type="button" id="add-button">
-    Add Driver
-  </button>
-  {% if message %}
-  <p>{{message}}</p>
-  {% endif %}
-  <form id="add-form" style="display: none" class="driver-form">
-    <input type="text" placeholder="name" name="driver-name" id="driver-name" />
-    <div>
-      <p>Shift</p>
-      <select name="driver-shift" class="driver-form__select" id="driver-shift">
-        <option value="" disabled selected>Shifts</option>
-        <option value="morning">Morning</option>
-        <option value="night">Night</option>
-      </select>
-    </div>
-    <div>
-      <p>Route</p>
-      <select name="driver-route" id="driver-route">
-        <option value="" disabled selected>Routes</option>
-        <option value="route1">Route 1</option>
-        <option value="route2">Route 2</option>
-      </select>
-    </div>
-    <button type="submit">Add Driver</button>
-  </form>
-  <div class="drivers__wrapper">
-    {% for driver in drivers %}
-    <div class="driver__wrapper" data-id="{{ driver['id'] }}">
-      <h2 class="driver__name">{{driver["name"]}}</h2>
-      <p class="driver__route">{{driver["route"]}}</p>
-      <p class="driver__shift">{{driver["shift"]}}</p>
-      <button type="button" class="delete-button" data-id='{{driver["id"]}}'>
-        Delete
-      </button>
-    </div>
-    {% endfor %}
-  </div>
-  <script type="module" src="static/js/view_drivers.js"></script>
-</body>
+    <form id="add-form" style="display: none" class="driver-home__form">
+      <div class="drivers-home__form-div">
+        <div>
+          <p for="Name">Name</p>
+          <input
+            type="text"
+            placeholder="name"
+            name="driver-name"
+            id="driver-name"
+          />
+        </div>
+        <div>
+          <p>Shift</p>
+          <select
+            name="driver-shift"
+            class="driver-form__select"
+            id="driver-shift"
+          >
+            <option value="" disabled selected>Shifts</option>
+            <option value="morning">Morning</option>
+            <option value="night">Night</option>
+          </select>
+        </div>
+        <div>
+          <p>Routes</p>
+          <select name="driver-route" id="driver-route">
+            <option value="" disabled selected>Routes</option>
+            <option value="route1">Route 1</option>
+            <option value="route2">Route 2</option>
+          </select>
+        </div>
+        <div class="drivers-home__div-button">
+          <button type="submit" class="driver-home__form-button">Add</button>
+        </div>
+      </div>
+    </form>
 
+    <div class="drivers__wrapper">
+      {% for driver in drivers %}
+      <div class="driver__wrapper" data-id="{{ driver['id'] }}">
+        <h2 class="driver__name">{{driver["name"]}}</h2>
+        <p class="driver__route">{{driver["route"]}}</p>
+        <p class="driver__shift">{{driver["shift"]}}</p>
+        <button type="button" class="delete-button" data-id='{{driver["id"]}}'>
+          Delete
+        </button>
+      </div>
+      {% endfor %}
+    </div>
+
+    <script type="module" src="static/js/view_drivers.js"></script>
+  </body>
 </html>
