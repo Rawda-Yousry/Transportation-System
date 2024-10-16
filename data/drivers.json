@@ -1,1 +1,8 @@
-[]
+[
+    {
+        "id": "ea5f8559-da40-4273-a626-d6857cfa9ba2",
+        "name": "Rawda",
+        "route": "route1",
+        "shift": "night"
+    }
+]

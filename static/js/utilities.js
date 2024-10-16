@@ -1,6 +1,6 @@
 export const showError = (field, errorMessage) => {
   const existingError = field.nextElementSibling;
-  if (existingError && !existingError.classList.contains("error")) {
+  if (!existingError) {
     const errorElement = document.createElement("span");
     errorElement.className = "error";
     errorElement.textContent = errorMessage;
@@ -12,7 +12,7 @@ export const showError = (field, errorMessage) => {
 
 export const checkErrorExists = (field) => {
   const errorElement = field.nextElementSibling;
-  if (errorElement && errorElement.classList.contains("error")) {
+  if (errorElement) {
     errorElement.remove();
   }
 };

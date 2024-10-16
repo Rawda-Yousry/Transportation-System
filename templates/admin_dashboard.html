@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="static/css/admin_dashboard.css" />
     <title>Document</title>
-</head>
+  </head>
 
-<body>
-    <form action="/drivers">
-        <button type="submit">Go to view drivers</button>
-    </form>
-    <!-- <form action="/view-booked-rides">
-        <button type="submit">Go to view booked rides</button>
-    </form> -->
-</body>
-
+  <body class="home-admin">
+    <div class = "home-admin__buttons">
+      <form action="/drivers" class="home-admin__form">
+        <button type="submit" class="home-admin__form-button">
+          View Drivers
+        </button>
+      </form>
+      <form action="/view-booked-rides">
+        <button type="submit" class="home-admin__form-button">
+          View Booked Rides
+        </button>
+      </form>
+    </div>
+  </body>
 </html>

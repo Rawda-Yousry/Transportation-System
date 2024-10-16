@@ -58,3 +58,9 @@
   cursor: pointer;
   color: var(--color-primary);
 }
+
+.error{
+  font-size: small;
+  font-style: italic ;
+  color: #f30000
+}
