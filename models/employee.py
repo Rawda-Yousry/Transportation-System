@@ -16,7 +16,8 @@ class Employee:
             "id": self.id,
             "name": self.name,
             "email": self.email,
-            "password": self.password
+            "password": self.password,
+            "booked_rides": dict()
         }
         return employee_dict
 
@@ -47,12 +48,14 @@ class Admin(Employee):
                 deleted_driver = {
                     "name": driver["name"],
                     "route": driver["route"],
-                    "shift": driver["shift"]
+                    "shift": driver["shift"],
+                    "car_capacity": driver["car-capacity"]
                 }
         with open("data/drivers.json", "w") as file:
             json.dump(updated_drivers_list, file, indent=4)
         return deleted_driver
-                
+
+
 
 
 

@@ -16,7 +16,8 @@ const createDriver = (data) => {
     <h2 class="driver__name">${data.name}</h2>
     <p class="driver__route">${data.route}</p>
     <p class="driver__shift">${data.shift}</p>
-    <button type="button" class="delete-button" onclick = "deleteDriver(event)" data-id = ${data.id}>Delete</button>
+    <p class="driver__car-capacity">${data.carCapacity}</p>
+    <button type="button" class="delete-button" data-id = ${data.id}>Delete</button>
 `;
 
   newDriverDiv.setAttribute("data-id", data.id);
@@ -28,6 +29,7 @@ const onSubmitAddDriverForm = (e) => {
   const driverName = document.getElementById("driver-name");
   const driverShift = document.getElementById("driver-shift");
   const driverRoute = document.getElementById("driver-route");
+  const driverCarCapacity = document.getElementById("car-capacity")
   const errorElements = document.getElementsByClassName("error");
 
   if (driverName.value.trim() === "") {
@@ -50,7 +52,12 @@ const onSubmitAddDriverForm = (e) => {
       name: driverName.value,
       shift: driverShift.value,
       route: driverRoute.value,
+      carCapacity: driverCarCapacity.value
     };
+    console.log("carrrrrrrr"  + formData.carCapacity)
+    console.log("carrrrrrrr"  + typeof formData.carCapacity)
+
+
 
     fetch("/drivers/add", {
       method: "POST",

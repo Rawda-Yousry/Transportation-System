@@ -49,7 +49,7 @@
         </div>
         <div>
           <p>Car Capacity</p>
-          <input type="number" placeholder="Car Capacity" />
+          <input type="number" placeholder="Car Capacity"  id="car-capacity"/>
         </div>
         <div class="drivers-home__div-button">
           <button type="submit" class="driver-home__form-button">Add</button>
@@ -63,6 +63,7 @@
         <h2 class="driver__name">{{driver["name"]}}</h2>
         <p class="driver__route">{{driver["route"]}}</p>
         <p class="driver__shift">{{driver["shift"]}}</p>
+        <p class="driver__car-capacity">{{driver["car-capacity"]}}</p>
         <button type="button" class="delete-button" data-id='{{driver["id"]}}'>
           Delete
         </button>

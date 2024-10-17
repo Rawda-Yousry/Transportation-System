@@ -10,6 +10,8 @@ const emailRegister = document.getElementById("email-register");
 
 const registeredMessage = document.getElementById("register-message");
 
+const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+
 const checkToSubmit = (route, requestData) => {
   const errorsNumber = document.getElementsByClassName("error").length;
   if (errorsNumber === 0) {
@@ -46,8 +48,8 @@ const validateUserInputLogin = (event) => {
     checkErrorExists(passwordLogin);
   }
   const loginData = {
-    name: userNameLogin.value,
-    password: passwordLogin.value,
+    name: userNameLogin.value.trim(),
+    password: passwordLogin.value.trim(),
   };
 
   checkToSubmit("/login", loginData);
@@ -57,6 +59,8 @@ const validateUserInputRegister = (event) => {
   event.preventDefault();
   if (emailRegister.value.trim() === "") {
     showError(emailRegister, "You should enter the email");
+  }else if(!emailRegex.test(emailRegister.value.trim())){
+    showError(emailRegister, "Wrong email format");
   } else {
     checkErrorExists(emailRegister);
   }
@@ -72,9 +76,9 @@ const validateUserInputRegister = (event) => {
   }
 
   const registerData = {
-    email: emailRegister.value,
-    user_name: userNameRegister.value,
-    password: passwordRegister.value,
+    email: emailRegister.value.trim(),
+    user_name: userNameRegister.value.trim(),
+    password: passwordRegister.value.trim(),
   };
 
   checkToSubmit("/register", registerData);

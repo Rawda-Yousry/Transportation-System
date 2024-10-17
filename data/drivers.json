@@ -1,8 +1,10 @@
 [
     {
-        "id": "e94e8340-2049-4f3f-b6cb-2345807e862d",
-        "name": "Ahmed",
-        "route": "route1",
-        "shift": "morning"
+        "id": "471f66eb-6cec-4777-a78a-26c5d5d67304",
+        "name": "Ali",
+        "route": "route2",
+        "shift": "Morning",
+        "car_capacity": null,
+        "avaliable_seats": null
     }
 ]
