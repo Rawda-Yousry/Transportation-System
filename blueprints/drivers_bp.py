@@ -19,7 +19,7 @@ def add_driver():
     name = request.json.get("name")
     route = request.json.get("route")
     shift = request.json.get("shift")
-    car_capacity = request.json.get("car-capacity")
+    car_capacity = request.json.get("carCapacity")
     admin = Admin(name="", email="", password="")
     new_driver_dict = admin.add_driver(name,route,shift,car_capacity)
     return new_driver_dict

@@ -49,7 +49,7 @@ class Admin(Employee):
                     "name": driver["name"],
                     "route": driver["route"],
                     "shift": driver["shift"],
-                    "car_capacity": driver["car-capacity"]
+                    "car_capacity": driver["car_capacity"]
                 }
         with open("data/drivers.json", "w") as file:
             json.dump(updated_drivers_list, file, indent=4)

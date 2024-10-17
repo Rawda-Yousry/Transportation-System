@@ -16,7 +16,7 @@ const createDriver = (data) => {
     <h2 class="driver__name">${data.name}</h2>
     <p class="driver__route">${data.route}</p>
     <p class="driver__shift">${data.shift}</p>
-    <p class="driver__car-capacity">${data.carCapacity}</p>
+    <p class="driver__car-capacity">${data.car_capacity}</p>
     <button type="button" class="delete-button" data-id = ${data.id}>Delete</button>
 `;
 
@@ -29,7 +29,7 @@ const onSubmitAddDriverForm = (e) => {
   const driverName = document.getElementById("driver-name");
   const driverShift = document.getElementById("driver-shift");
   const driverRoute = document.getElementById("driver-route");
-  const driverCarCapacity = document.getElementById("car-capacity")
+  const driverCarCapacity = document.getElementById("car-capacity");
   const errorElements = document.getElementsByClassName("error");
 
   if (driverName.value.trim() === "") {
@@ -47,17 +47,20 @@ const onSubmitAddDriverForm = (e) => {
   } else {
     checkErrorExists(driverRoute);
   }
+  if (Number(driverCarCapacity.value) <= 0 || driverCarCapacity.value == "") {
+    showError(driverCarCapacity, "You should enter the car capacity");
+  } else if (Number(driverCarCapacity.value) > 14) {
+    showError(driverCarCapacity, "You should enter a reasonable car capacity");
+  } else {
+    checkErrorExists(driverCarCapacity);
+  }
   if (errorElements.length === 0) {
     const formData = {
       name: driverName.value,
       shift: driverShift.value,
       route: driverRoute.value,
-      carCapacity: driverCarCapacity.value
+      carCapacity: driverCarCapacity.value,
     };
-    console.log("carrrrrrrr"  + formData.carCapacity)
-    console.log("carrrrrrrr"  + typeof formData.carCapacity)
-
-
 
     fetch("/drivers/add", {
       method: "POST",

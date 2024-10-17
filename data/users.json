@@ -1,26 +1,8 @@
 [
-    {
-        "email": "rawdayousry22@gmail.com",
-        "password": "1234555",
-        "user_name": "Rawda",
-        "role": "admin"
-    },
-    {
-        "email": "Hana@gmail.com",
-        "password": "123455",
-        "user_name": "Hana",
-        "role": "employee"
-    },
-    {
-        "email": "Ahmed@gmail.com",
-        "password": "34567",
-        "user_name": "Ahmed",
-        "role": "employee"
-    },
-    {
-        "id": "d0d52fa4-cc4d-4b66-aebb-3f62ed1eab4b",
-        "name": "Hana",
-        "email": "hana@gmail.com",
-        "password": "123455"
-    }
+  {
+    "id": "d0d52fa4-cc4d-4b66-aebb-3f62ed1eab4b",
+    "name": "Hana",
+    "email": "hana@gmail.com",
+    "password": "123455"
+  }
 ]
