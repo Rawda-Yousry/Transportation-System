@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="static/css/employee_homepage.css" />
+  </head>
+  <body class="home-employee">
+    <form class="home-employee__form" id="employee-book-form">
+      <div>
+        <label> Route </label>
+        <select id="employee-book-routes">
+          {% for route in routes %}
+          <option value="{{route['id']}}">{{route['name']}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label> Shift </label>
+        <select id="employee-book-shift">
+          {% for shift in shifts %}
+          <option value="{{shift}}">{{shift}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button type="submit" id="employee-book-button">Book Ride</button>
+    </form>
+  </body>
+</html>

@@ -7,8 +7,30 @@ const formRegister = document.getElementById("form-register");
 const userNameRegister = document.getElementById("username-register");
 const passwordRegister = document.getElementById("password-register");
 const emailRegister = document.getElementById("email-register");
-const roleRegister = document.getElementById("role-register");
 
+const registeredMessage = document.getElementById("register-message");
+
+const checkToSubmit = (route, requestData) => {
+  const errorsNumber = document.getElementsByClassName("error").length;
+  if (errorsNumber === 0) {
+    fetch(route, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.redirectURL) window.location.href = data.redirectURL;
+        else if(registeredMessage) {
+          registeredMessage.innerText = data.message;
+        }
+      })
+      .catch((error) => console.log(error));
+  }
+};
 
 const validateUserInputLogin = (event) => {
   event.preventDefault();
@@ -23,27 +45,12 @@ const validateUserInputLogin = (event) => {
   } else {
     checkErrorExists(passwordLogin);
   }
+  const loginData = {
+    name: userNameLogin.value,
+    password: passwordLogin.value,
+  };
 
-  const errorsNumber = document.getElementsByClassName("error").length;
-  if (errorsNumber === 0) {
-    const loginData = {
-      name: userNameLogin.value,
-      password: passwordLogin.value,
-    };
-    fetch("/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(loginData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        window.location.href = data.redirectURL;
-      })
-      .catch((error) => console.log(error));
-  }
+  checkToSubmit("/login", loginData);
 };
 
 const validateUserInputRegister = (event) => {
@@ -58,17 +65,21 @@ const validateUserInputRegister = (event) => {
   } else {
     checkErrorExists(passwordRegister);
   }
-  if (roleRegister.value === "") {
-    showError(roleRegister, "You should enter the password");
-  } else {
-    checkErrorExists(roleRegister);
-  }
   if (userNameRegister.value === "") {
-    showError(userNameRegister, "You should enter the password");
+    showError(userNameRegister, "You should enter your name");
   } else {
     checkErrorExists(userNameRegister);
   }
+
+  const registerData = {
+    email: emailRegister.value,
+    user_name: userNameRegister.value,
+    password: passwordRegister.value,
+  };
+
+  checkToSubmit("/register", registerData);
 };
+
 if (formLogin) {
   formLogin.addEventListener("submit", validateUserInputLogin);
 }

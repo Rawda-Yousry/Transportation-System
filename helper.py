@@ -1,13 +1,13 @@
 import json
 
-def get_users(file):
+def get_data(file):
     with open(f"data/{file}") as file:
-        users = json.load(file)
-    return users
+        data = json.load(file)
+    return data
 
-def write_user(user, file):
-    users = get_users(file= file)
-    users.append(user)
+def write_data(new_data, file):
+    data = get_data(file= file)
+    data.append(new_data)
     with open(f"data/{file}", "w") as file:
-        json.dump(users, file, indent=4)
+        json.dump(data, file, indent=4)
     return True

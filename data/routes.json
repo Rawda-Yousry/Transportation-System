@@ -1,0 +1,4 @@
+[
+  { "id": 1, "name": "Route 1", "start": "Location A", "end": "Location B" },
+  { "id": 2, "name": "Route 2", "start": "Location C", "end": "Location D" }
+]

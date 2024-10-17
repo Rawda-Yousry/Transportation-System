@@ -1,5 +1,6 @@
 from flask import Flask, render_template, url_for, request, Blueprint, session
-from helper import get_users, write_user
+from config import SHIFTS
+from helper import get_data, write_data
 from models.driver import Driver
 from models.employee import Admin
 
@@ -10,7 +11,7 @@ drivers_bp = Blueprint("drivers_bp",__name__)
 def view_drivers():
     admin = Admin(role=session["role"], name="", email="", password="")
     drivers = admin.view_drivers()
-    return render_template("view_drivers.html", drivers=drivers)
+    return render_template("view_drivers.html", drivers=drivers, shifts = SHIFTS)
 
 
 @drivers_bp.route("/drivers/add", methods=["POST"])
@@ -24,7 +25,7 @@ def add_driver():
 
 @drivers_bp.route("/drivers/delete/<id>", methods = ["DELETE"])
 def delete_driver(id):
-    drivers = get_users("drivers.json")
+    drivers = get_data("drivers.json")
     admin = Admin(role=session["role"], name="", email="", password="")
     deleted_driver = admin.delete_driver(id)
     return deleted_driver

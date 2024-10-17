@@ -69,9 +69,7 @@ const onSubmitAddDriverForm = (e) => {
 
 const deleteDriver = (event) => {
   const clickedButton = event.target;
-  console.log("clickeddd " + clickedButton);
   const deletedDriverId = clickedButton.getAttribute("data-id");
-  console.log("Button ID: " + deletedDriverId);
   const driverDivs = document.getElementsByClassName("driver__wrapper");
   for (let i = 0; i < driverDivs.length; i++) {
     const deletedDriverDivId = driverDivs[i].getAttribute("data-id");

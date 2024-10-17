@@ -34,8 +34,9 @@
             id="driver-shift"
           >
             <option value="" disabled selected>Shifts</option>
-            <option value="morning">Morning</option>
-            <option value="night">Night</option>
+            {% for shift in shifts %}
+            <option value="{{shift}}">{{shift}}</option>
+            {%endfor%}
           </select>
         </div>
         <div>
@@ -45,6 +46,10 @@
             <option value="route1">Route 1</option>
             <option value="route2">Route 2</option>
           </select>
+        </div>
+        <div>
+          <p>Car Capacity</p>
+          <input type="number" placeholder="Car Capacity" />
         </div>
         <div class="drivers-home__div-button">
           <button type="submit" class="driver-home__form-button">Add</button>
