@@ -1,4 +1,4 @@
-import { checkErrorExists, showError } from "./utilities.js";
+import { checkErrorExists, showError, deleteEntity } from "./utilities.js";
 
 const employeeBookForm = document.getElementById("employee-book-form");
 const employeeBookRoute = document.getElementById("employee-book-routes");
@@ -17,39 +17,6 @@ const createNewRide = (data) => {
   `;
   newBookedRide.setAttribute("data-id", data.id);
   employeeRides.appendChild(newBookedRide);
-};
-
-const deleteRide = (event) => {
-  console.log("delete");
-  const clickedButton = event.target;
-  const deletedRideId = clickedButton.getAttribute("data-id");
-  console.log(deletedRideId);
-  const employeeBookFormId = employeeBookForm.getAttribute("data-id");
-  console.log(employeeBookFormId);
-  const rideDivs = document.getElementsByClassName("ride__wrapper");
-  for (let i = 0; i < rideDivs.length; i++) {
-    const deletedRideDivId = rideDivs[i].getAttribute("data-id");
-    console.log(deletedRideDivId);
-
-    console.log("Div " + deletedRideDivId);
-    console.log("Ride " + deletedRideId);
-    if (deletedRideDivId === deletedRideId) {
-      fetch(`/employee/delete_ride/${deletedRideId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(employeeBookFormId),
-      })
-        .then((response) => response.json())
-        .then(() => {
-          rideDivs[i].remove();
-        })
-        .catch((error) => console.log(error));
-    } else {
-      console.log("hhhhhh");
-    }
-  }
 };
 
 const bookRide = (event) => {
@@ -94,6 +61,6 @@ const bookRide = (event) => {
 employeeBookForm.addEventListener("submit", bookRide);
 document.addEventListener("click", (event) => {
   if (event.target.classList.contains("delete-button")) {
-    deleteRide(event);
+    deleteEntity(event, "ride", employeeBookForm.getAttribute("data-id"));
   }
 });

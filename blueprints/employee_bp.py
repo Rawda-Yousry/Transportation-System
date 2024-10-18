@@ -31,6 +31,7 @@ def book_ride(id):
 def delete_ride(ride_id):
     employee = Employee("","","")
     user_id = request.get_json()
+    print(user_id)
     check_write = employee.delete_ride(ride_id, user_id)
     return check_write
 

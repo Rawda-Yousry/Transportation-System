@@ -1,25 +1,9 @@
 [
     {
-        "id": "d3b8a6cc-df99-4d19-baaf-e5ac339d8933",
-        "name": "ali",
-        "route": "route1",
-        "shift": "Morning",
-        "car_capacity": "6",
-        "avaliable_seats": "6"
-    },
-    {
         "id": "15af667f-ad16-486a-8092-e31998009e21",
         "name": "ali",
         "route": "route1",
         "shift": "Night",
-        "car_capacity": "12",
-        "avaliable_seats": "12"
-    },
-    {
-        "id": "c9f611f5-f4df-40ed-b57f-7010febe633b",
-        "name": "ali",
-        "route": "route2",
-        "shift": "Morning",
         "car_capacity": "12",
         "avaliable_seats": "12"
     }

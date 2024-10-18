@@ -12,6 +12,13 @@
         "email": "hana@gmail.com",
         "password": "122",
         "role": "employee",
-        "booked_rides": []
+        "booked_rides": [
+            {
+                "id": "3f6d48f3-1648-4dc9-850b-4b5070e44ab9",
+                "day": "Sunday",
+                "route": "1",
+                "shift": "Morning"
+            }
+        ]
     }
 ]

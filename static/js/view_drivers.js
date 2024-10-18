@@ -1,4 +1,4 @@
-import { checkErrorExists, showError } from "./utilities.js";
+import { checkErrorExists, showError, deleteEntity } from "./utilities.js";
 const formAddDriver = document.getElementById("add-form");
 const driverDiv = document.getElementsByClassName("drivers__wrapper")[0];
 const addDriverButton = document.getElementById("add-button");
@@ -77,34 +77,11 @@ const onSubmitAddDriverForm = (e) => {
   }
 };
 
-const deleteDriver = (event) => {
-  const clickedButton = event.target;
-  const deletedDriverId = clickedButton.getAttribute("data-id");
-  const driverDivs = document.getElementsByClassName("driver__wrapper");
-  for (let i = 0; i < driverDivs.length; i++) {
-    const deletedDriverDivId = driverDivs[i].getAttribute("data-id");
-    if (deletedDriverDivId == deletedDriverId) {
-      fetch(`/drivers/delete/${deletedDriverId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          driverDivs[i].remove();
-        })
-        .catch((error) => console.log(error));
-    }
-  }
-};
-
 addDriverButton.addEventListener("click", toggleAddFormVisibility);
 formAddDriver.addEventListener("submit", onSubmitAddDriverForm);
 
 document.addEventListener("click", (event) => {
   if (event.target.classList.contains("delete-button")) {
-    deleteDriver(event);
+    deleteEntity(event, "driver");
   }
 });
