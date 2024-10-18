@@ -33,6 +33,13 @@
                 "start_point": "Makram Ebeid",
                 "end_point": "Company",
                 "shift": "Morning"
+            },
+            {
+                "id": "f6255a5a-d8e9-4844-b316-7215ac07cafd",
+                "day": "Sunday",
+                "start_point": "Makram Ebeid",
+                "end_point": "Company",
+                "shift": "Morning"
             }
         ]
     }

@@ -23,7 +23,7 @@ def book_ride():
     start_point = data_ride["startPoint"]
     end_point = data_ride["endPoint"]
     booked_ride = employee.book_ride(employee_id, day, start_point, end_point, shift, driver_id)
-    return jsonify({"redirectURL": "/view_booked_rides"})
+    return jsonify({"message": "Booked Successfuly!"})
 
 @employee_bp.route("/view_booked_rides")
 def view_booked_rides():

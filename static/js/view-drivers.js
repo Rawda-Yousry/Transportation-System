@@ -2,6 +2,9 @@ import { checkErrorExists, showError, deleteEntity } from "./utilities.js";
 const formAddDriver = document.getElementById("add-form");
 const driverDiv = document.getElementsByClassName("drivers__wrapper")[0];
 const addDriverButton = document.getElementById("add-button");
+const errorParagraph = document.getElementById("paragraph-error");
+
+const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
 const toggleAddFormVisibility = () => {
   if (formAddDriver.style.display == "block")
@@ -34,12 +37,21 @@ const createDriver = (data) => {
 
 const onSubmitAddDriverForm = (e) => {
   e.preventDefault();
+  const driverEmail = document.getElementById("driver-email");
   const driverName = document.getElementById("driver-name");
   const driverShift = document.getElementById("driver-shift");
   const driverStartPoint = document.getElementById("driver-start-point");
   const driverEndPoint = document.getElementById("driver-end-point");
   const driverCarCapacity = document.getElementById("car-capacity");
   const errorElements = document.getElementsByClassName("error");
+
+  if (driverEmail.value.trim() === "") {
+    showError(driverEmail, "You should enter the driver's email");
+  } else if (!emailRegex.test(driverEmail.value.trim())) {
+    showError(driverEmail, "You should enter the driver's email");
+  } else {
+    checkErrorExists(driverEmail);
+  }
 
   if (driverName.value.trim() === "") {
     showError(driverName, "You should enter a name");
@@ -79,7 +91,8 @@ const onSubmitAddDriverForm = (e) => {
   }
   if (errorElements.length === 0) {
     const formData = {
-      name: driverName.value,
+      email: driverEmail.value.trim(),
+      name: driverName.value.trim(),
       shift: driverShift.value,
       startPoint: driverStartPoint.value,
       endPoint: driverEndPoint.value,
@@ -95,7 +108,12 @@ const onSubmitAddDriverForm = (e) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        createDriver(data);
+        if (data.message) {
+          errorParagraph.innerText = data.message;
+        } else {
+          errorParagraph.innerText = "";
+          createDriver(data);
+        }
       })
       .catch((error) => console.log(error));
   }

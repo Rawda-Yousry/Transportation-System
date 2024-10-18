@@ -31,10 +31,6 @@ class Employee:
                 booked_rides = user["booked_rides"]
         return booked_rides
 
-
-
-
-
     def book_ride(self, employee_id, day, start_point, end_point, shift, driver_id):
         users = get_data("users.json")
         drivers = get_data("drivers.json")
@@ -79,8 +75,8 @@ class Admin(Employee):
         super().__init__(name, email, password)
         self.role = "admin"
 
-    def add_driver(self, name, start_point, end_point, shift, car_capacity):
-        new_driver = Driver(name, start_point, end_point, shift, car_capacity)
+    def add_driver(self, email, name, start_point, end_point, shift, car_capacity):
+        new_driver = Driver(email, name, start_point, end_point, shift, car_capacity)
         new_driver_dict = new_driver.to_dict()
         drivers = get_data("drivers.json")
         drivers.append(new_driver_dict)

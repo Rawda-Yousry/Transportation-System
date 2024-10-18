@@ -8,19 +8,6 @@ const rideDay = document.getElementById("employee-ride-day");
 const avaliableRidesDiv = document.getElementById("avaliable-rides-wrapper");
 const errorParagraph = document.getElementById("error-message");
 
-const createNewRide = (data) => {
-  const newBookedRide = document.createElement("div");
-  newBookedRide.className = "ride__wrapper";
-  newBookedRide.innerHTML = `
-  <p class= "ride__day">${data.day}</p>
-  <p class= "ride__shift">${data.shift}</p>
-  <p class= "ride__route">${data.route}</p>
-  <button type="button" class="delete-button" data-id = ${data.id}>Delete</button>
-  `;
-  newBookedRide.setAttribute("data-id", data.id);
-  employeeRidesDiv.appendChild(newBookedRide);
-};
-
 const displayAvaliableCars = (data) => {
   const avaliableRide = document.createElement("div");
   console.log(data);
@@ -57,8 +44,8 @@ const bookRide = (event) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
-      window.location.href = data.redirectURL;
+      alert(data.message);
+      avaliableRidesDiv.remove();
     })
     .catch((error) => console.log(error));
 };
