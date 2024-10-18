@@ -18,7 +18,13 @@ const createDriver = (data) => {
     <p class="driver__start-point">End Point: ${data.end_point}</p>
     <p class="driver__shift">Shift: ${data.shift}</p>
     <p class="driver__car-capacity">Car Capacity: ${data.car_capacity}</p>
-    <p class="driver__avaliable-seats">Avaliable Seats: ${data.car_capacity}</p>
+    <ul class="driver__avaliable-seats">Avaliable Seats: 
+      <li> Sunday: ${data.car_capacity} </li>
+      <li> Monday: ${data.car_capacity} </li>
+      <li> Tuesday: ${data.car_capacity} </li>
+      <li> Wednesday: ${data.car_capacity} </li>
+      <li> Thursday: ${data.car_capacity} </li>
+    </ul>
     <button type="button" class="delete-button" data-id = ${data.id}>Delete</button>
 `;
 

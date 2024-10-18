@@ -60,7 +60,7 @@ class Admin(Employee):
         self.role = "admin"
 
     def add_driver(self, name, start_point, end_point, shift, car_capacity):
-        new_driver = Driver(name, start_point, end_point, shift, car_capacity, avaliable_seats=car_capacity)
+        new_driver = Driver(name, start_point, end_point, shift, car_capacity)
         new_driver_dict = new_driver.to_dict()
         drivers = get_data("drivers.json")
         drivers.append(new_driver_dict)
@@ -83,8 +83,7 @@ class Admin(Employee):
                     "name": driver["name"],
                     "start_point": driver["start_point"],
                     "end_point": driver["end_point"],
-                    "car_capacity": driver["car_capacity"],
-                    "avaliable_seats": driver["avaliable_seats"]
+                    "car_capacity": driver["car_capacity"]
                 }
         check_write = write_data(updated_drivers_list, "drivers.json")
         return deleted_driver

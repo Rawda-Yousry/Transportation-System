@@ -68,7 +68,23 @@
       <p class="driver__end-point">End Point: {{driver["end_point"]}}</p>
       <p class="driver__shift">Shift: {{driver["shift"]}}</p>
       <p class="driver__car-capacity">Car Capacity: {{driver["car_capacity"]}}</p>
-      <p class="driver__avaliable-seats">Avaliable Seats: {{driver["avaliable_seats"]}}</p>
+      <ul class="driver__avaliable-seats">Avaliable Seats:
+        <li>
+          Sunday :{{driver["avaliable_seats_on_days"]["Sunday"]}}
+        </li>
+        <li>
+          Monday: {{driver["avaliable_seats_on_days"]["Monday"]}}
+        </li>
+        <li>
+          Tuesday: {{driver["avaliable_seats_on_days"]["Tuesday"]}}
+        </li>
+        <li>
+          Wednesday: {{driver["avaliable_seats_on_days"]["Wednesday"]}}
+        </li>
+        <li>
+          Thursday: {{driver["avaliable_seats_on_days"]["Thursday"]}}
+        </li>
+      </ul>
       <button type="button" class="delete-button" data-id='{{driver["id"]}}'>
         Delete
       </button>

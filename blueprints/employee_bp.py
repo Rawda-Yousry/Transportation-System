@@ -8,7 +8,6 @@ employee_bp = Blueprint("employee_bp", __name__)
 @employee_bp.route("/employee_homepage/<id>")
 def employee_dashboard(id):
     booked_rides = []
-    print(id)
     routes = get_data("routes.json")
     users = get_data("users.json")
     for user in users:
@@ -35,8 +34,12 @@ def delete_ride(ride_id):
     check_write = employee.delete_ride(ride_id, user_id)
     return check_write
 
+@employee_bp.route("/see_avaliable_cars", methods=["POST"])
+def see_avaliable_cars():
+    data = request.get_json()
+    start_point = {
 
-
-
+    }
+    
 
     

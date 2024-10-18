@@ -1,9 +1,10 @@
 import { checkErrorExists, showError, deleteEntity } from "./utilities.js";
 
-const employeeBookForm = document.getElementById("employee-book-form");
-const employeeBookRoute = document.getElementById("employee-book-routes");
-const employeeBookShift = document.getElementById("employee-book-shift");
-const employeeBookDay = document.getElementById("employee-book-day");
+const formAvaliableRides = document.getElementById("see-avaliable-rides");
+const rideStartPoint = document.getElementById("employee-ride-start-point");
+const rideEndPoint = document.getElementById("employee-ride-end-point");
+const rideShift = document.getElementById("employee-ride-shift");
+const rideDay = document.getElementById("employee-ride-day");
 const employeeRides = document.getElementById("rides-wrapper");
 
 const createNewRide = (data) => {
@@ -19,33 +20,41 @@ const createNewRide = (data) => {
   employeeRides.appendChild(newBookedRide);
 };
 
-const bookRide = (event) => {
+const seeAvaliableRides = (event) => {
   event.preventDefault();
-  const employeeId = employeeBookForm.getAttribute("data-id");
-  if (employeeBookDay.value === "") {
-    showError(employeeBookDay, "You should choose a day");
+  if (rideDay.value === "") {
+    showError(rideDay, "You should choose a day");
   } else {
-    checkErrorExists(employeeBookDay);
+    checkErrorExists(rideDay);
   }
-  if (employeeBookRoute.value === "") {
-    showError(employeeBookRoute, "You should choose a route");
+  if (rideStartPoint.value === "") {
+    showError(rideEndPoint, "You should choose a route");
   } else {
-    checkErrorExists(employeeBookRoute);
+    checkErrorExists(rideEndPoint);
   }
-  if (employeeBookShift.value === "") {
-    showError(employeeBookShift, "You should choose a shift");
+  if (rideStartPoint.value != "Company" && rideEndPoint.value != "Company") {
+    showError(rideEndPoint, "One of the points should be the company");
   } else {
-    checkErrorExists(employeeBookShift);
+    if (rideStartPoint.value === rideEndPoint.value) {
+      showError(rideEndPoint, "Can't go to the same point");
+    } else {
+      checkErrorExists(rideEndPoint);
+    }
+  }
+  if (rideShift.value === "") {
+    showError(rideShift, "You should choose a shift");
+  } else {
+    checkErrorExists(rideShift);
   }
   const formData = {
-    id: employeeId,
-    shift: employeeBookShift.value,
-    day: employeeBookDay.value,
-    route: employeeBookRoute.value,
+    shift: rideShift.value,
+    day: rideDay.value,
+    startPoint: rideStartPoint.value,
+    endPoint: rideEndPoint.value,
   };
   const errorsNumber = document.getElementsByClassName("error").length;
   if (errorsNumber === 0) {
-    fetch(`/book_ride/${employeeId}`, {
+    fetch(`/see_avaliable_cars`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
