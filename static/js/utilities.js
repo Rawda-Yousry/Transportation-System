@@ -1,6 +1,10 @@
 export const showError = (field, errorMessage) => {
   const existingError = field.nextElementSibling;
-  console.log("existing error", existingError)
+  const spanError = document.getElementById("span-error");
+  console.log("existing error", existingError);
+  if (spanError.innerText !== "") {
+    spanError.innerText = "";
+  }
   if (!existingError) {
     const errorElement = document.createElement("span");
     errorElement.className = "error";
@@ -13,7 +17,7 @@ export const showError = (field, errorMessage) => {
 
 export const checkErrorExists = (field) => {
   const errorElement = field.nextElementSibling;
-  console.log("element",errorElement)
+  console.log("element", errorElement);
   if (errorElement && errorElement.classList.contains("error")) {
     errorElement.remove();
   }

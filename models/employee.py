@@ -10,6 +10,7 @@ class Employee:
         self.name = name
         self.email = email
         self.password = password
+        self.role = "employee"
 
     def to_dict(self):
         employee_dict = {
@@ -17,6 +18,7 @@ class Employee:
             "name": self.name,
             "email": self.email,
             "password": self.password,
+            "role": self.role,
             "booked_rides": dict()
         }
         return employee_dict

@@ -1,7 +1,8 @@
 import { showError, checkErrorExists } from "./utilities.js";
 const formLogin = document.getElementById("form-login");
-const userNameLogin = document.getElementById("username-login");
+const userEmailLogin = document.getElementById("useremail-login");
 const passwordLogin = document.getElementById("password-login");
+const paragraphError = document.getElementById("span-error");
 
 const formRegister = document.getElementById("form-register");
 const userNameRegister = document.getElementById("username-register");
@@ -26,8 +27,10 @@ const checkToSubmit = (route, requestData) => {
       .then((data) => {
         console.log(data);
         if (data.redirectURL) window.location.href = data.redirectURL;
-        else if(registeredMessage) {
+        else if (data.message) {
           registeredMessage.innerText = data.message;
+        } else if (data.message_login) {
+          paragraphError.innerText = data.message_login;
         }
       })
       .catch((error) => console.log(error));
@@ -36,10 +39,13 @@ const checkToSubmit = (route, requestData) => {
 
 const validateUserInputLogin = (event) => {
   event.preventDefault();
-  if (userNameLogin.value.trim() === "") {
-    showError(userNameLogin, "You should enter username");
+  if (
+    userEmailLogin.value.trim() === "" ||
+    !emailRegex.test(userEmailLogin.value)
+  ) {
+    showError(userEmailLogin, "You should enter the email");
   } else {
-    checkErrorExists(userNameLogin);
+    checkErrorExists(userEmailLogin);
   }
 
   if (passwordLogin.value === "") {
@@ -48,7 +54,7 @@ const validateUserInputLogin = (event) => {
     checkErrorExists(passwordLogin);
   }
   const loginData = {
-    name: userNameLogin.value.trim(),
+    email: userEmailLogin.value.trim(),
     password: passwordLogin.value.trim(),
   };
 
@@ -57,10 +63,11 @@ const validateUserInputLogin = (event) => {
 
 const validateUserInputRegister = (event) => {
   event.preventDefault();
-  if (emailRegister.value.trim() === "") {
+  if (
+    emailRegister.value.trim() === "" ||
+    !emailRegex.test(emailRegister.value.trim())
+  ) {
     showError(emailRegister, "You should enter the email");
-  }else if(!emailRegex.test(emailRegister.value.trim())){
-    showError(emailRegister, "Wrong email format");
   } else {
     checkErrorExists(emailRegister);
   }

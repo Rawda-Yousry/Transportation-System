@@ -16,10 +16,14 @@
 
 <body class="home">
   {% block body %}
+  {% if message %}
+  <p>{{message}}</p>
+  {%endif%}
   <form id="form-login" class="form-login">
     <div class="form__field">
-      <label for="username" class="form__label">Name</label>
-      <input type="text" placeholder="username" id="username-login" class="form__field-input" />
+      <span id="span-error"></span>
+      <label for="useremail" class="form__label">Email</label>
+      <input type="text" placeholder="Email" id="useremail-login" class="form__field-input" />
     </div>
     <div class="form__field">
       <label for="password" class="form__label">Password</label>
@@ -28,9 +32,7 @@
     <button type="submit" class="form__button">Login</button>
     <div class="form__link">Don't have an account? <a href="/register">Register</a></div>
   </form>
-  {% endblock %} {% if message %}
-  <p>{{message}}</p>
-  {%endif%}
+  {% endblock %}
   <script type="module" src="static/js/login-register.js"></script>
 </body>
 

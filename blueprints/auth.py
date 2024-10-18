@@ -33,16 +33,17 @@ def register():
 def login():
     if request.method == "POST":
         data = request.get_json()
-        user_name = data.get("name")
+        user_email = data.get("email")
         password = data.get("password")
         for user in get_data("users.json"):
-            if user["user_name"] == user_name and user["password"] == password:
+            if user["email"] == user_email and user["password"] == password:
                 if user["role"] == "admin":
                     session["role"] = "admin"
                     return jsonify({"redirectURL":"/admin_dashboard"})
                 else:
                     session["id"] = user["id"]
                     return jsonify({"redirectURL":"/employee_homepage/<id>"})
+        return jsonify({"message_login":"Incorrect email or password"})
     return render_template("login.html")
     
 @auth.route("/admin_dashboard")
