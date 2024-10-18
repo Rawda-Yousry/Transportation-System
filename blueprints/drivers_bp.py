@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, Blueprint, session
+from flask import Flask, render_template,request, Blueprint, session
 from config import SHIFTS
 from helper import get_data, write_data
 from models.driver import Driver

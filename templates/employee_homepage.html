@@ -1,33 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="static/css/employee_homepage.css" />
-  </head>
-  <body class="home-employee">
-    <form class="home-employee__form" id="employee-book-form">
-      <div>
-        <label> Route </label>
-        <select id="employee-book-routes">
-          {% for route in routes %}
-          <option value="{{route['id']}}">{{route['name']}}</option>
-          {% endfor %}
-        </select>
-      </div>
-      <div>
-        <label> Shift </label>
-        <select id="employee-book-shift">
-          {% for shift in shifts %}
-          <option value="{{shift}}">{{shift}}</option>
-          {% endfor %}
-        </select>
-      </div>
-      <button type="submit" id="employee-book-button">Book Ride</button>
-    </form>
-    <div class="home-employee__div-wrapper">
-      {{}}
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/employee_homepage.css') }}">
+</head>
+
+<body class="home-employee">
+  <form class="home-employee__form" id="employee-book-form" data-id="{{id}}">
+    <div>
+      <label>Day</label>
+      <select id="employee-book-day">
+        <option value="" disabled selected>Day</option>
+        {% for day in days %}
+        <option value="{{day}}">{{day}}</option>
+        {% endfor %}
+      </select>
     </div>
-  </body>
+    <div>
+      <label> Route </label>
+      <select id="employee-book-routes">
+        <option value="" disabled selected>Route</option>
+        {% for route in routes %}
+        <option value="{{route['id']}}">{{route['name']}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label> Shift </label>
+      <select id="employee-book-shift">
+        <option value="" disabled selected>Shift</option>
+        {% for shift in shifts %}
+        <option value="{{shift}}">{{shift}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <button type="submit" id="employee-book-button" data-id="{{id}}">Book Ride</button>
+  </form>
+  <div class="home-employee__rides-wrapper" id="rides-wrapper">
+    {% for ride in booked_rides %}
+    <div class="ride__wrapper" data-id="{{ ride['id']}}">
+      <p class="ride__day">{{ride["day"]}}</p>
+      <p class="ride__shift">{{ride["shift"]}} </p>
+      <p class="ride__route">{{ride["route"]}}</p>
+      <button type="button" class="delete-button" data-id="{{ ride['id']}}">Delete</button>
+    </div>
+    {% endfor %}
+  </div>
+  <script type="module" src="{{ url_for('static', filename='js/employee-homepage.js') }}"></script>
+</body>
+
+
 </html>

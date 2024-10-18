@@ -1,5 +1,6 @@
 [
     {
+        "id": "111",
         "email": "rawdayousry22@gmail.com",
         "password": "1234555",
         "name": "Rawda",
@@ -9,8 +10,14 @@
         "id": "db42b2fe-6cad-4250-a598-fe8cd8d823e0",
         "name": "hana",
         "email": "hana@gmail.com",
-        "password": "122333",
+        "password": "122",
         "role": "employee",
-        "booked_rides": {}
+        "booked_rides": [
+            {
+                "day": "Sunday",
+                "route": "1",
+                "shift": "Morning"
+            }
+        ]
     }
 ]

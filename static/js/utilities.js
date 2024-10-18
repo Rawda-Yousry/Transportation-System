@@ -2,7 +2,7 @@ export const showError = (field, errorMessage) => {
   const existingError = field.nextElementSibling;
   const spanError = document.getElementById("span-error");
   console.log("existing error", existingError);
-  if (spanError.innerText !== "") {
+  if (spanError && spanError.innerText !== "") {
     spanError.innerText = "";
   }
   if (!existingError) {

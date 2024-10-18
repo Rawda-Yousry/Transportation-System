@@ -15,14 +15,16 @@ def register():
         email = data.get("email")
         password = data.get('password')
         user_name = data.get('user_name')
+        users = get_data("users.json")
         if not email.strip() == "" :
-                for user in get_data("users.json"):
+                for user in users:
                     if user["email"].lower() == email.lower():
                         message = "You already registered before !"
                 if message == "":
                     new_employee = Employee(user_name, email, password)
                     new_employee_dict = new_employee.to_dict()
-                    check_write = write_data(new_employee_dict, "users.json")
+                    users.append(new_employee_dict)
+                    check_write = write_data(users, "users.json")
                     message = "Registered successfully! You can log in now"
         else:
             message = "There is an issue! "
@@ -42,20 +44,10 @@ def login():
                     return jsonify({"redirectURL":"/admin_dashboard"})
                 else:
                     session["id"] = user["id"]
-                    return jsonify({"redirectURL":"/employee_homepage/<id>"})
+                    return jsonify({"redirectURL":f"/employee_homepage/{user['id']}"})
         return jsonify({"message_login":"Incorrect email or password"})
     return render_template("login.html")
     
 @auth.route("/admin_dashboard")
 def admin_dashboard():
     return render_template("admin_dashboard.html")
-
-@auth.route("/employee_homepage/<id>")
-def employee_dashboard(id):
-    booked_rides = []
-    routes = get_data("routes.json")
-    users = get_data("users.json")
-    for user in users:
-        if user["id"] == id:
-            booked_rides = user["booked_rides"]
-    return render_template("employee_homepage.html", routes = routes, shifts = SHIFTS, booked_rides = booked_rides)

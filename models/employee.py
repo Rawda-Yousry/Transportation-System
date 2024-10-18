@@ -19,9 +19,26 @@ class Employee:
             "email": self.email,
             "password": self.password,
             "role": self.role,
-            "booked_rides": dict()
+            "booked_rides": []
         }
         return employee_dict
+
+    def book_ride(self, id, day, route, shift):
+        users = get_data("users.json")
+        for user in users:
+            if user["id"] == id:
+                booked_ride = {
+                    "day": day,
+                    "route": route,
+                    "shift": shift
+                }
+                user["booked_rides"].append(booked_ride)
+                break
+        check_write = write_data(users, "users.json")
+        return booked_ride
+
+
+
 
 
 class Admin(Employee):
@@ -32,7 +49,9 @@ class Admin(Employee):
     def add_driver(self, name, route, shift, car_capacity):
         new_driver = Driver(name, route, shift, car_capacity, avaliable_seats=car_capacity)
         new_driver_dict = new_driver.to_dict()
-        check_write = write_data(new_driver_dict , "drivers.json")
+        drivers = get_data("drivers.json")
+        drivers.append(new_driver_dict)
+        check_write = write_data(drivers , "drivers.json")
         return new_driver_dict
     
     def view_drivers(self):
@@ -40,9 +59,9 @@ class Admin(Employee):
         return drivers
     
     def delete_driver(self, driver_id):
-        updated_drivers_list = []
         deleted_driver = dict()
         drivers = get_data("drivers.json")
+        updated_drivers_list = []
         for driver in drivers:
             if driver["id"] != driver_id:
                 updated_drivers_list.append(driver)
@@ -53,8 +72,7 @@ class Admin(Employee):
                     "shift": driver["shift"],
                     "car_capacity": driver["car_capacity"]
                 }
-        with open("data/drivers.json", "w") as file:
-            json.dump(updated_drivers_list, file, indent=4)
+        check_write = write_data(updated_drivers_list, "drivers.json")
         return deleted_driver
 
 
