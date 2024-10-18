@@ -28,6 +28,7 @@ class Employee:
         for user in users:
             if user["id"] == id:
                 booked_ride = {
+                    "id": str(uuid.uuid4()),
                     "day": day,
                     "route": route,
                     "shift": shift
@@ -36,6 +37,18 @@ class Employee:
                 break
         check_write = write_data(users, "users.json")
         return booked_ride
+
+    def delete_ride(self,ride_id, user_id):
+        users = get_data("users.json")
+        updated_users = []
+        for user in users:
+            if user["id"] != user_id:
+                updated_users.append(user)
+            else:
+                user["booked_rides"] = [ride for ride in user["booked_rides"] if ride["id"] != ride_id]
+                updated_users.append(user)
+        check_write = write_data(updated_users, "users.json")
+        return json.dumps({"message": "done"})
 
 
 

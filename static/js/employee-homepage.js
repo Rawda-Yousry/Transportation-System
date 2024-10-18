@@ -19,10 +19,40 @@ const createNewRide = (data) => {
   employeeRides.appendChild(newBookedRide);
 };
 
-const deleteRide = () => {};
+const deleteRide = (event) => {
+  console.log("delete");
+  const clickedButton = event.target;
+  const deletedRideId = clickedButton.getAttribute("data-id");
+  console.log(deletedRideId);
+  const employeeBookFormId = employeeBookForm.getAttribute("data-id");
+  console.log(employeeBookFormId);
+  const rideDivs = document.getElementsByClassName("ride__wrapper");
+  for (let i = 0; i < rideDivs.length; i++) {
+    const deletedRideDivId = rideDivs[i].getAttribute("data-id");
+    console.log(deletedRideDivId);
+
+    console.log("Div " + deletedRideDivId);
+    console.log("Ride " + deletedRideId);
+    if (deletedRideDivId === deletedRideId) {
+      fetch(`/employee/delete_ride/${deletedRideId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(employeeBookFormId),
+      })
+        .then((response) => response.json())
+        .then(() => {
+          rideDivs[i].remove();
+        })
+        .catch((error) => console.log(error));
+    } else {
+      console.log("hhhhhh");
+    }
+  }
+};
 
 const bookRide = (event) => {
-  console.log("bbbhbjbjnj");
   event.preventDefault();
   const employeeId = employeeBookForm.getAttribute("data-id");
   if (employeeBookDay.value === "") {
@@ -62,3 +92,8 @@ const bookRide = (event) => {
 };
 
 employeeBookForm.addEventListener("submit", bookRide);
+document.addEventListener("click", (event) => {
+  if (event.target.classList.contains("delete-button")) {
+    deleteRide(event);
+  }
+});

@@ -26,4 +26,16 @@ def book_ride(id):
     route = data_ride["route"]
     booked_ride = employee.book_ride(id, day, route, shift)
     return booked_ride
+
+@employee_bp.route("/employee/delete_ride/<ride_id>", methods=["DELETE"])
+def delete_ride(ride_id):
+    employee = Employee("","","")
+    user_id = request.get_json()
+    check_write = employee.delete_ride(ride_id, user_id)
+    return check_write
+
+
+
+
+
     
