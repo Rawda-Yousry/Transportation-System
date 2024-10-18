@@ -41,7 +41,7 @@ def login():
             if user["email"] == user_email and user["password"] == password:
                 if user["role"] == "admin":
                     session["role"] = "admin"
-                    return jsonify({"redirectURL":"/admin_dashboard"})
+                    return jsonify({"redirectURL":"/drivers"})
                 else:
                     session["id"] = user["id"]
                     return jsonify({"redirectURL":f"/employee_homepage/{user['id']}"})

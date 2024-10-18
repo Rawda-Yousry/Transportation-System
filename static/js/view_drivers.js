@@ -13,10 +13,12 @@ const createDriver = (data) => {
   const newDriverDiv = document.createElement("div");
   newDriverDiv.className = "driver__wrapper";
   newDriverDiv.innerHTML = `
-    <h2 class="driver__name">${data.name}</h2>
-    <p class="driver__route">${data.route}</p>
-    <p class="driver__shift">${data.shift}</p>
-    <p class="driver__car-capacity">${data.car_capacity}</p>
+    <h2 class="driver__name">Name: ${data.name}</h2>
+    <p class="driver__start-point">Start Point: ${data.start_point}</p>
+    <p class="driver__start-point">End Point: ${data.end_point}</p>
+    <p class="driver__shift">Shift: ${data.shift}</p>
+    <p class="driver__car-capacity">Car Capacity: ${data.car_capacity}</p>
+    <p class="driver__avaliable-seats">Avaliable Seats: ${data.car_capacity}</p>
     <button type="button" class="delete-button" data-id = ${data.id}>Delete</button>
 `;
 
@@ -28,7 +30,8 @@ const onSubmitAddDriverForm = (e) => {
   e.preventDefault();
   const driverName = document.getElementById("driver-name");
   const driverShift = document.getElementById("driver-shift");
-  const driverRoute = document.getElementById("driver-route");
+  const driverStartPoint = document.getElementById("driver-start-point");
+  const driverEndPoint = document.getElementById("driver-end-point");
   const driverCarCapacity = document.getElementById("car-capacity");
   const errorElements = document.getElementsByClassName("error");
 
@@ -42,11 +45,6 @@ const onSubmitAddDriverForm = (e) => {
   } else {
     checkErrorExists(driverShift);
   }
-  if (driverRoute.value === "") {
-    showError(driverRoute, "You should enter a route");
-  } else {
-    checkErrorExists(driverRoute);
-  }
   if (Number(driverCarCapacity.value) <= 0 || driverCarCapacity.value == "") {
     showError(driverCarCapacity, "You should enter the car capacity");
   } else if (Number(driverCarCapacity.value) > 14) {
@@ -54,11 +52,31 @@ const onSubmitAddDriverForm = (e) => {
   } else {
     checkErrorExists(driverCarCapacity);
   }
+
+  if (driverStartPoint.value == "" || driverEndPoint == "") {
+    showError(driverEndPoint, "You should choose a route");
+  } else {
+    checkErrorExists(driverEndPoint);
+  }
+  if (
+    driverStartPoint.value != "Company" &&
+    driverEndPoint.value != "Company"
+  ) {
+    showError(driverEndPoint, "One of the points must be the company");
+  } else {
+    checkErrorExists(driverEndPoint);
+    if (driverStartPoint.value === driverEndPoint.value) {
+      showError(driverEndPoint, " You should change one of the points");
+    } else {
+      checkErrorExists(driverEndPoint);
+    }
+  }
   if (errorElements.length === 0) {
     const formData = {
       name: driverName.value,
       shift: driverShift.value,
-      route: driverRoute.value,
+      startPoint: driverStartPoint.value,
+      endPoint: driverEndPoint.value,
       carCapacity: driverCarCapacity.value,
     };
 

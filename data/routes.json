@@ -1,4 +1,30 @@
 [
-  { "id": 1, "name": "Route 1", "start": "Location A", "end": "Location B" },
-  { "id": 2, "name": "Route 2", "start": "Location C", "end": "Location D" }
+  {
+    "route_id": 1,
+    "destination": "Makram Ebeid"
+  },
+  {
+    "route_id": 2,
+    "destination": "Almaadi"
+  },
+  {
+    "route_id": 3,
+    "destination": "Salah Salem"
+  },
+  {
+    "route_id": 4,
+    "destination": "Alharam"
+  },
+  {
+    "route_id": 5,
+    "destination": "October"
+  },
+  {
+    "route_id": 6,
+    "destination": "Fisal"
+  },
+  {
+    "route_id": 7,
+    "destination": "Company"
+  }
 ]

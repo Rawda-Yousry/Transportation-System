@@ -32,12 +32,23 @@
         </select>
       </div>
       <div>
-        <p>Routes</p>
-        <select name="driver-route" id="driver-route">
-          <option value="" disabled selected>Routes</option>
-          <option value="route1">Route 1</option>
-          <option value="route2">Route 2</option>
-        </select>
+        <p>Route</p>
+        <div>
+          <!-- Admin Choose the start Point -->
+          <select name="driver-route" id="driver-start-point">
+            <option value="" disabled selected>Start Point</option>
+            {% for route in routes %}
+            <option value="{{route['destination']}}">{{route["destination"]}}</option>
+            {% endfor %}
+          </select>
+          <!-- Admin Choose the end Point -->
+          <select id="driver-end-point">
+            <option value="" disabled selected>End Point</option>
+            {% for route in routes %}
+            <option value="{{route['destination']}}">{{route["destination"]}}</option>
+            {% endfor %}
+          </select>
+        </div>
       </div>
       <div>
         <p>Car Capacity</p>
@@ -52,10 +63,12 @@
   <div class="drivers__wrapper">
     {% for driver in drivers %}
     <div class="driver__wrapper" data-id="{{ driver['id'] }}">
-      <h2 class="driver__name">{{driver["name"]}}</h2>
-      <p class="driver__route">{{driver["route"]}}</p>
-      <p class="driver__shift">{{driver["shift"]}}</p>
-      <p class="driver__car-capacity">{{driver["car_capacity"]}}</p>
+      <h2 class="driver__name">Name: {{driver["name"]}}</h2>
+      <p class="driver__start-point">Start Point: {{driver["start_point"]}}</p>
+      <p class="driver__end-point">End Point: {{driver["end_point"]}}</p>
+      <p class="driver__shift">Shift: {{driver["shift"]}}</p>
+      <p class="driver__car-capacity">Car Capacity: {{driver["car_capacity"]}}</p>
+      <p class="driver__avaliable-seats">Avaliable Seats: {{driver["avaliable_seats"]}}</p>
       <button type="button" class="delete-button" data-id='{{driver["id"]}}'>
         Delete
       </button>

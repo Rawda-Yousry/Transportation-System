@@ -9,19 +9,22 @@ drivers_bp = Blueprint("drivers_bp",__name__)
 
 @drivers_bp.route("/drivers")
 def view_drivers():
+    destinations = []
     admin = Admin(name="", email="", password="")
+    routes = get_data("routes.json")
     drivers = admin.view_drivers()
-    return render_template("view_drivers.html", drivers=drivers, shifts = SHIFTS)
+    return render_template("view_drivers.html", drivers=drivers, shifts = SHIFTS, routes = routes)
 
 
 @drivers_bp.route("/drivers/add", methods=["POST"])
 def add_driver():
     name = request.json.get("name")
-    route = request.json.get("route")
+    start_point = request.json.get("startPoint")
+    end_point = request.json.get("endPoint")
     shift = request.json.get("shift")
     car_capacity = request.json.get("carCapacity")
     admin = Admin(name="", email="", password="")
-    new_driver_dict = admin.add_driver(name,route,shift,car_capacity)
+    new_driver_dict = admin.add_driver(name,start_point, end_point,shift,car_capacity)
     return new_driver_dict
 
 @drivers_bp.route("/drivers/delete/<id>", methods = ["DELETE"])
