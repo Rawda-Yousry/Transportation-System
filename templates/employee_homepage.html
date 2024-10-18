@@ -9,7 +9,9 @@
 </head>
 
 <body class="home-employee">
-  <form class="home-employee__form" id="employee-book-form" data-id="{{id}}">
+  {% block body %}
+  <form class="home-employee__form" id="see-avaliable-rides" data-id="{{id}}">
+    <p id="error-message"></p>
     <div>
       <label>Day</label>
       <select id="employee-ride-day">
@@ -46,19 +48,11 @@
     <button type="submit" id="see-avaliable-rides">See Avaliable</button>
     <!-- <button type="submit" id="employee-book-button" data-id="{{id}}">Book Ride</button> -->
   </form>
-  <div class="home-employee__rides-wrapper" id="rides-wrapper">
-    {% for ride in booked_rides %}
-    <div class="ride__wrapper" data-id="{{ ride['id']}}">
-      <p class="ride__day">{{ride["day"]}}</p>
-      <p class="ride__shift">{{ride["shift"]}} </p>
-      <p class="ride__start-point">{{ride["start_point"]}}</p>
-      <p class="ride__end-point">{{ride["end_point"]}}</p>
-      <button type="button" class="delete-button" data-id="{{ride['id']}}">Delete</button>
-    </div>
-    {% endfor %}
+  <div class="home-employee__avaliable-rides-wrapper" id="avaliable-rides-wrapper">
+
   </div>
   <script type="module" src="{{ url_for('static', filename='js/employee-homepage.js') }}"></script>
+  {% endblock %}
 </body>
-
 
 </html>

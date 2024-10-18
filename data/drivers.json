@@ -1,1 +1,17 @@
-[]
+[
+    {
+        "id": "4014bc1c-53e7-4ac2-8dc0-ce9b709cc018",
+        "name": "ali",
+        "start_point": "Makram Ebeid",
+        "end_point": "Company",
+        "shift": "Morning",
+        "car_capacity": 12,
+        "avaliable_seats_on_days": {
+            "Sunday": 5,
+            "Monday": 11,
+            "Tuesday": 12,
+            "Wednesday": 12,
+            "Thursday": 12
+        }
+    }
+]

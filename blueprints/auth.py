@@ -44,6 +44,7 @@ def login():
                     return jsonify({"redirectURL":"/drivers"})
                 else:
                     session["id"] = user["id"]
+                    print("sesssion + " + session["id"])
                     return jsonify({"redirectURL":f"/employee_homepage/{user['id']}"})
         return jsonify({"message_login":"Incorrect email or password"})
     return render_template("login.html")

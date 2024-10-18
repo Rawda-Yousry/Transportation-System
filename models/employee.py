@@ -23,20 +23,40 @@ class Employee:
         }
         return employee_dict
 
-    def book_ride(self, id, day, route, shift):
+    def view_booked_rides(self, employee_id):
         users = get_data("users.json")
+        booked_rides = [{}]
         for user in users:
-            if user["id"] == id:
+            if user["id"] == employee_id:
+                booked_rides = user["booked_rides"]
+        return booked_rides
+
+
+
+
+
+    def book_ride(self, employee_id, day, start_point, end_point, shift, driver_id):
+        users = get_data("users.json")
+        drivers = get_data("drivers.json")
+        for driver in drivers:
+            if driver["id"] == driver_id:
+                driver["avaliable_seats_on_days"][day] -= 1
+                break
+        check_write = write_data(drivers, "drivers.json")
+        for user in users:
+            if user["id"] == employee_id:
                 booked_ride = {
                     "id": str(uuid.uuid4()),
                     "day": day,
-                    "route": route,
+                    "start_point": start_point,
+                    "end_point": end_point,
                     "shift": shift
                 }
                 user["booked_rides"].append(booked_ride)
                 break
         check_write = write_data(users, "users.json")
         return booked_ride
+    
 
     def delete_ride(self,ride_id, user_id):
         users = get_data("users.json")

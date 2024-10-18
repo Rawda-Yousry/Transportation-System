@@ -5,7 +5,8 @@ const rideStartPoint = document.getElementById("employee-ride-start-point");
 const rideEndPoint = document.getElementById("employee-ride-end-point");
 const rideShift = document.getElementById("employee-ride-shift");
 const rideDay = document.getElementById("employee-ride-day");
-const employeeRides = document.getElementById("rides-wrapper");
+const avaliableRidesDiv = document.getElementById("avaliable-rides-wrapper");
+const errorParagraph = document.getElementById("error-message");
 
 const createNewRide = (data) => {
   const newBookedRide = document.createElement("div");
@@ -17,7 +18,49 @@ const createNewRide = (data) => {
   <button type="button" class="delete-button" data-id = ${data.id}>Delete</button>
   `;
   newBookedRide.setAttribute("data-id", data.id);
-  employeeRides.appendChild(newBookedRide);
+  employeeRidesDiv.appendChild(newBookedRide);
+};
+
+const displayAvaliableCars = (data) => {
+  const avaliableRide = document.createElement("div");
+  console.log(data);
+  avaliableRide.className = "ride__wrapper";
+  for (let i = 0; i < data.length; i++) {
+    avaliableRide.innerHTML = `
+  <p class= "ride__driver-name">Driver Name: ${data[i].name}</p>
+  <p class= "ride__shift">Shift: ${data[i].shift}</p>
+  <button type="button" class="book-button" data-id="${data[i].id}">Book</button>
+  `;
+    avaliableRide.setAttribute("data-id", `${data[i].id}`);
+    avaliableRidesDiv.appendChild(avaliableRide);
+  }
+};
+
+const bookRide = (event) => {
+  const clickedButton = event.target;
+  const bookedDriverId = clickedButton.getAttribute("data-id");
+  const employeeId = formAvaliableRides.getAttribute("data-id");
+  const formData = {
+    id: employeeId,
+    driverId: bookedDriverId,
+    shift: rideShift.value,
+    day: rideDay.value,
+    startPoint: rideStartPoint.value,
+    endPoint: rideEndPoint.value,
+  };
+  fetch(`/book_ride`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      window.location.href = data.redirectURL;
+    })
+    .catch((error) => console.log(error));
 };
 
 const seeAvaliableRides = (event) => {
@@ -54,7 +97,7 @@ const seeAvaliableRides = (event) => {
   };
   const errorsNumber = document.getElementsByClassName("error").length;
   if (errorsNumber === 0) {
-    fetch(`/see_avaliable_cars`, {
+    fetch("/see_avaliable_cars", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -62,14 +105,28 @@ const seeAvaliableRides = (event) => {
       body: JSON.stringify(formData),
     })
       .then((response) => response.json())
-      .then((data) => createNewRide(data))
+      .then((data) => {
+        if (data.message) {
+          errorParagraph.innerText = data.message;
+        } else {
+          errorParagraph.innerText = "";
+          displayAvaliableCars(data);
+        }
+      })
       .catch((error) => console.log(error));
   }
 };
 
-employeeBookForm.addEventListener("submit", bookRide);
+// employeeBookForm.addEventListener("submit", bookRide);
+formAvaliableRides.addEventListener("submit", seeAvaliableRides);
 document.addEventListener("click", (event) => {
   if (event.target.classList.contains("delete-button")) {
     deleteEntity(event, "ride", employeeBookForm.getAttribute("data-id"));
+  }
+});
+
+document.addEventListener("click", (event) => {
+  if (event.target.classList.contains("book-button")) {
+    bookRide(event);
   }
 });
