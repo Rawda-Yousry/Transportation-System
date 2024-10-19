@@ -5,51 +5,79 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="static/css/view_drivers.css" />
+
+  <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+  </head>
+
   <title>View Drivers</title>
 </head>
 
 <body class="home">
-  <p id="admin-name"></p>
+  <div class="home__div--right">
+    <p id="admin-name"></p>
+  </div>
   <div class="form home__div">
-    <button type="button" id="add-button" class="drivers-home__button">
-      Add Driver
-    </button>
+    <div class="home__buttons">
+      <select class="form__field-input--smaller-dark" id="choose-day">
+        <option value="" disabled selected>Choose Day</option>
+        {% for day in days %}
+        <option value="{{day}}">{{day}}</option>
+        {% endfor %}
+      </select>
+      <button type="button" id="add-button" class="home__button">
+        <i class="bi bi-plus-circle"></i>
+        Add Driver
+      </button>
+    </div>
     {% if message %}
     <p>{{message}}</p>
     {% endif %}
 
-    <form id="add-form" style="display: none" class="driver-home__form">
+    <form id="add-form" style="display: none" class="home__form-add">
       <p id="paragraph-error"></p>
-      <div class="drivers-home__form-div">
-        <div>
+      <p class="form__title--smaller">Driver Data</p>
+      <div class="add-form__fields">
+        <div class="form__field--smaller">
           <p>Email</p>
-          <input type="text" placeholder="Email" id="driver-email">
+          <input type="text" placeholder="Email" id="driver-email" class="form__field-input--smaller">
         </div>
-        <div>
+        <div class="form__field--smaller">
           <p for="Name">Name</p>
-          <input type="text" placeholder="name" name="driver-name" id="driver-name" />
+          <input type="text" placeholder="name" name="driver-name" id="driver-name"
+            class="form__field-input--smaller" />
         </div>
-        <div>
+        <div class="form__field--smaller">
           <p>Shift</p>
-          <select name="driver-shift" class="driver-form__select" id="driver-shift">
+          <select name="driver-shift" id="driver-shift" class="form__field-input--smaller">
             <option value="" disabled selected>Shifts</option>
             {% for shift in shifts %}
             <option value="{{shift}}">{{shift}}</option>
             {%endfor%}
           </select>
         </div>
-        <div>
+        <div class="form__field--smaller">
+          <p>Days</p>
+          <div class="form__field-checkbox" id="days-check-box">
+            {% for day in days %}
+            <label>
+              <input type="checkbox" value="{{ day }}" id="checkbox-{{ loop.index }}"> {{ day }}
+            </label>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="form__field--smaller ">
           <p>Route</p>
           <div>
             <!-- Admin Choose the start Point -->
-            <select name="driver-route" id="driver-start-point">
+            <select name="driver-route" id="driver-start-point" class="form__field-input--smaller">
               <option value="" disabled selected>Start Point</option>
               {% for route in routes %}
               <option value="{{route['destination']}}">{{route["destination"]}}</option>
               {% endfor %}
             </select>
             <!-- Admin Choose the end Point -->
-            <select id="driver-end-point">
+            <select id="driver-end-point" class="form__field-input--smaller">
               <option value="" disabled selected>End Point</option>
               {% for route in routes %}
               <option value="{{route['destination']}}">{{route["destination"]}}</option>
@@ -57,46 +85,18 @@
             </select>
           </div>
         </div>
-        <div>
+        <div class="form__field--smaller">
           <p>Car Capacity</p>
-          <input type="number" placeholder="Car Capacity" id="car-capacity" />
+          <input type="number" placeholder="Car Capacity" id="car-capacity" class="form__field-input--smaller" />
         </div>
-        <div class="drivers-home__div-button">
-          <button type="submit" class="driver-home__form-button">Add</button>
+        <div class="form__field--smaller right">
+          <button type="submit" class="form__button--smaller">Add</button>
         </div>
       </div>
     </form>
 
     <div class="drivers__wrapper">
-      {% for driver in drivers %}
-      <div class="driver__wrapper" data-id="{{ driver['id'] }}">
-        <h2 class="driver__name">Name: {{driver["name"]}}</h2>
-        <p class="driver__start-point">Start Point: {{driver["start_point"]}}</p>
-        <p class="driver__end-point">End Point: {{driver["end_point"]}}</p>
-        <p class="driver__shift">Shift: {{driver["shift"]}}</p>
-        <p class="driver__car-capacity">Car Capacity: {{driver["car_capacity"]}}</p>
-        <ul class="driver__avaliable-seats">Avaliable Seats:
-          <li>
-            Sunday :{{driver["avaliable_seats_on_days"]["Sunday"]}}
-          </li>
-          <li>
-            Monday: {{driver["avaliable_seats_on_days"]["Monday"]}}
-          </li>
-          <li>
-            Tuesday: {{driver["avaliable_seats_on_days"]["Tuesday"]}}
-          </li>
-          <li>
-            Wednesday: {{driver["avaliable_seats_on_days"]["Wednesday"]}}
-          </li>
-          <li>
-            Thursday: {{driver["avaliable_seats_on_days"]["Thursday"]}}
-          </li>
-        </ul>
-        <button type="button" class="delete-button" data-id='{{driver["id"]}}'>
-          Delete
-        </button>
-      </div>
-      {% endfor %}
+
     </div>
   </div>
   <script type="module" src="static/js/view-drivers.js"></script>

@@ -5,14 +5,26 @@
   --color-button-border: var(--color-text-on-page);
   --color-button-page-bg: var(--color-text-on-page);
   --font-family: "Outfit", sans-serif;
+  --color-button: #ffa789;
 }
 
 .form {
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   width: 400px;
   background-color: var(--color-form);
+}
+
+.delete-button {
+  color: red;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+.edit-button {
+  font-size: 30px;
+  cursor: pointer;
 }
 
 #span-error {
@@ -31,6 +43,7 @@
   align-items: center;
   height: 100vh;
   overflow: hidden;
+  flex-direction: column;
 }
 
 .form__title {
@@ -63,6 +76,7 @@
   padding: 10px;
   line-height: 28px;
   border-radius: 5px;
+  font-size: 17px;
 }
 
 .form__label {

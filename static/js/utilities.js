@@ -8,6 +8,7 @@ export const showError = (field, errorMessage) => {
   if (!existingError) {
     const errorElement = document.createElement("span");
     errorElement.className = "error";
+    errorElement.style.display = "block";
     errorElement.textContent = errorMessage;
     field.insertAdjacentElement("afterend", errorElement);
   } else {
@@ -26,8 +27,7 @@ export const checkErrorExists = (field) => {
 export const deleteEntity = (event, entityType, formId = "") => {
   const clickedButton = event.target;
   const deletedId = clickedButton.getAttribute("data-id");
-  const divClassName =
-    entityType === "ride" ? "ride__wrapper" : "driver__wrapper";
+  const divClassName = entityType === "ride" ? "ride__wrapper" : "rows";
   const url =
     entityType === "ride"
       ? `/employee/delete_ride/${deletedId}`

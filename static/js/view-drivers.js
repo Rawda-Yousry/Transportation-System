@@ -1,10 +1,11 @@
 import { checkErrorExists, showError, deleteEntity } from "./utilities.js";
 const formAddDriver = document.getElementById("add-form");
-const driverDiv = document.getElementsByClassName("drivers__wrapper")[0];
+const driversDiv = document.getElementsByClassName("drivers__wrapper")[0];
 const addDriverButton = document.getElementById("add-button");
 const errorParagraph = document.getElementById("paragraph-error");
 const paragraphName = document.getElementById("admin-name");
 
+const selectedDay = document.getElementById("choose-day");
 const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
 paragraphName.innerText = "Welcome " + localStorage.getItem("Name");
@@ -15,27 +16,95 @@ const toggleAddFormVisibility = () => {
   else formAddDriver.style.display = "block";
 };
 
-const createDriver = (data) => {
-  const newDriverDiv = document.createElement("div");
-  newDriverDiv.className = "driver__wrapper";
-  newDriverDiv.innerHTML = `
-    <h2 class="driver__name">Name: ${data.name}</h2>
-    <p class="driver__start-point">Start Point: ${data.start_point}</p>
-    <p class="driver__start-point">End Point: ${data.end_point}</p>
-    <p class="driver__shift">Shift: ${data.shift}</p>
-    <p class="driver__car-capacity">Car Capacity: ${data.car_capacity}</p>
-    <ul class="driver__avaliable-seats">Avaliable Seats: 
-      <li> Sunday: ${data.car_capacity} </li>
-      <li> Monday: ${data.car_capacity} </li>
-      <li> Tuesday: ${data.car_capacity} </li>
-      <li> Wednesday: ${data.car_capacity} </li>
-      <li> Thursday: ${data.car_capacity} </li>
-    </ul>
-    <button type="button" class="delete-button" data-id = ${data.id}>Delete</button>
-`;
+const displayDrivers = (data, selectedDay) => {
+  const table = document.createElement("table");
+  table.className = "table";
+  table.setAttribute("id", "table");
+  const headers = `<tr class="table__header">
+      <td>Name</td>
+      <td>Shift</td>
+      <td>Route</td>
+      <td>Avaliable Seats</td>
+    </tr>
+  `;
+  if (data.length !== 0) {
+    table.innerHTML = headers;
+  }
+  for (let i = 0; i < data.length; i++) {
+    table.innerHTML += `
+    <tr data-id=${data[i].id} class="rows" >
+      <td>${data[i].name}</td>
+      <td>${data[i].shift}</td>
+      <td>${data[i].start_point} - ${data[i].end_point}</td>
+      <td>${data[i].avaliable_seats_on_days[selectedDay]}
+      <td class="actions"><i class="bi bi-x delete-button" data-id=${data[i].id}></i></td>
+      <td class="actions"><i class="bi-pencil-fill edit-button" data-id=${data[i].id}></i></td>
+    </tr>
+    `;
+  }
+  driversDiv.appendChild(table);
+};
 
-  newDriverDiv.setAttribute("data-id", data.id);
-  driverDiv.appendChild(newDriverDiv);
+const createDriver = (data, selectedDaysValue) => {
+  console.log(selectedDaysValue);
+  console.log(selectedDaysValue.length);
+  const element = `
+        <tr data-id=${data.id} class="rows">
+          <td>${data.name}</td>
+          <td>${data.shift}</td>
+          <td>${data.start_point} - ${data.end_point}</td>
+          <td>${data.avaliable_seats_on_days[selectedDay.value]}
+          <td class="actions"><i class="bi bi-x delete-button" data-id=${
+            data.id
+          } ></i></td>
+          <td class="actions"><i class="bi-pencil-fill edit-buttton" data-id=${
+            data.id
+          }></i></td>
+        </tr>
+        `;
+  const table = document.getElementById("table");
+  for (let i = 0; i < selectedDaysValue.length; i++) {
+    if (selectedDay.value == selectedDaysValue[i]) {
+      if (table) {
+        table.innerHTML += element;
+        console.log(table);
+      } else {
+        displayDrivers(data, selectedDay);
+      }
+    }
+  }
+};
+
+const viewDriversoFDay = () => {
+  const selectedDayValue = selectedDay.value;
+  fetch("drivers/view_drivers_of_day", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ selectedDay: selectedDayValue }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      const table = document.getElementById("table");
+      if (table) {
+        table.remove();
+      }
+      displayDrivers(data, selectedDayValue);
+    })
+    .catch((error) => console.log(error));
+};
+
+const getSelectedDays = () => {
+  let selectedDaysValue = [];
+  for (let i = 0; i < 5; i++) {
+    const checkbox = document.getElementById(`checkbox-${i}`); // Adjust for 1-based index
+    if (checkbox && checkbox.checked) {
+      selectedDaysValue.push(checkbox.value);
+    }
+  }
+  return selectedDaysValue;
 };
 
 const onSubmitAddDriverForm = (e) => {
@@ -47,6 +116,8 @@ const onSubmitAddDriverForm = (e) => {
   const driverEndPoint = document.getElementById("driver-end-point");
   const driverCarCapacity = document.getElementById("car-capacity");
   const errorElements = document.getElementsByClassName("error");
+  const selectedDaysValue = getSelectedDays();
+  const daysCheckBox = document.getElementById("days-check-box");
 
   if (driverEmail.value.trim() === "") {
     showError(driverEmail, "You should enter the driver's email");
@@ -92,6 +163,11 @@ const onSubmitAddDriverForm = (e) => {
       checkErrorExists(driverEndPoint);
     }
   }
+  if (selectedDaysValue.length == 0) {
+    showError(daysCheckBox, " You should select at least one day");
+  } else {
+    checkErrorExists(daysCheckBox);
+  }
   if (errorElements.length === 0) {
     const formData = {
       email: driverEmail.value.trim(),
@@ -100,6 +176,7 @@ const onSubmitAddDriverForm = (e) => {
       startPoint: driverStartPoint.value,
       endPoint: driverEndPoint.value,
       carCapacity: driverCarCapacity.value,
+      avaliableDays: selectedDaysValue,
     };
 
     fetch("/drivers/add", {
@@ -115,7 +192,8 @@ const onSubmitAddDriverForm = (e) => {
           errorParagraph.innerText = data.message;
         } else {
           errorParagraph.innerText = "";
-          createDriver(data);
+          createDriver(data, selectedDaysValue);
+          toggleAddFormVisibility();
         }
       })
       .catch((error) => console.log(error));
@@ -126,7 +204,11 @@ addDriverButton.addEventListener("click", toggleAddFormVisibility);
 formAddDriver.addEventListener("submit", onSubmitAddDriverForm);
 
 document.addEventListener("click", (event) => {
+  console.log(event.target.classList.contains("delete-button"));
   if (event.target.classList.contains("delete-button")) {
+    console.log(event.target);
     deleteEntity(event, "driver");
   }
 });
+
+selectedDay.addEventListener("change", viewDriversoFDay);
