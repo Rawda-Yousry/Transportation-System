@@ -26,8 +26,12 @@ const checkToSubmit = (route, requestData) => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        if (data.redirectURL) window.location.href = data.redirectURL;
-        else if (data.message) {
+        if (data.redirectURL) {
+          window.location.href = data.redirectURL;
+          console.log(data);
+          console.log(data.name);
+          localStorage.setItem("Name", data.name);
+        } else if (data.message) {
           registeredMessage.innerText = data.message;
         } else if (data.message_login) {
           paragraphError.innerText = data.message_login;

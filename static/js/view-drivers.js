@@ -3,8 +3,11 @@ const formAddDriver = document.getElementById("add-form");
 const driverDiv = document.getElementsByClassName("drivers__wrapper")[0];
 const addDriverButton = document.getElementById("add-button");
 const errorParagraph = document.getElementById("paragraph-error");
+const paragraphName = document.getElementById("admin-name");
 
 const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+
+paragraphName.innerText = "Welcome " + localStorage.getItem("Name");
 
 const toggleAddFormVisibility = () => {
   if (formAddDriver.style.display == "block")

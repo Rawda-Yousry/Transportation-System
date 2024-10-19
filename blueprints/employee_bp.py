@@ -14,6 +14,7 @@ def employee_dashboard(id):
 
 @employee_bp.route("/book_ride", methods=["POST"])
 def book_ride():
+    users = get_data("users.json")
     employee = Employee("", "", "")
     data_ride = request.get_json()
     employee_id = data_ride["id"]
@@ -22,13 +23,17 @@ def book_ride():
     shift = data_ride["shift"]
     start_point = data_ride["startPoint"]
     end_point = data_ride["endPoint"]
+    for user in users:
+        if user["id"] == employee_id:
+            for ride in user["booked_rides"]:
+                if ride["day"] == day and ride["shift"] == shift:
+                    return jsonify({"message": "You already booked for the shift and day before"})
     booked_ride = employee.book_ride(employee_id, day, start_point, end_point, shift, driver_id)
     return jsonify({"message": "Booked Successfuly!"})
 
 @employee_bp.route("/view_booked_rides")
 def view_booked_rides():
     employee = Employee("", "", "")
-    print("sessioooo " + session["id"])
     booked_rides = employee.view_booked_rides(session["id"])
     print(booked_rides)
     return render_template("employee_booked_rides.html", booked_rides = booked_rides)
@@ -60,6 +65,7 @@ def see_avaliable_cars():
         if is_found != True:
             return jsonify({"message": "No Avaliable Rides Found"})
         else:
+            print(avaliable_cars)
             return jsonify(avaliable_cars)
     return render_template("login.html")
 

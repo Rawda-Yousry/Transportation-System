@@ -1,46 +1,25 @@
 [
-    {
-        "id": "111",
-        "email": "rawdayousry22@gmail.com",
-        "password": "1234555",
-        "name": "Rawda",
-        "role": "admin"
-    },
-    {
-        "id": "db42b2fe-6cad-4250-a598-fe8cd8d823e0",
-        "name": "hana",
-        "email": "hana@gmail.com",
-        "password": "122",
-        "role": "employee",
-        "booked_rides": [
-            {
-                "id": "b6b843e2-c28c-4be3-a734-70b4bc8987b0",
-                "day": "Sunday",
-                "start_point": "Makram Ebeid",
-                "end_point": "Company",
-                "shift": "Morning"
-            },
-            {
-                "id": "b253c28e-5887-4e8b-b2f7-f5eebe5f54fa",
-                "day": "Sunday",
-                "start_point": "Makram Ebeid",
-                "end_point": "Company",
-                "shift": "Morning"
-            },
-            {
-                "id": "83a47797-145e-4187-80b8-426b35be2a0d",
-                "day": "Monday",
-                "start_point": "Makram Ebeid",
-                "end_point": "Company",
-                "shift": "Morning"
-            },
-            {
-                "id": "f6255a5a-d8e9-4844-b316-7215ac07cafd",
-                "day": "Sunday",
-                "start_point": "Makram Ebeid",
-                "end_point": "Company",
-                "shift": "Morning"
-            }
-        ]
-    }
+  {
+    "id": "111",
+    "email": "rawdayousry22@gmail.com",
+    "password": "1234555",
+    "name": "Rawda",
+    "role": "admin"
+  },
+  {
+    "id": "db42b2fe-6cad-4250-a598-fe8cd8d823e0",
+    "name": "hana",
+    "email": "hana@gmail.com",
+    "password": "122",
+    "role": "employee",
+    "booked_rides": [
+      {
+        "id": "f1b1b8ca-060c-45a9-9544-4637d934234f",
+        "day": "Sunday",
+        "start_point": "Makram Ebeid",
+        "end_point": "Company",
+        "shift": "Morning"
+      }
+    ]
+  }
 ]

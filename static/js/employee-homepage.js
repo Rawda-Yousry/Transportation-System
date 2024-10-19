@@ -7,19 +7,22 @@ const rideShift = document.getElementById("employee-ride-shift");
 const rideDay = document.getElementById("employee-ride-day");
 const avaliableRidesDiv = document.getElementById("avaliable-rides-wrapper");
 const errorParagraph = document.getElementById("error-message");
+const paragraphName = document.getElementById("employee-name");
+
+paragraphName.innerText = "Welcome " + localStorage.getItem("Name");
 
 const displayAvaliableCars = (data) => {
-  const avaliableRide = document.createElement("div");
+  avaliableRidesDiv.style.display = "block";
   console.log(data);
-  avaliableRide.className = "ride__wrapper";
   for (let i = 0; i < data.length; i++) {
-    avaliableRide.innerHTML = `
-  <p class= "ride__driver-name">Driver Name: ${data[i].name}</p>
-  <p class= "ride__shift">Shift: ${data[i].shift}</p>
-  <button type="button" class="book-button" data-id="${data[i].id}">Book</button>
-  `;
-    avaliableRide.setAttribute("data-id", `${data[i].id}`);
-    avaliableRidesDiv.appendChild(avaliableRide);
+    const avaliableRide = `
+      <div class="ride__wrapper" data-id="${data[i].id}">
+        <p class="ride__driver-name">Driver Name: ${data[i].name}</p>
+        <p class="ride__shift">Shift: ${data[i].shift}</p>
+        <button type="button" class="book-button" data-id="${data[i].id}">Book</button>
+      </div>
+    `;
+    avaliableRidesDiv.innerHTML = avaliableRide;
   }
 };
 
@@ -45,7 +48,7 @@ const bookRide = (event) => {
     .then((response) => response.json())
     .then((data) => {
       alert(data.message);
-      avaliableRidesDiv.remove();
+      avaliableRidesDiv.style.display = "none";
     })
     .catch((error) => console.log(error));
 };
@@ -97,6 +100,7 @@ const seeAvaliableRides = (event) => {
           errorParagraph.innerText = data.message;
         } else {
           errorParagraph.innerText = "";
+          console.log(data);
           displayAvaliableCars(data);
         }
       })

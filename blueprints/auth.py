@@ -33,6 +33,7 @@ def register():
 
 @auth.route("/login", methods = ["POST", "GET"])
 def login():
+    user_name = ""
     if request.method == "POST":
         data = request.get_json()
         user_email = data.get("email")
@@ -41,11 +42,11 @@ def login():
             if user["email"] == user_email and user["password"] == password:
                 if user["role"] == "admin":
                     session["role"] = "admin"
-                    return jsonify({"redirectURL":"/drivers"})
+                    return jsonify({"redirectURL":"/drivers", "name": user["name"]})
                 else:
                     session["id"] = user["id"]
                     print("sesssion + " + session["id"])
-                    return jsonify({"redirectURL":f"/employee_homepage/{user['id']}"})
+                    return jsonify({"redirectURL":f"/employee_homepage/{user['id']}", "name": user["name"]})
         return jsonify({"message_login":"Incorrect email or password"})
     return render_template("login.html")
     
