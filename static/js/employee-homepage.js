@@ -1,5 +1,11 @@
-import { checkErrorExists, showError, deleteEntity } from "./utilities.js";
+import {
+  checkErrorExists,
+  showError,
+  deleteEntity,
+  toggleFormVisibility,
+} from "./utilities.js";
 
+const formButton = document.getElementById("avaliable-ride-form-button");
 const formAvaliableRides = document.getElementById("see-avaliable-rides");
 const rideStartPoint = document.getElementById("employee-ride-start-point");
 const rideEndPoint = document.getElementById("employee-ride-end-point");
@@ -7,27 +13,39 @@ const rideShift = document.getElementById("employee-ride-shift");
 const rideDay = document.getElementById("employee-ride-day");
 const avaliableRidesDiv = document.getElementById("avaliable-rides-wrapper");
 const errorParagraph = document.getElementById("error-message");
-const paragraphName = document.getElementById("employee-name");
+const paragraphName = document.getElementById("admin-name");
 
 paragraphName.innerText = "Welcome " + localStorage.getItem("Name");
 
 const displayAvaliableCars = (data) => {
-  avaliableRidesDiv.style.display = "block";
-  console.log(data);
+  const avaliableRidesTable = document.createElement("table");
+  avaliableRidesTable.className = "table";
+  avaliableRidesTable.setAttribute("id", "avaliableRidesTable");
+  const headers = `<tr class="table__header">
+      <td>Driver Name</td>
+      <td>Shift</td>
+      <td>Route</td>
+    </tr>
+  `;
+  if (data.length !== 0) {
+    avaliableRidesTable.innerHTML = headers;
+  }
   for (let i = 0; i < data.length; i++) {
-    const avaliableRide = `
-      <div class="ride__wrapper" data-id="${data[i].id}">
-        <p class="ride__driver-name">Driver Name: ${data[i].name}</p>
-        <p class="ride__shift">Shift: ${data[i].shift}</p>
-        <button type="button" class="book-button" data-id="${data[i].id}">Book</button>
-      </div>
+    avaliableRidesTable.innerHTML += `
+    <tr data-id=${data[i].id} class="rows" >
+      <td>${data[i].name}</td>
+      <td>${data[i].shift}</td>
+      <td>${data[i].start_point} - ${data[i].end_point}</td>
+      <td class="actions book-button" data-id=${data[i].id}> Book </td>
+    </tr>
     `;
-    avaliableRidesDiv.innerHTML = avaliableRide;
+    avaliableRidesDiv.appendChild(avaliableRidesTable);
   }
 };
 
 const bookRide = (event) => {
   const clickedButton = event.target;
+  console.log(clickedButton);
   const bookedDriverId = clickedButton.getAttribute("data-id");
   const employeeId = formAvaliableRides.getAttribute("data-id");
   const formData = {
@@ -48,7 +66,10 @@ const bookRide = (event) => {
     .then((response) => response.json())
     .then((data) => {
       alert(data.message);
-      avaliableRidesDiv.style.display = "none";
+      const avaliableRidesTable = document.getElementById(
+        "avaliableRidesTable"
+      );
+      avaliableRidesTable.style.display = "none";
     })
     .catch((error) => console.log(error));
 };
@@ -101,6 +122,7 @@ const seeAvaliableRides = (event) => {
         } else {
           errorParagraph.innerText = "";
           console.log(data);
+          toggleFormVisibility(formAvaliableRides);
           displayAvaliableCars(data);
         }
       })
@@ -120,4 +142,8 @@ document.addEventListener("click", (event) => {
   if (event.target.classList.contains("book-button")) {
     bookRide(event);
   }
+});
+
+formButton.addEventListener("click", () => {
+  toggleFormVisibility(formAvaliableRides);
 });

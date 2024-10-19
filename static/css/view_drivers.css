@@ -11,12 +11,6 @@
   justify-content: space-between;
 }
 
-.home__div--right {
-  display: flex;
-  justify-content: left;
-  width: 61%;
-}
-
 #admin-name {
   font-size: 30px;
   font-weight: bold;
@@ -49,10 +43,10 @@
   width: 50%;
 }
 .add-form__fields {
-  padding: 10px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  padding: 10px;
 }
 
 .form__title--smaller {
@@ -75,6 +69,7 @@
 .form__field--smaller {
   width: 50%;
 }
+
 .form__field-input--smaller {
   padding: 8px;
   line-height: 26px;
@@ -103,7 +98,7 @@
   justify-content: right;
 }
 
-.drivers__wrapper .table {
+.table {
   margin-top: 3%;
   background-color: var(--color-form);
   color: var(--color-text-on-page);
@@ -113,8 +108,8 @@
   overflow: hidden;
 }
 
-.drivers__wrapper .table td,
-.driver__wrapper .table tr,
+.table td,
+.table tr,
 .table__header {
   padding: 12px;
   border: 1px solid var(--color-button);

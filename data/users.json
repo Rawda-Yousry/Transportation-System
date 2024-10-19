@@ -1,25 +1,32 @@
 [
-  {
-    "id": "111",
-    "email": "rawdayousry22@gmail.com",
-    "password": "1234555",
-    "name": "Rawda",
-    "role": "admin"
-  },
-  {
-    "id": "db42b2fe-6cad-4250-a598-fe8cd8d823e0",
-    "name": "hana",
-    "email": "hana@gmail.com",
-    "password": "122",
-    "role": "employee",
-    "booked_rides": [
-      {
-        "id": "f1b1b8ca-060c-45a9-9544-4637d934234f",
-        "day": "Sunday",
-        "start_point": "Makram Ebeid",
-        "end_point": "Company",
-        "shift": "Morning"
-      }
-    ]
-  }
+    {
+        "id": "111",
+        "email": "rawdayousry22@gmail.com",
+        "password": "1234555",
+        "name": "Rawda",
+        "role": "admin"
+    },
+    {
+        "id": "db42b2fe-6cad-4250-a598-fe8cd8d823e0",
+        "name": "hana",
+        "email": "hana@gmail.com",
+        "password": "122",
+        "role": "employee",
+        "booked_rides": [
+            {
+                "id": "f1b1b8ca-060c-45a9-9544-4637d934234f",
+                "day": "Sunday",
+                "start_point": "Makram Ebeid",
+                "end_point": "Company",
+                "shift": "Morning"
+            },
+            {
+                "id": "c40cc5ee-ab54-4054-a1fc-87c9a8c1c4e6",
+                "day": "Tuesday",
+                "start_point": "Almaadi",
+                "end_point": "Company",
+                "shift": "Morning"
+            }
+        ]
+    }
 ]

@@ -1,21 +1,5 @@
 [
     {
-        "id": "b6d4c4e7-91d8-45df-aa13-c7afe646bb54",
-        "email": "ahmed@gmail.com",
-        "name": "ahmed",
-        "start_point": "Almaadi",
-        "end_point": "Company",
-        "shift": "Night",
-        "car_capacity": 12,
-        "avaliable_seats_on_days": {
-            "Sunday": 12,
-            "Monday": 12,
-            "Tuesday": 12,
-            "Wednesday": 12,
-            "Thursday": 12
-        }
-    },
-    {
         "id": "06bd4564-0235-4c90-8e09-9d0575f5a490",
         "email": "ahmeddd@gmail.com",
         "name": "Ahmed",
@@ -25,7 +9,7 @@
         "car_capacity": 12,
         "avaliable_seats_on_days": {
             "Sunday": 12,
-            "Tuesday": 12
+            "Tuesday": 11
         }
     }
 ]

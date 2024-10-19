@@ -1,0 +1,28 @@
+@import "./base.css";
+
+.home-employee__avaliable-rides-wrapper {
+  width: 60%;
+  height: 80%;
+}
+
+.employee__home-button {
+  width: 15%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.employee-form {
+  width: 20%;
+}
+
+.employee-form__fields {
+  padding: 20px;
+}
+
+.employee-form__fields .form__title--smaller {
+  margin: 0;
+}
+
+.book-button {
+  cursor: pointer;
+}

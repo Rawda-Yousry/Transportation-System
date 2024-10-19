@@ -1,4 +1,9 @@
-import { checkErrorExists, showError, deleteEntity } from "./utilities.js";
+import {
+  checkErrorExists,
+  showError,
+  deleteEntity,
+  toggleFormVisibility,
+} from "./utilities.js";
 const formAddDriver = document.getElementById("add-form");
 const driversDiv = document.getElementsByClassName("drivers__wrapper")[0];
 const addDriverButton = document.getElementById("add-button");
@@ -9,12 +14,6 @@ const selectedDay = document.getElementById("choose-day");
 const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
 paragraphName.innerText = "Welcome " + localStorage.getItem("Name");
-
-const toggleAddFormVisibility = () => {
-  if (formAddDriver.style.display == "block")
-    formAddDriver.style.display = "none";
-  else formAddDriver.style.display = "block";
-};
 
 const displayDrivers = (data, selectedDay) => {
   const table = document.createElement("table");
@@ -193,20 +192,20 @@ const onSubmitAddDriverForm = (e) => {
         } else {
           errorParagraph.innerText = "";
           createDriver(data, selectedDaysValue);
-          toggleAddFormVisibility();
+          toggleFormVisibility(formAddDriver);
         }
       })
       .catch((error) => console.log(error));
   }
 };
 
-addDriverButton.addEventListener("click", toggleAddFormVisibility);
+addDriverButton.addEventListener("click", () => {
+  toggleFormVisibility(formAddDriver);
+});
 formAddDriver.addEventListener("submit", onSubmitAddDriverForm);
 
 document.addEventListener("click", (event) => {
-  console.log(event.target.classList.contains("delete-button"));
   if (event.target.classList.contains("delete-button")) {
-    console.log(event.target);
     deleteEntity(event, "driver");
   }
 });

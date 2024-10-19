@@ -100,3 +100,9 @@
   justify-content: center;
   margin: 10px auto auto auto;
 }
+
+.home__div--right {
+  display: flex;
+  justify-content: left;
+  width: 61%;
+}
