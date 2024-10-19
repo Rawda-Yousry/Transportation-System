@@ -1,17 +1,11 @@
 @import "./base.css";
 
 .form-login {
-  background-color: var(--color-text-on-primary);
-  display: flex;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 400px;
-  height: 400px;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin: auto;
-  margin-top: 100px;
-  border: 2px solid #0000;
-  border-radius: 25px;
+  background-color: var(--color-form);
 }
 
 #span-error {

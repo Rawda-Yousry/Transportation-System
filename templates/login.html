@@ -8,9 +8,7 @@
   <link rel="stylesheet" href="static/css/register.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
   <title>Document</title>
 </head>
 
@@ -19,17 +17,22 @@
   {% if message %}
   <p>{{message}}</p>
   {%endif%}
-  <form id="form-login" class="form-login">
-    <div class="form__field">
-      <span id="span-error"></span>
-      <label for="useremail" class="form__label">Email</label>
-      <input type="text" placeholder="Email" id="useremail-login" class="form__field-input" />
+  <form id="form-login" class="form">
+    <p class="form__title">Lets Sign you in</p>
+    <div class="form__fields">
+      <div class="form__field">
+        <span id="span-error"></span>
+        <!-- <label for="useremail" class="form__label">Email</label> -->
+        <input type="text" placeholder="Email" id="useremail-login" class="form__field-input" />
+      </div>
+      <div class="form__field">
+        <!-- <label for="password" class="form__label">Password</label> -->
+        <input type="password" placeholder="Password" id="password-login" class="form__field-input" />
+      </div>
     </div>
-    <div class="form__field">
-      <label for="password" class="form__label">Password</label>
-      <input type="password" placeholder="password" id="password-login" class="form__field-input" />
+    <div class="form-login__div-button">
+      <button type="submit" class="form__button">Sign in</button>
     </div>
-    <button type="submit" class="form__button">Login</button>
     <div class="form__link">Don't have an account? <a href="/register">Register</a></div>
   </form>
   {% endblock %}

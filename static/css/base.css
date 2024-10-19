@@ -1,53 +1,68 @@
 :root {
-  --color-primary: #00b386;
-  --color-text-on-primary: #ffffff;
-  --color-button-border: var(--color-text-on-primary);
-  --color-button-primary-bg: var(--color-text-on-primary);
-  --font-family: "Inter", sans-sarif;
-}
-
-.home {
-  background-color: var(--color-primary);
-  font-family: var(--font-family);
+  --color-page: #e5e5e5;
+  --color-text-on-page: #000000;
+  --color-form: #ffffff;
+  --color-button-border: var(--color-text-on-page);
+  --color-button-page-bg: var(--color-text-on-page);
+  --font-family: "Outfit", sans-serif;
 }
 
 .form {
-  background-color: var(--color-text-on-primary);
-  display: flex;
-  width: 400px;
-  height: 400px;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin: auto;
-  margin-top: 100px;
-  border: 2px solid #0000;
-  border-radius: 25px;
-}
-.form__button {
-  display: block;
-  background-color: var(--color-primary);
-  width: 100px;
-  height: 27px;
-  font-size: 20px;
-  color: var(--color-text-on-primary);
+  padding: 20px;
   border-radius: 10px;
-  margin-top: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  background-color: var(--color-form);
+}
+
+#span-error {
+  margin: 0px;
+  font-size: small;
+  color: red;
+}
+
+.home {
+  background-color: var(--color-page);
+  font-family: var(--font-family);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.form__title {
+  font-size: 37px;
+  font-weight: bold;
+}
+
+.form__button {
+  background-color: var(--color-text-on-page);
+  width: 100%;
+  font-size: 18px;
+  text-align: center;
+  color: var(--color-form);
+  border-radius: 5px;
   margin-bottom: 10px;
+  padding: 10px;
 }
 
 .form__field {
   display: flex;
   flex-direction: column;
   margin-bottom: 30px;
-  width: 200px;
-  height: 50px;
+}
+
+.form__field:last-child {
+  margin-bottom: 40px;
 }
 
 .form__field-input {
-  padding: 5px;
+  padding: 10px;
   line-height: 28px;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 .form__label {
@@ -56,11 +71,18 @@
 
 .form__link a {
   cursor: pointer;
-  color: var(--color-primary);
+  color: var(--color-text-on-page);
+  font-weight: bold;
 }
 
-.error{
+.error {
   font-size: small;
-  font-style: italic ;
-  color: #f30000
+  font-style: italic;
+  color: red;
+}
+
+.form__link {
+  display: flex;
+  justify-content: center;
+  margin: 10px auto auto auto;
 }

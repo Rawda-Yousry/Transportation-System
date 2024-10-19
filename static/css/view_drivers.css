@@ -1,12 +1,9 @@
 @import "./base.css";
 
-
-.drivers-home{
-  background-color: var(--color-primary);
-  font-family: var(--font-family);
-
+.home__div {
+  width: 60%;
+  height: 80%;
 }
-
 
 .drivers__wrapper {
   display: grid;
@@ -15,55 +12,50 @@
   grid-row-gap: 0px;
 }
 
-.driver__wrapper{
+.driver__wrapper {
   background-color: var(--color-text-on-primary);
   color: var(--color-primary);
-
 }
 
-.drivers-home__button{
+.drivers-home__button {
   border-radius: 10px;
   width: 180px;
   height: 50px;
   font-size: 20px;
 }
 
-
-.drivers-home__form{
- position: absolute;
- width: 100%;
- height: 100%;
- background-color: var(--color-primary);
- display: flex;
- justify-content: center;
- align-items: center;
- box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
- border-radius: 5px;
+.drivers-home__form {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
 }
 
-.driver-home__form p{
+.driver-home__form p {
   font-size: 22px;
   margin-bottom: 1px;
 }
 
-
-
-.driver-home__form .drivers-home__form-div{
+.driver-home__form .drivers-home__form-div {
   width: 500px;
   background-color: var(--color-text-on-primary);
   margin: auto;
-  padding: 20px; 
+  padding: 20px;
 }
 
-.driver-home__form-button{
+.driver-home__form-button {
   text-align: center;
   background-color: var(--color-primary);
   color: var(--color-text-on-primary);
 }
 
-.drivers-home__div-button{
+.drivers-home__div-button {
   display: flex;
   justify-content: right;
   color: var(--color-primary);
 }
-

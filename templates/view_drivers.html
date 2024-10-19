@@ -8,96 +8,97 @@
   <title>View Drivers</title>
 </head>
 
-<body class="drivers-home">
+<body class="home">
   <p id="admin-name"></p>
-  <button type="button" id="add-button" class="drivers-home__button">
-    Add Driver
-  </button>
-  {% if message %}
-  <p>{{message}}</p>
-  {% endif %}
+  <div class="form home__div">
+    <button type="button" id="add-button" class="drivers-home__button">
+      Add Driver
+    </button>
+    {% if message %}
+    <p>{{message}}</p>
+    {% endif %}
 
-  <form id="add-form" style="display: none" class="driver-home__form">
-    <p id="paragraph-error"></p>
-    <div class="drivers-home__form-div">
-      <div>
-        <p>Email</p>
-        <input type="text" placeholder="Email" id="driver-email">
-      </div>
-      <div>
-        <p for="Name">Name</p>
-        <input type="text" placeholder="name" name="driver-name" id="driver-name" />
-      </div>
-      <div>
-        <p>Shift</p>
-        <select name="driver-shift" class="driver-form__select" id="driver-shift">
-          <option value="" disabled selected>Shifts</option>
-          {% for shift in shifts %}
-          <option value="{{shift}}">{{shift}}</option>
-          {%endfor%}
-        </select>
-      </div>
-      <div>
-        <p>Route</p>
+    <form id="add-form" style="display: none" class="driver-home__form">
+      <p id="paragraph-error"></p>
+      <div class="drivers-home__form-div">
         <div>
-          <!-- Admin Choose the start Point -->
-          <select name="driver-route" id="driver-start-point">
-            <option value="" disabled selected>Start Point</option>
-            {% for route in routes %}
-            <option value="{{route['destination']}}">{{route["destination"]}}</option>
-            {% endfor %}
-          </select>
-          <!-- Admin Choose the end Point -->
-          <select id="driver-end-point">
-            <option value="" disabled selected>End Point</option>
-            {% for route in routes %}
-            <option value="{{route['destination']}}">{{route["destination"]}}</option>
-            {% endfor %}
+          <p>Email</p>
+          <input type="text" placeholder="Email" id="driver-email">
+        </div>
+        <div>
+          <p for="Name">Name</p>
+          <input type="text" placeholder="name" name="driver-name" id="driver-name" />
+        </div>
+        <div>
+          <p>Shift</p>
+          <select name="driver-shift" class="driver-form__select" id="driver-shift">
+            <option value="" disabled selected>Shifts</option>
+            {% for shift in shifts %}
+            <option value="{{shift}}">{{shift}}</option>
+            {%endfor%}
           </select>
         </div>
+        <div>
+          <p>Route</p>
+          <div>
+            <!-- Admin Choose the start Point -->
+            <select name="driver-route" id="driver-start-point">
+              <option value="" disabled selected>Start Point</option>
+              {% for route in routes %}
+              <option value="{{route['destination']}}">{{route["destination"]}}</option>
+              {% endfor %}
+            </select>
+            <!-- Admin Choose the end Point -->
+            <select id="driver-end-point">
+              <option value="" disabled selected>End Point</option>
+              {% for route in routes %}
+              <option value="{{route['destination']}}">{{route["destination"]}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div>
+          <p>Car Capacity</p>
+          <input type="number" placeholder="Car Capacity" id="car-capacity" />
+        </div>
+        <div class="drivers-home__div-button">
+          <button type="submit" class="driver-home__form-button">Add</button>
+        </div>
       </div>
-      <div>
-        <p>Car Capacity</p>
-        <input type="number" placeholder="Car Capacity" id="car-capacity" />
-      </div>
-      <div class="drivers-home__div-button">
-        <button type="submit" class="driver-home__form-button">Add</button>
-      </div>
-    </div>
-  </form>
+    </form>
 
-  <div class="drivers__wrapper">
-    {% for driver in drivers %}
-    <div class="driver__wrapper" data-id="{{ driver['id'] }}">
-      <h2 class="driver__name">Name: {{driver["name"]}}</h2>
-      <p class="driver__start-point">Start Point: {{driver["start_point"]}}</p>
-      <p class="driver__end-point">End Point: {{driver["end_point"]}}</p>
-      <p class="driver__shift">Shift: {{driver["shift"]}}</p>
-      <p class="driver__car-capacity">Car Capacity: {{driver["car_capacity"]}}</p>
-      <ul class="driver__avaliable-seats">Avaliable Seats:
-        <li>
-          Sunday :{{driver["avaliable_seats_on_days"]["Sunday"]}}
-        </li>
-        <li>
-          Monday: {{driver["avaliable_seats_on_days"]["Monday"]}}
-        </li>
-        <li>
-          Tuesday: {{driver["avaliable_seats_on_days"]["Tuesday"]}}
-        </li>
-        <li>
-          Wednesday: {{driver["avaliable_seats_on_days"]["Wednesday"]}}
-        </li>
-        <li>
-          Thursday: {{driver["avaliable_seats_on_days"]["Thursday"]}}
-        </li>
-      </ul>
-      <button type="button" class="delete-button" data-id='{{driver["id"]}}'>
-        Delete
-      </button>
+    <div class="drivers__wrapper">
+      {% for driver in drivers %}
+      <div class="driver__wrapper" data-id="{{ driver['id'] }}">
+        <h2 class="driver__name">Name: {{driver["name"]}}</h2>
+        <p class="driver__start-point">Start Point: {{driver["start_point"]}}</p>
+        <p class="driver__end-point">End Point: {{driver["end_point"]}}</p>
+        <p class="driver__shift">Shift: {{driver["shift"]}}</p>
+        <p class="driver__car-capacity">Car Capacity: {{driver["car_capacity"]}}</p>
+        <ul class="driver__avaliable-seats">Avaliable Seats:
+          <li>
+            Sunday :{{driver["avaliable_seats_on_days"]["Sunday"]}}
+          </li>
+          <li>
+            Monday: {{driver["avaliable_seats_on_days"]["Monday"]}}
+          </li>
+          <li>
+            Tuesday: {{driver["avaliable_seats_on_days"]["Tuesday"]}}
+          </li>
+          <li>
+            Wednesday: {{driver["avaliable_seats_on_days"]["Wednesday"]}}
+          </li>
+          <li>
+            Thursday: {{driver["avaliable_seats_on_days"]["Thursday"]}}
+          </li>
+        </ul>
+        <button type="button" class="delete-button" data-id='{{driver["id"]}}'>
+          Delete
+        </button>
+      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
   </div>
-
   <script type="module" src="static/js/view-drivers.js"></script>
 </body>
 
