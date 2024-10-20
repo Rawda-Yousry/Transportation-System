@@ -106,3 +106,17 @@
   justify-content: left;
   width: 61%;
 }
+
+.button__right{
+  display: flex;
+  justify-content: right;
+  width: 62%;
+  margin-bottom: 12px;
+
+}
+
+.button{
+  border-radius: 5px;
+  color: var(--color-form);
+  border: #ffffff;
+}

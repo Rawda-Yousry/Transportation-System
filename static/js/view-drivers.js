@@ -97,8 +97,8 @@ const viewDriversoFDay = () => {
 
 const getSelectedDays = () => {
   let selectedDaysValue = [];
-  for (let i = 0; i < 5; i++) {
-    const checkbox = document.getElementById(`checkbox-${i}`); // Adjust for 1-based index
+  for (let i = 1; i < 6; i++) {
+    const checkbox = document.getElementById(`checkbox-${i}`); 
     if (checkbox && checkbox.checked) {
       selectedDaysValue.push(checkbox.value);
     }

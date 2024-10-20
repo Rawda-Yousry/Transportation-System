@@ -46,7 +46,7 @@ def login():
                 else:
                     session["id"] = user["id"]
                     print("sesssion + " + session["id"])
-                    return jsonify({"redirectURL":f"/employee_homepage/{user['id']}", "name": user["name"]})
+                    return jsonify({"redirectURL":"/view_booked_rides", "name": user["name"]})
         return jsonify({"message_login":"Incorrect email or password"})
     return render_template("login.html")
     

@@ -1,15 +1,1 @@
-[
-    {
-        "id": "06bd4564-0235-4c90-8e09-9d0575f5a490",
-        "email": "ahmeddd@gmail.com",
-        "name": "Ahmed",
-        "start_point": "Almaadi",
-        "end_point": "Company",
-        "shift": "Morning",
-        "car_capacity": 12,
-        "avaliable_seats_on_days": {
-            "Sunday": 12,
-            "Tuesday": 11
-        }
-    }
-]
+[]
