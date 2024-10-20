@@ -28,9 +28,10 @@ const checkToSubmit = (route, requestData) => {
         console.log(data);
         if (data.redirectURL) {
           window.location.href = data.redirectURL;
-          console.log(data);
-          console.log(data.name);
-          localStorage.setItem("Name", data.name);
+          localStorage.setItem("AdminMessage", data.message);
+          localStorage.setItem("EmployeeMessage", data.message);
+          if (data.messageavaliable)
+            localStorage.setItem("MessageAvaliable", data.messageavaliable);
         } else if (data.message) {
           registeredMessage.innerText = data.message;
         } else if (data.message_login) {

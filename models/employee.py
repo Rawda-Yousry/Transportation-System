@@ -43,6 +43,7 @@ class Employee:
             if user["id"] == employee_id:
                 booked_ride = {
                     "id": str(uuid.uuid4()),
+                    "driver_id": driver_id,
                     "day": day,
                     "start_point": start_point,
                     "end_point": end_point,
@@ -54,20 +55,39 @@ class Employee:
         return booked_ride
     
 
-    def delete_ride(self,ride_id, user_id):
-        print(user_id)
-        print(ride_id)
+    def delete_ride(self, ride_id, user_id):
         users = get_data("users.json")
+        drivers = get_data("drivers.json")
+        
         updated_users = []
+        
+        # Iterate over the users
         for user in users:
-            if user["id"] != user_id:
-                updated_users.append(user)
-            else:
-                user["booked_rides"] = [ride for ride in user["booked_rides"] if ride["id"] != ride_id]
-                updated_users.append(user)
-        print("Updatedddddddd ")
-        print(updated_users)
+            if user["id"] == user_id:  # Find the correct user
+                updated_rides = []
+                
+                # Iterate over the user's booked rides
+                for ride in user["booked_rides"]:
+                    if ride["id"] != ride_id:  # Keep rides that don't match the ride_id
+                        updated_rides.append(ride)
+                    else:
+                        # Ride found for deletion; now update driver’s available seats
+                        for driver in drivers:
+                            if driver["id"] == ride["driver_id"]:  # Find the correct driver
+                                if ride["day"] in driver["avaliable_seats_on_days"]:
+                                    driver["avaliable_seats_on_days"][ride["day"]] += 1
+                                break  # No need to continue looping drivers once found
+                
+                # Update the user’s booked rides after the deletion
+                user["booked_rides"] = updated_rides
+            
+            # Append the (possibly) modified user back into the updated list
+            updated_users.append(user)
+
+        # Write the updated users and drivers back to their respective JSON files
         check_write = write_data(updated_users, "users.json")
+        write_data(drivers, "drivers.json")  # Also update the drivers file
+
         return json.dumps({"message": "done"})
 
 
@@ -92,25 +112,31 @@ class Admin(Employee):
         return drivers
     
     def delete_driver(self, driver_id):
-        deleted_driver = dict()
+        users = get_data("users.json")
         drivers = get_data("drivers.json")
-        updated_drivers_list = []
-        for driver in drivers:
-            if driver["id"] != driver_id:
-                updated_drivers_list.append(driver)
-            else:
-                deleted_driver = {
-                    "name": driver["name"],
-                    "start_point": driver["start_point"],
-                    "end_point": driver["end_point"],
-                    "car_capacity": driver["car_capacity"]
-                }
-        check_write = write_data(updated_drivers_list, "drivers.json")
-        return deleted_driver
+        updated_users = []
+        for user in users:
+            if user["id"] == user_id:
+                updated_rides = []
+                for ride in user["booked_rides"]:
+                    if ride["id"] != ride_id: 
+                        updated_rides.append(ride)
+                    else:
+                        for driver in drivers:
+                            if driver["id"] == ride["driver_id"]:  # Find the correct driver
+                                if ride["day"] in driver["avaliable_seats_on_days"]:
+                                    driver["avaliable_seats_on_days"][ride["day"]] += 1
+                                break  
+                
+                user["booked_rides"] = updated_rides
+            updated_users.append(user)
+            check_write = write_data(updated_users, "users.json")
+            write_data(drivers, "drivers.json")  # Also update the drivers file
+            return deleted_driver
 
 
 
 
 
-    
+
 

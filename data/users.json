@@ -1,9 +1,9 @@
 [
     {
         "id": "111",
-        "email": "rawdayousry22@gmail.com",
+        "email": "admin@gmail.com",
         "password": "1234555",
-        "name": "Rawda",
+        "name": "Admin",
         "role": "admin"
     },
     {
@@ -12,21 +12,7 @@
         "email": "hana@gmail.com",
         "password": "122",
         "role": "employee",
-        "booked_rides": [
-            {
-                "id": "c40cc5ee-ab54-4054-a1fc-87c9a8c1c4e6",
-                "day": "Tuesday",
-                "start_point": "Almaadi",
-                "end_point": "Company",
-                "shift": "Morning"
-            },
-            {
-                "id": "1cf8eecb-1ff3-4b0c-8248-bcbbf5f89fc2",
-                "day": "Sunday",
-                "start_point": "Makram Ebeid",
-                "end_point": "Company",
-                "shift": "Morning"
-            }
-        ]
+        "booked_rides": [],
+        "notify": "Your booked ride for day Thursday and shift Morning has been cancelled"
     }
 ]

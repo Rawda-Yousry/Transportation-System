@@ -24,14 +24,13 @@ export const checkErrorExists = (field) => {
   }
 };
 
-export const deleteEntity = (event, entityType, userId = "") => {
+export const deleteEntity = (event, entityType) => {
+  console.log("deleteeeee");
   const clickedButton = event.target;
   const deletedId = clickedButton.getAttribute("data-id");
   const divClassName = entityType === "ride" ? "ride__wrapper" : "rows";
   const url =
-    entityType === "ride"
-      ? `/employee/delete_ride`
-      : `/drivers/delete/${deletedId}`;
+    entityType === "ride" ? `/employee/delete_ride` : `/drivers/delete`;
 
   const divs = document.getElementsByClassName(divClassName);
   const fetchOptions = {
@@ -40,13 +39,11 @@ export const deleteEntity = (event, entityType, userId = "") => {
       "Content-Type": "application/json",
     },
   };
-  if (userId !== "") {
-    const data = {
-      userID: userId,
-      deletedRideId: deletedId,
-    };
-    fetchOptions.body = JSON.stringify(data);
-  }
+  const data = {
+    deletedId: deletedId,
+  };
+  fetchOptions.body = JSON.stringify(data);
+
   for (let i = 0; i < divs.length; i++) {
     const deletedDivId = divs[i].getAttribute("data-id");
 

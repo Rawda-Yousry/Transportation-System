@@ -11,15 +11,15 @@ const rideStartPoint = document.getElementById("employee-ride-start-point");
 const rideEndPoint = document.getElementById("employee-ride-end-point");
 const rideShift = document.getElementById("employee-ride-shift");
 const rideDay = document.getElementById("employee-ride-day");
-const avaliableRidesDiv = document.getElementById("avaliable-rides-wrapper");
+const avaliableRidesDiv = document.getElementById("booked-rides-wrapper");
 const errorParagraph = document.getElementById("error-message");
 const selectedDay = document.getElementById("choose-day");
-const paragraphName = document.getElementById("admin-name");
-const bookedRidesDiv = document.getElementById("booked-rides-wrapper")
+const paragraphName = document.getElementById("info");
+const bookedRidesDiv = document.getElementById("booked-rides-wrapper");
 
-// paragraphName.innerText = "Welcome " + localStorage.getItem("Name");
-// console.log("hhhhhhhhhh")
+paragraphName.innerText = localStorage.getItem("EmployeeMessage");
 const displayAvaliableCars = (data) => {
+  paragraphName.innerText = localStorage.getItem("MessageAvaliable");
   const avaliableRidesTable = document.createElement("table");
   avaliableRidesTable.className = "table";
   avaliableRidesTable.setAttribute("id", "drivers-table");
@@ -29,9 +29,7 @@ const displayAvaliableCars = (data) => {
       <td>Route</td>
     </tr>
   `;
-  if (data.length !== 0) {
-    avaliableRidesTable.innerHTML = headers;
-  }
+  avaliableRidesTable.innerHTML = headers;
   for (let i = 0; i < data.length; i++) {
     avaliableRidesTable.innerHTML += `
     <tr data-id=${data[i].id} class="rows" >
@@ -68,10 +66,10 @@ const bookRide = (event) => {
     .then((response) => response.json())
     .then((data) => {
       alert(data.message);
-      const avaliableRidesTable = document.getElementById(
-        "avaliableRidesTable"
-      );
-      avaliableRidesTable.style.display = "none";
+      const avaliableRidesTable = document.getElementById("drivers-table");
+      if (avaliableRidesTable) {
+        avaliableRidesTable.remove();
+      }
     })
     .catch((error) => console.log(error));
 };
@@ -126,7 +124,9 @@ const seeAvaliableRides = (event) => {
           console.log(data);
           toggleFormVisibility(formAvaliableRides);
           const driversTable = document.getElementById("drivers-table");
-          driversTable.remove();
+          if (driversTable) {
+            driversTable.remove();
+          }
           displayAvaliableCars(data);
         }
       })
@@ -135,6 +135,7 @@ const seeAvaliableRides = (event) => {
 };
 
 const viewBookedRidesOfDay = () => {
+  paragraphName.innerText = localStorage.getItem("EmployeeMessage");
   const selectedDayValue = selectedDay.value;
   fetch("/view_booked_rides_of_day", {
     method: "POST",
@@ -145,7 +146,7 @@ const viewBookedRidesOfDay = () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data)
+      console.log(data);
       const driversTable = document.getElementById("drivers-table");
       if (driversTable) {
         driversTable.remove();
@@ -159,8 +160,7 @@ const viewBookedRidesOfDay = () => {
     .catch((error) => console.log(error));
 };
 
-
-const displayBookedRidesOfDay = (data) =>{
+const displayBookedRidesOfDay = (data) => {
   const avaliableRidesTable = document.createElement("table");
   avaliableRidesTable.className = "table";
   avaliableRidesTable.setAttribute("id", "drivers-table");
@@ -177,21 +177,23 @@ const displayBookedRidesOfDay = (data) =>{
     <tr data-id=${data[i].id} class="rows" >
       <td>${data[i].shift}</td>
       <td>${data[i].start_point} - ${data[i].end_point}</td>
-            <td class="actions"><i class="bi bi-x delete-button" data-id=${data[i].id}></i></td>
-            <td class="actions"><i class="bi-pencil-fill edit-button" data-id=${data[i].id}></i></td>
+            <td class="actions"><i class="bi bi-x delete-button" data-id=${data[i].id} ></i></td>
+            <td class="actions"><i class="bi-pencil-fill edit-button" data-id=${data[i].id} ></i></td>
     </tr>
     `;
     bookedRidesDiv.appendChild(avaliableRidesTable);
   }
-}
+};
 
 // employeeBookForm.addEventListener("submit", bookRide);
 formAvaliableRides.addEventListener("submit", seeAvaliableRides);
-/* document.addEventListener("click", (event) => {
+
+document.addEventListener("click", (event) => {
   if (event.target.classList.contains("delete-button")) {
-    deleteEntity(event, "ride", employeeBookForm.getAttribute("data-id"));
+    console.log("Clicked");
+    deleteEntity(event, "ride");
   }
-}); */
+});
 
 document.addEventListener("click", (event) => {
   if (event.target.classList.contains("book-button")) {

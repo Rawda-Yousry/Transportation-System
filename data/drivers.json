@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "id": "e268e9aa-abd9-44bd-ace7-f731c6905eba",
+    "email": "Aliii@gmail.com",
+    "name": "Ali",
+    "start_point": "Makram Ebeid",
+    "end_point": "Company",
+    "shift": "Morning",
+    "car_capacity": 12,
+    "avaliable_seats_on_days": {
+      "Sunday": 12,
+      "Thursday": 12
+    }
+  }
+]

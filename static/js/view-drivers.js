@@ -8,14 +8,18 @@ const formAddDriver = document.getElementById("add-form");
 const driversDiv = document.getElementsByClassName("drivers__wrapper")[0];
 const addDriverButton = document.getElementById("add-button");
 const errorParagraph = document.getElementById("paragraph-error");
-const paragraphName = document.getElementById("admin-name");
+const paragraphName = document.getElementById("info");
 
 const selectedDay = document.getElementById("choose-day");
 const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
-paragraphName.innerText = "Welcome " + localStorage.getItem("Name");
+paragraphName.innerText = localStorage.getItem("AdminMessage");
 
 const displayDrivers = (data, selectedDay) => {
+  const tableExist = document.getElementById("table");
+  if (tableExist) {
+    tableExist.remove();
+  }
   const table = document.createElement("table");
   table.className = "table";
   table.setAttribute("id", "table");
@@ -24,14 +28,10 @@ const displayDrivers = (data, selectedDay) => {
       <td>Shift</td>
       <td>Route</td>
       <td>Avaliable Seats</td>
-    </tr>
-  `;
-  if (data.length !== 0) {
-    table.innerHTML = headers;
-  }
+    </tr>`;
+  table.innerHTML = headers;
   for (let i = 0; i < data.length; i++) {
-    table.innerHTML += `
-    <tr data-id=${data[i].id} class="rows" >
+    table.innerHTML += `<tr data-id=${data[i].id} class="rows" >
       <td>${data[i].name}</td>
       <td>${data[i].shift}</td>
       <td>${data[i].start_point} - ${data[i].end_point}</td>
@@ -98,7 +98,7 @@ const viewDriversoFDay = () => {
 const getSelectedDays = () => {
   let selectedDaysValue = [];
   for (let i = 1; i < 6; i++) {
-    const checkbox = document.getElementById(`checkbox-${i}`); 
+    const checkbox = document.getElementById(`checkbox-${i}`);
     if (checkbox && checkbox.checked) {
       selectedDaysValue.push(checkbox.value);
     }

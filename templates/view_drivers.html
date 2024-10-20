@@ -13,7 +13,7 @@
 
 <body class="home">
   <div class="home__div--right">
-    <p id="admin-name"></p>
+    <p id="info"></p>
   </div>
   <div class="form home__div">
     <div class="home__buttons">
@@ -31,6 +31,23 @@
     {% if message %}
     <p>{{message}}</p>
     {% endif %}
+
+    <table class="table" id="table">
+      <tr class="table__header">
+        <td>Name</td>
+        <td>Shift</td>
+        <td>Route</td>
+      </tr>
+      {% for driver in drivers %}
+      <tr data-id="{{driver['id']}}" class="rows">
+        <td>{{driver["name"]}}</td>
+        <td>{{driver["shift"]}}</td>
+        <td>{{driver["start_point"]}} - {{driver["end_point"]}}</td>
+        <td class="actions"><i class="bi bi-x delete-button" data-id="{{driver['id']}}"></i></td>
+        <td class="actions"><i class="bi-pencil-fill edit-button" data-id="{{driver['id']}}"></i></td>
+      </tr>
+      {% endfor %}
+    </table>
 
     <form id="add-form" style="display: none" class="home__form-add">
       <p id="paragraph-error"></p>

@@ -13,7 +13,7 @@ def view_drivers():
     admin = Admin(name="", email="", password="")
     routes = get_data("routes.json")
     drivers = admin.view_drivers()
-    return render_template("view_drivers.html", shifts = SHIFTS, routes = routes, days = DAYS)
+    return render_template("view_drivers.html", shifts = SHIFTS, routes = routes, days = DAYS, drivers = drivers)
 
 
 @drivers_bp.route("/drivers/view_drivers_of_day", methods = ["POST"])
@@ -26,7 +26,6 @@ def view_drivers_of_day():
         for day in driver["avaliable_seats_on_days"]:
             if day == selected_day:
                 drivers_found.append(driver)
-    print(drivers_found)
     return jsonify(drivers_found)
 
 
@@ -59,11 +58,28 @@ def add_driver():
     return new_driver_dict
 
 
-@drivers_bp.route("/drivers/delete/<id>", methods = ["DELETE"])
-def delete_driver(id):
+@drivers_bp.route("/drivers/delete", methods = ["DELETE"])
+def delete_driver():
     drivers = get_data("drivers.json")
+    users = get_data("users.json")
+    id = request.json.get("deletedId")
     admin = Admin(name="", email="", password="")
     deleted_driver = admin.delete_driver(id)
+    print("Hiiiiiiiiii")
+    print(type(str(id)))
+
+    for user in users:
+        if "booked_rides" in user:
+            updated_rides = []
+            for ride in user["booked_rides"]:
+                print("Rideeeeeee")
+                print(type(ride["driver_id"]) )
+                if str(id) != str(ride["driver_id"]):
+                    updated_rides.append(ride)
+                else:    
+                    user["notify"]= f"Your booked ride for day {ride['day']} and shift {ride['shift']} has been cancelled"
+            user["booked_rides"] = updated_rides
+        write_data(users, "users.json")
     return deleted_driver
 
             

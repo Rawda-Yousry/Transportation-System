@@ -14,6 +14,15 @@
 #admin-name {
   font-size: 30px;
   font-weight: bold;
+}
+
+#info {
+  font-size: 28px;
+  font-weight: 200;
+}
+
+#admin-name,
+#info {
   color: var(--color-text-on-page);
   margin-bottom: 1%;
 }

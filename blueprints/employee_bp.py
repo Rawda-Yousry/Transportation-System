@@ -61,10 +61,9 @@ def view_booked_rides_of_day():
 def delete_ride():
     employee = Employee("","","")
     data = request.get_json()
-    deleted_ride_id = data["deletedRideId"]
-    user_id = data["userID"]
-    
-    check_write = employee.delete_ride(deleted_ride_id, user_id)
+    deleted_ride_id = data["deletedId"]
+    print(data)
+    check_write = employee.delete_ride(deleted_ride_id, session["id"])
     return check_write
 
 @employee_bp.route("/see_avaliable_cars", methods=["POST"])
@@ -74,6 +73,7 @@ def see_avaliable_cars():
     if request.method == "POST":
         is_found = False
         data = request.get_json()
+        print(data)
         drivers = get_data("drivers.json")
         ride_shift = data["shift"]
         ride_day = data["day"]
@@ -82,12 +82,16 @@ def see_avaliable_cars():
         for driver in drivers:
             if ride_day in driver["avaliable_seats_on_days"]:
                 if driver["avaliable_seats_on_days"][ride_day] > 0:
+                    print(ride_day)
+                    print("Dayyyy")
                     check_day = True
+                    if driver["start_point"] == start_point and driver["end_point"] == end_point and driver["shift"] == ride_shift and check_day:
+                        print("Found")
+                        avaliable_cars.append(driver)
+                        is_found = True
                 else:
                     check_day = False
-                if driver["start_point"] == start_point and driver["end_point"] == end_point and driver["shift"] == ride_shift and check_day:
-                    avaliable_cars.append(driver)
-                    is_found = True
+
         if is_found != True:
             return jsonify({"message": "No Avaliable Rides Found"})
         else:

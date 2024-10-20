@@ -42,11 +42,11 @@ def login():
             if user["email"] == user_email and user["password"] == password:
                 if user["role"] == "admin":
                     session["role"] = "admin"
-                    return jsonify({"redirectURL":"/drivers", "name": user["name"]})
+                    return jsonify({"redirectURL":"/drivers", "name": user["name"],  "message":"Drivers Info: "})
                 else:
                     session["id"] = user["id"]
                     print("sesssion + " + session["id"])
-                    return jsonify({"redirectURL":"/view_booked_rides", "name": user["name"]})
+                    return jsonify({"redirectURL":"/view_booked_rides", "name": user["name"], "message":"Your Booked Rides: ", "messageavaliable": "Avaliable Rides: "})
         return jsonify({"message_login":"Incorrect email or password"})
     return render_template("login.html")
     
