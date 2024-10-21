@@ -22,6 +22,8 @@ def view_drivers_of_day():
     drivers_found = []
     selected_day = data["selectedDay"]
     drivers = get_data("drivers.json")
+    if selected_day == "allDays":
+            return jsonify(get_data("drivers.json"))
     for driver in drivers:
         for day in driver["avaliable_seats_on_days"]:
             if day == selected_day:

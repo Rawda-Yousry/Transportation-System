@@ -5,10 +5,11 @@ import {
   toggleFormVisibility,
 } from "./utilities.js";
 const formAddDriver = document.getElementById("add-form");
-const driversDiv = document.getElementsByClassName("drivers__wrapper")[0];
+const driversDiv = document.getElementsByClassName("home__div")[0];
 const addDriverButton = document.getElementById("add-button");
 const errorParagraph = document.getElementById("paragraph-error");
 const paragraphName = document.getElementById("info");
+const formCloseButton = document.getElementById("form-close");
 
 const selectedDay = document.getElementById("choose-day");
 const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
@@ -27,20 +28,54 @@ const displayDrivers = (data, selectedDay) => {
       <td>Name</td>
       <td>Shift</td>
       <td>Route</td>
+      <td>Day</td>
       <td>Avaliable Seats</td>
+      <td>Car Capacity </td>
     </tr>`;
   table.innerHTML = headers;
-  for (let i = 0; i < data.length; i++) {
-    table.innerHTML += `<tr data-id=${data[i].id} class="rows" >
-      <td>${data[i].name}</td>
-      <td>${data[i].shift}</td>
-      <td>${data[i].start_point} - ${data[i].end_point}</td>
-      <td>${data[i].avaliable_seats_on_days[selectedDay]}
-      <td class="actions"><i class="bi bi-x delete-button" data-id=${data[i].id}></i></td>
-      <td class="actions"><i class="bi-pencil-fill edit-button" data-id=${data[i].id}></i></td>
-    </tr>
-    `;
+  if (selectedDay == "allDays") {
+    data.forEach((driver) => {
+      let daysHTML = "";
+      let seatsHTML = "";
+
+      for (let day in driver.avaliable_seats_on_days) {
+        daysHTML += `${day}<br />`;
+        seatsHTML += `${driver.avaliable_seats_on_days[day]}<br />`;
+      }
+      const rowHTML = `
+        <tr data-id="${driver.id}" class="rows">
+          <td>${driver.name}</td>
+          <td>${driver.shift}</td>
+          <td>${driver.start_point} - ${driver.end_point}</td>
+          <td>${daysHTML}</td>
+          <td>${seatsHTML}</td>
+          <td>${driver.car_capacity}</td>
+          <td class="actions">
+            <i class="bi bi-x delete-button" data-id="${driver.id}"></i>
+          </td>
+          <td class="actions">
+            <i class="bi-pencil-fill edit-button" data-id="${driver.id}"></i>
+          </td>
+        </tr>
+      `;
+      table.innerHTML += rowHTML;
+    });
+  } else {
+    for (let i = 0; i < data.length; i++) {
+      table.innerHTML += `<tr data-id=${data[i].id} class="rows" >
+        <td>${data[i].name}</td>
+        <td>${data[i].shift}</td>
+        <td>${data[i].start_point} - ${data[i].end_point}</td>
+        <td>${selectedDay}</td>
+        <td>${data[i].avaliable_seats_on_days[selectedDay]}
+        <td>${data[i].car_capacity}
+        <td class="actions"><i class="bi bi-x delete-button" data-id=${data[i].id}></i></td>
+        <td class="actions"><i class="bi-pencil-fill edit-button" data-id=${data[i].id}></i></td>
+      </tr>
+      `;
+    }
   }
+
   driversDiv.appendChild(table);
 };
 
@@ -52,7 +87,9 @@ const createDriver = (data, selectedDaysValue) => {
           <td>${data.name}</td>
           <td>${data.shift}</td>
           <td>${data.start_point} - ${data.end_point}</td>
-          <td>${data.avaliable_seats_on_days[selectedDay.value]}
+          <td>${selectedDay.value}</td>
+          <td>${data.avaliable_seats_on_days[selectedDay.value]}</td>
+          <td>${data.car_capacity}</td>
           <td class="actions"><i class="bi bi-x delete-button" data-id=${
             data.id
           } ></i></td>
@@ -144,7 +181,7 @@ const onSubmitAddDriverForm = (e) => {
     checkErrorExists(driverCarCapacity);
   }
 
-  if (driverStartPoint.value == "" || driverEndPoint == "") {
+  if (driverStartPoint.value == "" || driverEndPoint.value == "") {
     showError(driverEndPoint, "You should choose a route");
   } else {
     checkErrorExists(driverEndPoint);
@@ -193,6 +230,35 @@ const onSubmitAddDriverForm = (e) => {
           errorParagraph.innerText = "";
           createDriver(data, selectedDaysValue);
           toggleFormVisibility(formAddDriver);
+          if (errorParagraph.innerText == "") {
+            let daysHTML = "";
+            let seatsHTML = "";
+            const table = document.getElementById("table");
+            selectedDaysValue.forEach((day) => {
+              daysHTML += `${day}<br />`;
+              seatsHTML += `${driverCarCapacity.value}<br />`;
+            });
+            if (selectedDay.value == "" || selectedDay.value == "allDays") {
+              if (table) {
+                table.innerHTML += `
+                  <td>${driverName.value.trim()}</td>
+                  <td>${driverShift.value}</td>
+                  <td>${driverStartPoint.value} - ${driverEndPoint.value}</td>
+                  <td>${daysHTML}</td>
+                  <td>${seatsHTML}</td>
+                  <td>${driverCarCapacity.value}</td>
+                  <td class="actions">
+                  <i class="bi bi-x delete-button" data-id="${data.id}"></i>
+                  </td>
+                  <td class="actions">
+                    <i
+                      class="bi-pencil-fill edit-button"
+                      data-id="${data.id}"></i>
+                  </td>
+                  `;
+              }
+            }
+          }
         }
       })
       .catch((error) => console.log(error));
@@ -200,9 +266,15 @@ const onSubmitAddDriverForm = (e) => {
 };
 
 addDriverButton.addEventListener("click", () => {
+  errorParagraph.innerText = "";
   toggleFormVisibility(formAddDriver);
 });
 formAddDriver.addEventListener("submit", onSubmitAddDriverForm);
+
+formCloseButton.addEventListener("click", () => {
+  errorParagraph.innerText = "";
+  toggleFormVisibility(formAddDriver);
+});
 
 document.addEventListener("click", (event) => {
   if (event.target.classList.contains("delete-button")) {

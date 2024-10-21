@@ -73,7 +73,6 @@ def see_avaliable_cars():
     if request.method == "POST":
         is_found = False
         data = request.get_json()
-        print(data)
         drivers = get_data("drivers.json")
         ride_shift = data["shift"]
         ride_day = data["day"]

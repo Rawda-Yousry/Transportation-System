@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Company Transportation System</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/base.css') }}"
+    />
+  </head>
+  <body class="drivers__page">
+    <header>
+      <nav class="navbar">
+        <p></p>
+      </nav>
+    </header>
+    <div class="main">
+      <div class="message">
+        <p>Welcome to Our Transportation System Solution</p>
+        <h6>Explore our services and discover, but register first!</h6>
+      </div>
+      <form id="form-login" class="form">
+        <p class="form__title">Lets Sign you in</p>
+        <div class="form__fields">
+          <div class="form__field">
+            <span id="span-error"></span>
+            <!-- <label for="useremail" class="form__label">Email</label> -->
+            <input
+              type="text"
+              placeholder="Email"
+              id="useremail-login"
+              class="form__field-input"
+            />
+          </div>
+          <div class="form__field">
+            <!-- <label for="password" class="form__label">Password</label> -->
+            <input
+              type="password"
+              placeholder="Password"
+              id="password-login"
+              class="form__field-input"
+            />
+          </div>
+        </div>
+        <div class="form-login__div-button">
+          <button type="submit" class="form__button">Sign in</button>
+        </div>
+        <div class="form__link">
+          Don't have an account? <a href="/register">Register</a>
+        </div>
+      </form>
+    </div>
+    <script type="module" src="static/js/login-register.js"></script>
+  </body>
+</html>

@@ -7,6 +7,8 @@ import re
 auth = Blueprint("auth", __name__)
 
 
+
+
 @auth.route("/register", methods = ["POST", "GET"])
 def register():
     message = ""
@@ -42,7 +44,7 @@ def login():
             if user["email"] == user_email and user["password"] == password:
                 if user["role"] == "admin":
                     session["role"] = "admin"
-                    return jsonify({"redirectURL":"/drivers", "name": user["name"],  "message":"Drivers Info: "})
+                    return jsonify({"redirectURL":"/drivers", "name": user["name"],  "message":"Drivers Details: "})
                 else:
                     session["id"] = user["id"]
                     print("sesssion + " + session["id"])
@@ -53,3 +55,5 @@ def login():
 @auth.route("/admin_dashboard")
 def admin_dashboard():
     return render_template("admin_dashboard.html")
+
+

@@ -13,7 +13,7 @@ app.register_blueprint(employee_bp)
 
 @app.route("/")
 def index():
-    return render_template("login.html")
+    return render_template("homepage.html")
 
 
 

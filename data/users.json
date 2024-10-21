@@ -13,6 +13,6 @@
         "password": "122",
         "role": "employee",
         "booked_rides": [],
-        "notify": "Your booked ride for day Thursday and shift Morning has been cancelled"
+        "notify": "Your booked ride for day Sunday and shift Morning has been cancelled"
     }
 ]

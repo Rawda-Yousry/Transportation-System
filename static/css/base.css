@@ -12,7 +12,6 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  width: 400px;
   background-color: var(--color-form);
 }
 
@@ -31,24 +30,28 @@
   margin: 0px;
   font-size: small;
   color: red;
+
 }
 
-.home {
-  background-color: var(--color-page);
-  font-family: var(--font-family);
+.home{
   margin: 0;
   padding: 0;
   display: flex;
   justify-content: center;
+}
+
+.home, .main {
+  background-color: var(--color-page);
+  font-family: var(--font-family);
   align-items: center;
   height: 100vh;
   overflow: hidden;
-  flex-direction: column;
+
 }
 
-.form__title {
-  font-size: 37px;
+.form__title, .message {
   font-weight: bold;
+  font-size: 37px;
 }
 
 .form__button {
@@ -85,8 +88,9 @@
 
 .form__link a {
   cursor: pointer;
-  color: var(--color-text-on-page);
+  color: var(--color-button);
   font-weight: bold;
+
 }
 
 .error {
@@ -104,7 +108,6 @@
 .home__div--right {
   display: flex;
   justify-content: left;
-  width: 61%;
 }
 
 .button__right{
@@ -120,3 +123,40 @@
   color: var(--color-form);
   border: #ffffff;
 }
+
+.navbar{
+  background-color: #000000;
+  color: var(--color-form);
+  border-radius: 5px ;
+  height: 50px;
+  display: flex;
+  justify-content: right;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 15px;
+  grid-row-gap: 0px;
+  
+}
+
+.message{
+  width:60%;
+  padding: 10%;
+  align-self: start;
+  margin-top:10% ;
+  font-size: 30px;
+}
+
+#form-login{
+  width: 60%;
+}
+
+#form-close{
+  font-size: 22px;
+  padding: 10px;
+  cursor: pointer;
+}
+

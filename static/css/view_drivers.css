@@ -1,9 +1,16 @@
 @import "./base.css";
 
-.home__div {
-  width: 60%;
-  height: 80%;
-  position: relative;
+.add-form__header {
+  display: flex;
+  justify-content: space-between;
+
+}
+
+#form__close{
+  color: var(--color-text-on-page);
+  font-size: 23px;
+  padding: 10px;
+  cursor: pointer;
 }
 
 .home__buttons {
@@ -156,4 +163,14 @@
   background-color: var(--color-text-on-primary);
   margin: auto;
   padding: 20px;
+}
+
+.drivers__page{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.div__center{
+  padding-left: 3%;
 }

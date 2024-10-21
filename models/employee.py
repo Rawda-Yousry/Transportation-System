@@ -112,26 +112,33 @@ class Admin(Employee):
         return drivers
     
     def delete_driver(self, driver_id):
+        print(driver_id)
         users = get_data("users.json")
         drivers = get_data("drivers.json")
         updated_users = []
+        updated_drivers = []
         for user in users:
-            if user["id"] == user_id:
-                updated_rides = []
+            updated_rides = []
+            if "booked_rides" in user:
                 for ride in user["booked_rides"]:
-                    if ride["id"] != ride_id: 
+                    if ride["driver_id"] != driver_id: 
                         updated_rides.append(ride)
-                    else:
-                        for driver in drivers:
-                            if driver["id"] == ride["driver_id"]:  # Find the correct driver
-                                if ride["day"] in driver["avaliable_seats_on_days"]:
-                                    driver["avaliable_seats_on_days"][ride["day"]] += 1
-                                break  
-                
                 user["booked_rides"] = updated_rides
+            for driver in drivers:
+                if driver["id"] != driver_id: 
+                    updated_drivers.append(driver)
+                else:
+                    deleted_driver = {
+                        "name": driver["name"],
+                        "shift": driver["shift"],
+                        "start_point": driver["start_point"],
+                        "end_point": driver["end_point"]
+                    }
+            print(user)
+            print(updated_drivers)
             updated_users.append(user)
             check_write = write_data(updated_users, "users.json")
-            write_data(drivers, "drivers.json")  # Also update the drivers file
+            check_write = write_data(updated_drivers, "drivers.json")
             return deleted_driver
 
 
