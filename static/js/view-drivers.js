@@ -11,11 +11,40 @@ const errorParagraph = document.getElementById("paragraph-error");
 const paragraphName = document.getElementById("info");
 const formCloseButton = document.getElementById("form-close");
 const logoutDiv = document.getElementById("logout");
+const formEditDriver = document.getElementById("edit-form");
+const editFormCloseButton = document.getElementById("form-edit-close");
+
+const driverShiftEdit = document.getElementById("driver-shift-edit");
+const driverDaysEdit = document.getElementById("days-check-box-edit");
+const driverStartPointEdit = document.getElementById("driver-start-point-edit");
+const driverEndPointEdit = document.getElementById("driver-end-point-edit");
+
+const driverEmail = document.getElementById("driver-email");
+const driverName = document.getElementById("driver-name");
+const driverShift = document.getElementById("driver-shift");
+const driverStartPoint = document.getElementById("driver-start-point");
+const driverEndPoint = document.getElementById("driver-end-point");
+const driverCarCapacity = document.getElementById("car-capacity");
+const formFields = [
+  driverEmail,
+  driverName,
+  driverShift,
+  driverStartPoint,
+  driverEndPoint,
+];
 
 const selectedDay = document.getElementById("choose-day");
 const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
 paragraphName.innerText = localStorage.getItem("AdminMessage");
+
+const dayToNumberMap = {
+  Sunday: 1,
+  Monday: 2,
+  Tuesday: 3,
+  Wednesday: 4,
+  Thursday: 5,
+};
 
 const displayDrivers = (data, selectedDay) => {
   const tableExist = document.getElementById("table");
@@ -46,10 +75,10 @@ const displayDrivers = (data, selectedDay) => {
       const rowHTML = `
         <tr data-id="${driver.id}" class="rows">
           <td>${driver.name}</td>
-          <td>${driver.shift}</td>
-          <td>${driver.start_point} - ${driver.end_point}</td>
-          <td>${daysHTML}</td>
-          <td>${seatsHTML}</td>
+          <td id="shift-cell">${driver.shift}</td>
+          <td id="route-cell">${driver.start_point} - ${driver.end_point}</td>
+          <td id="select-days-cell" >${daysHTML}</td>
+          <td id="avaliable-seats-cell">${seatsHTML}</td>
           <td>${driver.car_capacity}</td>
           <td class="actions">
             <i class="bi bi-x delete-button" data-id="${driver.id}"></i>
@@ -65,10 +94,10 @@ const displayDrivers = (data, selectedDay) => {
     for (let i = 0; i < data.length; i++) {
       table.innerHTML += `<tr data-id=${data[i].id} class="rows" >
         <td>${data[i].name}</td>
-        <td>${data[i].shift}</td>
-        <td>${data[i].start_point} - ${data[i].end_point}</td>
-        <td>${selectedDay}</td>
-        <td>${data[i].avaliable_seats_on_days[selectedDay]}
+        <td id="shift-cell">${data[i].shift}</td>
+        <td id="route-cell">${data[i].start_point} - ${data[i].end_point}</td>
+        <td id="select-days-cell">${selectedDay}</td>
+        <td id="avaliable-seats-cell">${data[i].avaliable_seats_on_days[selectedDay]}
         <td>${data[i].car_capacity}
         <td class="actions"><i class="bi bi-x delete-button" data-id=${data[i].id}></i></td>
         <td class="actions"><i class="bi-pencil-fill edit-button" data-id=${data[i].id}></i></td>
@@ -86,10 +115,12 @@ const createDriver = (data, selectedDaysValue) => {
   const element = `
         <tr data-id=${data.id} class="rows">
           <td>${data.name}</td>
-          <td>${data.shift}</td>
-          <td>${data.start_point} - ${data.end_point}</td>
-          <td>${selectedDay.value}</td>
-          <td>${data.avaliable_seats_on_days[selectedDay.value]}</td>
+          <td id="shift-cell>${data.shift}</td>
+          <td id="route-cell">${data.start_point} - ${data.end_point}</td>
+          <td id="select-days-cell">${selectedDay.value}</td>
+          <td id="avaliable-seats-cell">${
+            data.avaliable_seats_on_days[selectedDay.value]
+          }</td>
           <td>${data.car_capacity}</td>
           <td class="actions"><i class="bi bi-x delete-button" data-id=${
             data.id
@@ -146,12 +177,6 @@ const getSelectedDays = () => {
 
 const onSubmitAddDriverForm = (e) => {
   e.preventDefault();
-  const driverEmail = document.getElementById("driver-email");
-  const driverName = document.getElementById("driver-name");
-  const driverShift = document.getElementById("driver-shift");
-  const driverStartPoint = document.getElementById("driver-start-point");
-  const driverEndPoint = document.getElementById("driver-end-point");
-  const driverCarCapacity = document.getElementById("car-capacity");
   const errorElements = document.getElementsByClassName("error");
   const selectedDaysValue = getSelectedDays();
   const daysCheckBox = document.getElementById("days-check-box");
@@ -230,7 +255,7 @@ const onSubmitAddDriverForm = (e) => {
         } else {
           errorParagraph.innerText = "";
           createDriver(data, selectedDaysValue);
-          toggleFormVisibility(formAddDriver);
+          toggleFormVisibility(formAddDriver, formFields);
           if (errorParagraph.innerText == "") {
             let daysHTML = "";
             let seatsHTML = "";
@@ -244,10 +269,12 @@ const onSubmitAddDriverForm = (e) => {
                 table.innerHTML += `
                 <tr data-id="${data.id}" class="rows">
                   <td>${driverName.value.trim()}</td>
-                  <td>${driverShift.value}</td>
-                  <td>${driverStartPoint.value} - ${driverEndPoint.value}</td>
-                  <td>${daysHTML}</td>
-                  <td>${seatsHTML}</td>
+                  <td id="shift-cell">${driverShift.value}</td>
+                  <td id="route-cell">${driverStartPoint.value} - ${
+                  driverEndPoint.value
+                }</td>
+                  <td id="select-days-cell">${daysHTML}</td>
+                  <td id="avaliable-seats-cell">${seatsHTML}</td>
                   <td>${driverCarCapacity.value}</td>
                   <td class="actions">
                   <i class="bi bi-x delete-button" data-id="${data.id}"></i>
@@ -268,15 +295,73 @@ const onSubmitAddDriverForm = (e) => {
   }
 };
 
+const editDriverInTable = (data, driverEditId) => {
+  console.log(data);
+  console.log("edited");
+  console.log(selectedDay);
+  console.log(selectedDay.value);
+  console.log(data.avaliable_seats_on_days);
+  const rows = document.getElementsByClassName("rows");
+  for (let i = 0; i < rows.length; i++) {
+    if (rows[i].getAttribute("data-id") == driverEditId) {
+      const cells = rows[i].getElementsByTagName("td");
+      cells[1].innerText = data.shift;
+      cells[2].innerText = `${driverStartPointEdit.value} - ${driverEndPointEdit.value}`;
+      if (selectedDay.value == "" || selected.value == "allDays") {
+        let days = "";
+        let seats = "";
+        for (const [day, seat] of Object.entries(
+          data.avaliable_seats_on_days
+        )) {
+          days += `${day} </br>`;
+          seats += `${seat} </br>`;
+        }
+        cells[3].innerHTML = days;
+        cells[4].innerHTML = seats;
+      }
+    }
+  }
+};
+
+const editDriver = (event) => {
+  console.log(event.target);
+  const driverEditId = event.target.getAttribute("data-id");
+  console.log(driverDaysEdit);
+  let selectedDaysValue = [];
+  for (let i = 1; i < 6; i++) {
+    const checkbox = document.getElementById(`checkbox-${i}-edit`);
+    if (checkbox && checkbox.checked) {
+      selectedDaysValue.push(checkbox.value);
+    }
+  }
+  const data = {
+    driverId: driverEditId,
+    driverShiftEdit: driverShiftEdit.value,
+    driverDaysEdit: selectedDaysValue,
+    driverStartPointEdit: driverStartPointEdit.value,
+    driverEndPointEdit: driverEndPointEdit.value,
+  };
+  console.log(data);
+  fetch("/drivers/edit_data", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((data) => editDriverInTable(data, driverEditId));
+};
+
 addDriverButton.addEventListener("click", () => {
   errorParagraph.innerText = "";
-  toggleFormVisibility(formAddDriver);
+  toggleFormVisibility(formAddDriver, formFields);
 });
 formAddDriver.addEventListener("submit", onSubmitAddDriverForm);
 
 formCloseButton.addEventListener("click", () => {
   errorParagraph.innerText = "";
-  toggleFormVisibility(formAddDriver);
+  toggleFormVisibility(formAddDriver, formFields);
 });
 
 document.addEventListener("click", (event) => {
@@ -285,8 +370,54 @@ document.addEventListener("click", (event) => {
   }
 });
 
+document.addEventListener("click", (event) => {
+  if (event.target.classList.contains("edit-button")) {
+    console.log("Edit Clicked");
+    fetch("/drivers/get_edit_driver_data", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ driver_id: event.target.getAttribute("data-id") }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        driverShiftEdit.value = data.driverShift;
+        const selectedDays = data.driverDays;
+        driverStartPointEdit.value = data.driverStartPoint;
+        driverEndPointEdit.value = data.driverEndPoint;
+
+        selectedDays.forEach((day) => {
+          console.log(`checkbox-${dayToNumberMap[day]}-edit`);
+          const checkedDay = document.getElementById(
+            `checkbox-${dayToNumberMap[day]}-edit`
+          );
+          console.log(checkedDay);
+          checkedDay.checked = true;
+        });
+        formEditDriver.setAttribute(
+          "data-id",
+          event.target.getAttribute("data-id")
+        );
+        toggleFormVisibility(formEditDriver);
+      })
+      .catch((error) => console.log(error));
+  }
+});
+
+editFormCloseButton.addEventListener("click", () => {
+  toggleFormVisibility(formEditDriver);
+});
+
 logoutDiv.addEventListener("click", () => {
   window.location.href = "/logout";
 });
 
 selectedDay.addEventListener("change", viewDriversoFDay);
+
+formEditDriver.addEventListener("submit", (event) => {
+  event.preventDefault();
+  editDriver(event);
+  toggleFormVisibility(formEditDriver);
+});

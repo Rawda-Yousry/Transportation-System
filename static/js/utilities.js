@@ -59,7 +59,8 @@ export const deleteEntity = (event, entityType) => {
   }
 };
 
-export const toggleFormVisibility = (form) => {
-  if (form.style.display == "block") form.style.display = "none";
-  else form.style.display = "block";
+export const toggleFormVisibility = (form, formFields = "") => {
+  if (form.style.display == "block") {
+    form.style.display = "none";
+  } else form.style.display = "block";
 };

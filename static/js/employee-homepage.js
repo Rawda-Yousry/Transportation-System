@@ -16,7 +16,9 @@ const errorParagraph = document.getElementById("error-message");
 const selectedDay = document.getElementById("choose-day");
 const paragraphName = document.getElementById("info");
 const closeButton = document.getElementById("form-close");
+const logout = document.getElementById("logout");
 
+const formFields = [rideStartPoint, rideEndPoint, rideShift, rideDay]
 paragraphName.innerText = localStorage.getItem("EmployeeMessage");
 const displayAvaliableCars = (data) => {
   paragraphName.innerText = localStorage.getItem("MessageAvaliable");
@@ -122,7 +124,7 @@ const seeAvaliableRides = (event) => {
         } else {
           errorParagraph.innerText = "";
           console.log(data);
-          toggleFormVisibility(formAvaliableRides);
+          toggleFormVisibility(formAvaliableRides, formFields);
           const driversTable = document.getElementById("drivers-table");
           if (driversTable) {
             driversTable.remove();
@@ -166,6 +168,7 @@ const displayBookedRidesOfDay = (data) => {
   avaliableRidesTable.className = "table";
   avaliableRidesTable.setAttribute("id", "drivers-table");
   const headers = `<tr class="table__header">
+      <td>Day</td>
       <td>Shift</td>
       <td>Route</td>
     </tr>
@@ -173,13 +176,14 @@ const displayBookedRidesOfDay = (data) => {
   if (data.length !== 0) {
     avaliableRidesTable.innerHTML = headers;
   }
+
   for (let i = 0; i < data.length; i++) {
     avaliableRidesTable.innerHTML += `
     <tr data-id=${data[i].id}  class="ride__wrapper" >
+      <td>${data[i].day}</td>
       <td>${data[i].shift}</td>
       <td>${data[i].start_point} - ${data[i].end_point}</td>
             <td class="actions"><i class="bi bi-x delete-button" data-id=${data[i].id} ></i></td>
-            <td class="actions"><i class="bi-pencil-fill edit-button" data-id=${data[i].id} ></i></td>
     </tr>
     `;
     avaliableRidesDiv.appendChild(avaliableRidesTable);
@@ -202,12 +206,16 @@ document.addEventListener("click", (event) => {
 });
 
 formButton.addEventListener("click", () => {
-  toggleFormVisibility(formAvaliableRides);
+  toggleFormVisibility(formAvaliableRides, formFields);
 });
 
 closeButton.addEventListener("click", () => {
   console.log("Clicked");
-  toggleFormVisibility(formAvaliableRides);
+  toggleFormVisibility(formAvaliableRides, formFields);
 });
 
 selectedDay.addEventListener("change", viewBookedRidesOfDay);
+
+logout.addEventListener("click", () => {
+  window.location.href = "/logout";
+});

@@ -73,7 +73,6 @@ def delete_driver():
         if "booked_rides" in user:
             updated_rides = []
             for ride in user["booked_rides"]:
-                print("Rideeeeeee")
                 print(type(ride["driver_id"]) )
                 if str(id) != str(ride["driver_id"]):
                     updated_rides.append(ride)
@@ -82,6 +81,36 @@ def delete_driver():
             user["booked_rides"] = updated_rides
         write_data(users, "users.json")
     return deleted_driver
+
+
+@drivers_bp.route("/drivers/get_edit_driver_data", methods=["POST"])
+def get_driver_data():
+    driver_id = request.json.get("driver_id")
+    data = {}
+    drivers = get_data("drivers.json")
+    for driver in drivers:
+        if driver["id"] == driver_id:
+            data["driverShift"] = driver["shift"]
+            data["driverDays"] = list(driver["avaliable_seats_on_days"].keys())
+            data["driverStartPoint"] = driver["start_point"]
+            data["driverEndPoint"] = driver["end_point"]
+            break
+    return data
+
+@drivers_bp.route("/drivers/edit_data", methods=["POST"])
+def edit_data():
+    data = request.get_json()
+    print(data)
+    admin = Admin("", "", "")
+    edited_data = admin.edit_driver(data)
+    return edited_data
+
+
+
+
+
+            
+            
 
             
 

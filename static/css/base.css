@@ -129,6 +129,9 @@
   height: 50px;
   display: flex;
   justify-content: right;
+  align-items: center;
+  padding-right: 20px;
+  cursor: pointer;
 }
 
 .main {
@@ -151,11 +154,6 @@
   width: 60%;
 }
 
-#form-close {
-  font-size: 22px;
-  padding: 10px;
-  cursor: pointer;
-}
 
 .drivers__page {
   display: flex;
@@ -163,4 +161,11 @@
   justify-content: center;
   background-color: var(--color-page);
   font-family: var(--font-family);
+}
+
+#form__close {
+  color: var(--color-text-on-page);
+  font-size: 23px;
+  padding: 10px;
+  cursor: pointer;
 }

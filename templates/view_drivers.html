@@ -1,156 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/view_drivers.css') }}"
+    />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/view_drivers.css') }}" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
+    />
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" />
+    <title>View Drivers</title>
+  </head>
 
-  <title>View Drivers</title>
-</head>
-
-<body class="drivers__page">
-  <header>
-    <nav class="navbar">
-      <div id="logout">
-        Logout
-      </div>
-    </nav>
-  </header>
-  <div>
+  <body class="drivers__page">
+    <header>
+      <nav class="navbar">
+        <div id="logout">Logout</div>
+      </nav>
+    </header>
     <div>
-      <p id="info"></p>
-    </div>
-    <div class="form home__div">
-      <div class="home__buttons">
-        <select class="form__field-input--smaller-dark" id="choose-day">
-          <option value="" disabled selected>Filter By Day</option>
-          <option value="allDays">All Drivers</option>
-          {% for day in days %}
-          <option value="{{day}}">{{day}}</option>
-          {% endfor %}
-        </select>
-        <button type="button" id="add-button" class="home__button">
-          <i class="bi bi-plus-circle"></i>
-          Add Driver
-        </button>
+      <div>
+        <p id="info"></p>
       </div>
-      {% if message %}
-      <p>{{message}}</p>
-      {% endif %}
-
-      <table class="table" id="table">
-        <tr class="table__header">
-          <td>Name</td>
-          <td>Shift</td>
-          <td>Route</td>
-          <td>Day</td>
-          <td>Avaliable Seats</td>
-          <td>Car Capacity</td>
-        </tr>
-        {% for driver in drivers %}
-        <tr data-id="{{driver['id']}}" class="rows">
-          <td>{{driver["name"]}}</td>
-          <td>{{driver["shift"]}}</td>
-          <td>{{driver["start_point"]}} - {{driver["end_point"]}}</td>
-          <td>
-            {% for day, seats in driver["avaliable_seats_on_days"].items() %}
-            {{ day }}<br />
+      <div class="form home__div">
+        <div class="home__buttons">
+          <select class="form__field-input--smaller-dark" id="choose-day">
+            <option value="" disabled selected>Filter By Day</option>
+            <option value="allDays">All Drivers</option>
+            {% for day in days %}
+            <option value="{{day}}">{{day}}</option>
             {% endfor %}
-          </td>
-          <td>
-            {% for day, seats in driver["avaliable_seats_on_days"].items() %}
-            {{ seats }} <br />
-            {% endfor %}
-          </td>
-          <td>{{driver["car_capacity"]}}</td>
-          <td class="actions">
-            <i class="bi bi-x delete-button" data-id="{{driver['id']}}"></i>
-          </td>
-          <td class="actions">
-            <i class="bi-pencil-fill edit-button" data-id="{{driver['id']}}"></i>
-          </td>
-        </tr>
-        {% endfor %}
-      </table>
+          </select>
+          <button type="button" id="add-button" class="home__button">
+            <i class="bi bi-plus-circle"></i>
+            Add Driver
+          </button>
+        </div>
+        {% if message %}
+        <p>{{message}}</p>
+        {% endif %}
 
-      <form id="add-form" style="display: none" class="home__form-add">
-        <div class="add-form__header">
-          <p id="paragraph-error"></p>
-          <i class="bi bi-x" id="form-close"></i>
-        </div>
-        <div class="add-form__header">
-          <div class="form__title--smaller">Add Driver Data</div>
-        </div>
-        <div class="add-form__fields">
-          <div class="form__field--smaller">
-            <p>Email</p>
-            <input type="text" placeholder="Email" id="driver-email" class="form__field-input--smaller" />
-          </div>
-          <div class="form__field--smaller">
-            <p for="Name">Name</p>
-            <input type="text" placeholder="name" name="driver-name" id="driver-name"
-              class="form__field-input--smaller" />
-          </div>
-          <div class="form__field--smaller">
-            <p>Shift</p>
-            <select name="driver-shift" id="driver-shift" class="form__field-input--smaller">
-              <option value="" disabled selected>Shifts</option>
-              {% for shift in shifts %}
-              <option value="{{shift}}">{{shift}}</option>
-              {%endfor%}
-            </select>
-          </div>
-          <div class="form__field--smaller">
-            <p>Days</p>
-            <div class="form__field-checkbox" id="days-check-box">
-              {% for day in days %}
-              <label>
-                <input type="checkbox" value="{{ day }}" id="checkbox-{{ loop.index }}" />
-                {{ day }}
-              </label>
+        <table class="table" id="table">
+          <tr class="table__header">
+            <td>Name</td>
+            <td>Shift</td>
+            <td>Route</td>
+            <td>Day</td>
+            <td>Avaliable Seats</td>
+            <td>Car Capacity</td>
+          </tr>
+          {% for driver in drivers %}
+          <tr data-id="{{driver['id']}}" class="rows">
+            <td>{{driver["name"]}}</td>
+            <td id="shift-cell">{{driver["shift"]}}</td>
+            <td id="route-cell">{{driver["start_point"]}} - {{driver["end_point"]}}</td>
+            <td id="select-days-cell">
+              {% for day, seats in driver["avaliable_seats_on_days"].items() %}
+              {{ day }}<br />
               {% endfor %}
+            </td>
+            <td id="avaliable-seats-cell">
+              {% for day, seats in driver["avaliable_seats_on_days"].items() %}
+              {{ seats }} <br />
+              {% endfor %}
+            </td>
+            <td>{{driver["car_capacity"]}}</td>
+            <td class="actions">
+              <i class="bi bi-x delete-button" data-id="{{driver['id']}}"></i>
+            </td>
+            <td class="actions">
+              <i
+                class="bi-pencil-fill edit-button"
+                data-id="{{driver['id']}}"
+              ></i>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+
+        <form id="add-form" style="display: none" class="home__form-add">
+          <div class="add-form__header">
+            <p id="paragraph-error"></p>
+            <i class="bi bi-x" id="form-close"></i>
+          </div>
+          <div class="add-form__header">
+            <div class="form__title--smaller">Add Driver Data</div>
+          </div>
+          <div class="add-form__fields">
+            <div class="form__field--smaller">
+              <p>Email</p>
+              <input
+                type="text"
+                placeholder="Email"
+                id="driver-email"
+                class="form__field-input--smaller"
+              />
+            </div>
+            <div class="form__field--smaller">
+              <p for="Name">Name</p>
+              <input
+                type="text"
+                placeholder="name"
+                name="driver-name"
+                id="driver-name"
+                class="form__field-input--smaller"
+              />
+            </div>
+            <div class="form__field--smaller">
+              <p>Shift</p>
+              <select
+                name="driver-shift"
+                id="driver-shift"
+                class="form__field-input--smaller"
+              >
+                <option value="" disabled selected>Shifts</option>
+                {% for shift in shifts %}
+                <option value="{{shift}}">{{shift}}</option>
+                {%endfor%}
+              </select>
+            </div>
+            <div class="form__field--smaller">
+              <p>Days</p>
+              <div class="form__field-checkbox" id="days-check-box">
+                {% for day in days %}
+                <label>
+                  <input
+                    type="checkbox"
+                    value="{{ day }}"
+                    id="checkbox-{{ loop.index }}"
+                  />
+                  {{ day }}
+                </label>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="form__field--smaller">
+              <p>Route</p>
+              <div>
+                <!-- Admin Choose the start Point -->
+                <select
+                  name="driver-route"
+                  id="driver-start-point"
+                  class="form__field-input--smaller"
+                >
+                  <option value="" disabled selected>Start Point</option>
+                  {% for route in routes %}
+                  <option value="{{route['destination']}}">
+                    {{route["destination"]}}
+                  </option>
+                  {% endfor %}
+                </select>
+                <!-- Admin Choose the end Point -->
+                <select
+                  id="driver-end-point"
+                  class="form__field-input--smaller"
+                >
+                  <option value="" disabled selected>End Point</option>
+                  {% for route in routes %}
+                  <option value="{{route['destination']}}">
+                    {{route["destination"]}}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <div class="form__field--smaller">
+              <p>Car Capacity</p>
+              <input
+                type="number"
+                placeholder="Car Capacity"
+                id="car-capacity"
+                class="form__field-input--smaller"
+              />
+            </div>
+            <div class="form__field--smaller right">
+              <button type="submit" class="form__button--smaller">Add</button>
             </div>
           </div>
-          <div class="form__field--smaller">
-            <p>Route</p>
-            <div>
-              <!-- Admin Choose the start Point -->
-              <select name="driver-route" id="driver-start-point" class="form__field-input--smaller">
-                <option value="" disabled selected>Start Point</option>
-                {% for route in routes %}
-                <option value="{{route['destination']}}">
-                  {{route["destination"]}}
-                </option>
-                {% endfor %}
-              </select>
-              <!-- Admin Choose the end Point -->
-              <select id="driver-end-point" class="form__field-input--smaller">
-                <option value="" disabled selected>End Point</option>
-                {% for route in routes %}
-                <option value="{{route['destination']}}">
-                  {{route["destination"]}}
-                </option>
-                {% endfor %}
+        </form>
+
+        <form id="edit-form" style="display: none" class="home__form-add">
+          <div class="edit-form__header">
+            <p id="paragraph-error"></p>
+            <i class="bi bi-x" id="form-edit-close"></i>
+          </div>
+          <div class="add-form__header">
+            <div class="form__title--smaller">Edit Driver Data</div>
+          </div>
+          <div class="add-form__fields">
+            <div class="form__field--smaller">
+              <p>Shift</p>
+              <select
+                name="driver-shift"
+                id="driver-shift-edit"
+                class="form__field-input--smaller"
+              >
+                <option value="" disabled selected>Shifts</option>
+                {% for shift in shifts %}
+                <option value="{{shift}}">{{shift}}</option>
+                {%endfor%}
               </select>
             </div>
+            <div class="form__field--smaller">
+              <p>Days</p>
+              <div class="form__field-checkbox" id="days-check-box-edit">
+                {% for day in days %}
+                <label>
+                  <input
+                    type="checkbox"
+                    value="{{ day }}"
+                    id="checkbox-{{ loop.index }}-edit"
+                  />
+                  {{ day }}
+                </label>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="form__field--smaller">
+              <p>Route</p>
+              <div>
+                <!-- Admin Choose the start Point -->
+                <select
+                  name="driver-route"
+                  id="driver-start-point-edit"
+                  class="form__field-input--smaller"
+                >
+                  <option value="" disabled selected>Start Point</option>
+                  {% for route in routes %}
+                  <option value="{{route['destination']}}">
+                    {{route["destination"]}}
+                  </option>
+                  {% endfor %}
+                </select>
+                <!-- Admin Choose the end Point -->
+                <select
+                  id="driver-end-point-edit"
+                  class="form__field-input--smaller"
+                >
+                  <option value="" disabled selected>End Point</option>
+                  {% for route in routes %}
+                  <option value="{{route['destination']}}">
+                    {{route["destination"]}}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <div class="form__field--smaller right">
+              <button type="submit" class="form__button--smaller">Edit</button>
+            </div>
           </div>
-          <div class="form__field--smaller">
-            <p>Car Capacity</p>
-            <input type="number" placeholder="Car Capacity" id="car-capacity" class="form__field-input--smaller" />
-          </div>
-          <div class="form__field--smaller right">
-            <button type="submit" class="form__button--smaller">Add</button>
-          </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
-  </div>
-  <div class="drivers__wrapper"></div>
+    <div class="drivers__wrapper"></div>
 
-  <script type="module" src="{{ url_for('static', filename='js/view-drivers.js' ) }}"></script>
-</body>
-
+    <script
+      type="module"
+      src="{{ url_for('static', filename='js/view-drivers.js' ) }}"
+    ></script>
+  </body>
 </html>

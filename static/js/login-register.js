@@ -81,8 +81,8 @@ const validateUserInputRegister = (event) => {
   } else {
     checkErrorExists(passwordRegister);
   }
-  if (userNameRegister.value === "") {
-    showError(userNameRegister, "You should enter your name");
+  if (userNameRegister.value.trim() === "" || !isNaN(userNameRegister.value)) {
+    showError(userNameRegister, "You should enter a name");
   } else {
     checkErrorExists(userNameRegister);
   }

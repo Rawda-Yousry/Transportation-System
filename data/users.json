@@ -13,6 +13,14 @@
         "password": "122",
         "role": "employee",
         "booked_rides": [],
-        "notify": "Your booked ride for day Sunday and shift Morning has been cancelled"
+        "notify": "Your booked ride for day Monday and shift Morning has been cancelled"
+    },
+    {
+        "id": "83cd547b-f9e4-4b4b-bd55-b5cf1170645f",
+        "name": "Rawda",
+        "email": "rawdayousry@gmail.com",
+        "password": "1223",
+        "role": "employee",
+        "booked_rides": []
     }
 ]
