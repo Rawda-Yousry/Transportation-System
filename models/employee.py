@@ -1,12 +1,12 @@
 from models.driver import Driver
 from helper import write_data, get_data
-import uuid
 import json
+import uuid
 
 
 class Employee:
-    def __init__(self, name, email, password):
-        self.id = str(uuid.uuid4())
+    def __init__(self, id, name, email, password):
+        self.id = id
         self.name = name
         self.email = email
         self.password = password
@@ -23,15 +23,15 @@ class Employee:
         }
         return employee_dict
 
-    def view_booked_rides(self, employee_id):
+    def view_booked_rides(self):
         users = get_data("users.json")
         booked_rides = [{}]
         for user in users:
-            if user["id"] == employee_id:
+            if user["id"] == self.id:
                 booked_rides = user["booked_rides"]
         return booked_rides
 
-    def book_ride(self, employee_id, day, start_point, end_point, shift, driver_id):
+    def book_ride(self, day, start_point, end_point, shift, driver_id):
         users = get_data("users.json")
         drivers = get_data("drivers.json")
         for driver in drivers:
@@ -40,7 +40,7 @@ class Employee:
                 break
         check_write = write_data(drivers, "drivers.json")
         for user in users:
-            if user["id"] == employee_id:
+            if user["id"] == self.id:
                 booked_ride = {
                     "id": str(uuid.uuid4()),
                     "driver_id": driver_id,
@@ -55,7 +55,7 @@ class Employee:
         return booked_ride
     
 
-    def delete_ride(self, ride_id, user_id):
+    def delete_ride(self, ride_id):
         users = get_data("users.json")
         drivers = get_data("drivers.json")
         
@@ -63,7 +63,7 @@ class Employee:
         
         # Iterate over the users
         for user in users:
-            if user["id"] == user_id:  # Find the correct user
+            if user["id"] == self.id:  # Find the correct user
                 updated_rides = []
                 
                 # Iterate over the user's booked rides
@@ -81,7 +81,7 @@ class Employee:
                 # Update the user’s booked rides after the deletion
                 user["booked_rides"] = updated_rides
             
-            # Append the (possibly) modified user back into the updated list
+            # Append the modified user back into the updated list
             updated_users.append(user)
 
         # Write the updated users and drivers back to their respective JSON files
@@ -95,8 +95,8 @@ class Employee:
 
 
 class Admin(Employee):
-    def __init__(self, name, email, password):
-        super().__init__(name, email, password)
+    def __init__(self, id, name, email, password):
+        super().__init__(id,name, email, password)
         self.role = "admin"
 
     def add_driver(self, email, name, start_point, end_point, shift, car_capacity, avaliable_days):
@@ -112,34 +112,36 @@ class Admin(Employee):
         return drivers
     
     def delete_driver(self, driver_id):
-        print(driver_id)
         users = get_data("users.json")
         drivers = get_data("drivers.json")
         updated_users = []
         updated_drivers = []
         for user in users:
+            # To append to it for each iteration the updated rides
             updated_rides = []
+            # As users.json has a list of users, not all of them with booked rides
             if "booked_rides" in user:
                 for ride in user["booked_rides"]:
                     if ride["driver_id"] != driver_id: 
                         updated_rides.append(ride)
                 user["booked_rides"] = updated_rides
-            for driver in drivers:
-                if driver["id"] != driver_id: 
-                    updated_drivers.append(driver)
-                else:
-                    deleted_driver = {
-                        "name": driver["name"],
-                        "shift": driver["shift"],
-                        "start_point": driver["start_point"],
-                        "end_point": driver["end_point"]
-                    }
-            print(user)
-            print(updated_drivers)
+        
             updated_users.append(user)
-            check_write = write_data(updated_users, "users.json")
-            check_write = write_data(updated_drivers, "drivers.json")
-            return deleted_driver
+        # Check for each driver in drivers.json if the driver to be deleted is found
+        for driver in drivers:
+            if driver["id"] != driver_id: 
+                updated_drivers.append(driver)
+            else:
+                deleted_driver = {
+                    "name": driver["name"],
+                    "shift": driver["shift"],
+                    "start_point": driver["start_point"],
+                    "end_point": driver["end_point"]
+                }
+        
+        check_write = write_data(updated_users, "users.json")
+        check_write = write_data(updated_drivers, "drivers.json")
+        return deleted_driver
         
     def edit_driver(self,data):
         drivers = get_data("drivers.json")
@@ -148,29 +150,34 @@ class Admin(Employee):
             
         edited_data = {}
         for driver in drivers:
+            # Set the new values for the driver to be edited
             if driver["id"] == data["driverId"]:
                 driver["shift"] = data["driverShiftEdit"]
                 driver["start_point"] = data["driverStartPointEdit"]
                 driver["end_point"] = data["driverEndPointEdit"]
+                # Add new days to the driver if found in the request
                 for day in data["driverDaysEdit"]:
                     if day not in driver["avaliable_seats_on_days"]:
                         driver["avaliable_seats_on_days"][day] = driver["car_capacity"]
-                for day in list(driver["avaliable_seats_on_days"]):  # Create a list to safely modify while iterating
+                # Remove days from the driver if not found in the request
+                for day in list(driver["avaliable_seats_on_days"]):  
                     if day not in data["driverDaysEdit"]:
                         del driver["avaliable_seats_on_days"][day]
                 
                 edited_data = driver
 
-            updated_drivers.append(driver)   
+            updated_drivers.append(driver)  
+
+        # Check for each user in users.json if the user has booked rides with the driver to be edited 
         for user in users:
             if "booked_rides" in user:
-                for ride in user["booked_rides"]:
-                    if ride["driver_id"] == edited_data["id"]:
-                        if ride["day"] in edited_data["avaliable_seats_on_days"]:
-                            if ride["shift"] != edited_data["shift"]:
-                                del user["booked_rides"][ride["day"]]
-                        else:
-                            del user["booked_rides"][ride["day"]]
+                user["booked_rides"] = [
+                    ride for ride in user["booked_rides"]
+                    if not (
+                        ride["driver_id"] == edited_data["id"] and 
+                        (ride["day"] not in edited_data["avaliable_seats_on_days"] or ride["shift"] != edited_data["shift"])
+                    )
+                ]
         check = write_data(users, "users.json")
         check = write_data(updated_drivers, "drivers.json")
         return edited_data

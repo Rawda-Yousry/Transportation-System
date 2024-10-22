@@ -25,12 +25,24 @@ const driverShift = document.getElementById("driver-shift");
 const driverStartPoint = document.getElementById("driver-start-point");
 const driverEndPoint = document.getElementById("driver-end-point");
 const driverCarCapacity = document.getElementById("car-capacity");
-const formFields = [
+
+const errors = document.getElementsByClassName("error"); // Array of all errors found in the form
+
+// To be send to reset the form data in toggle
+const formFieldsAdd = [
   driverEmail,
   driverName,
   driverShift,
   driverStartPoint,
   driverEndPoint,
+  driverCarCapacity,
+];
+
+const formFieldsEdit = [
+  driverShiftEdit,
+  driverDaysEdit,
+  driverStartPoint,
+  driverEndPointEdit,
 ];
 
 const selectedDay = document.getElementById("choose-day");
@@ -38,6 +50,7 @@ const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
 paragraphName.innerText = localStorage.getItem("AdminMessage");
 
+// Used when edit buuton in table clicked
 const dayToNumberMap = {
   Sunday: 1,
   Monday: 2,
@@ -110,8 +123,6 @@ const displayDrivers = (data, selectedDay) => {
 };
 
 const createDriver = (data, selectedDaysValue) => {
-  console.log(selectedDaysValue);
-  console.log(selectedDaysValue.length);
   const element = `
         <tr data-id=${data.id} class="rows">
           <td>${data.name}</td>
@@ -135,7 +146,6 @@ const createDriver = (data, selectedDaysValue) => {
     if (selectedDay.value == selectedDaysValue[i]) {
       if (table) {
         table.innerHTML += element;
-        console.log(table);
       } else {
         displayDrivers(data, selectedDay);
       }
@@ -189,7 +199,7 @@ const onSubmitAddDriverForm = (e) => {
     checkErrorExists(driverEmail);
   }
 
-  if (driverName.value.trim() === "") {
+  if (driverName.value.trim() === "" || !isNaN(driverName.value.trim())) {
     showError(driverName, "You should enter a name");
   } else {
     checkErrorExists(driverName);
@@ -254,8 +264,15 @@ const onSubmitAddDriverForm = (e) => {
           errorParagraph.innerText = data.message;
         } else {
           errorParagraph.innerText = "";
+
           createDriver(data, selectedDaysValue);
-          toggleFormVisibility(formAddDriver, formFields);
+          toggleFormVisibility(
+            formAddDriver,
+            formFieldsAdd,
+            "add",
+            errors,
+            errorParagraph
+          );
           if (errorParagraph.innerText == "") {
             let daysHTML = "";
             let seatsHTML = "";
@@ -296,11 +313,6 @@ const onSubmitAddDriverForm = (e) => {
 };
 
 const editDriverInTable = (data, driverEditId) => {
-  console.log(data);
-  console.log("edited");
-  console.log(selectedDay);
-  console.log(selectedDay.value);
-  console.log(data.avaliable_seats_on_days);
   const rows = document.getElementsByClassName("rows");
   for (let i = 0; i < rows.length; i++) {
     if (rows[i].getAttribute("data-id") == driverEditId) {
@@ -324,9 +336,8 @@ const editDriverInTable = (data, driverEditId) => {
 };
 
 const editDriver = (event) => {
-  console.log(event.target);
   const driverEditId = event.target.getAttribute("data-id");
-  console.log(driverDaysEdit);
+
   let selectedDaysValue = [];
   for (let i = 1; i < 6; i++) {
     const checkbox = document.getElementById(`checkbox-${i}-edit`);
@@ -334,34 +345,68 @@ const editDriver = (event) => {
       selectedDaysValue.push(checkbox.value);
     }
   }
-  const data = {
-    driverId: driverEditId,
-    driverShiftEdit: driverShiftEdit.value,
-    driverDaysEdit: selectedDaysValue,
-    driverStartPointEdit: driverStartPointEdit.value,
-    driverEndPointEdit: driverEndPointEdit.value,
-  };
-  console.log(data);
-  fetch("/drivers/edit_data", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => response.json())
-    .then((data) => editDriverInTable(data, driverEditId));
+  if (selectedDaysValue.length == 0) {
+    showError(driverDaysEdit, "You should choose at least one day");
+  } else {
+    checkErrorExists(driverDaysEdit);
+  }
+  if (
+    (driverStartPointEdit.value != "Company" &&
+      driverEndPointEdit.value != "Company") ||
+    driverStartPointEdit.value == driverEndPointEdit.value
+  ) {
+    showError(driverEndPointEdit, "One of the points should be the company");
+  } else {
+    checkErrorExists(driverEndPointEdit);
+  }
+  if (errors.length == 0) {
+    const data = {
+      driverId: driverEditId,
+      driverShiftEdit: driverShiftEdit.value,
+      driverDaysEdit: selectedDaysValue,
+      driverStartPointEdit: driverStartPointEdit.value,
+      driverEndPointEdit: driverEndPointEdit.value,
+    };
+    fetch("/drivers/edit_data", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => editDriverInTable(data, driverEditId));
+    toggleFormVisibility(
+      formEditDriver,
+      formFieldsEdit,
+      "edit",
+      errors,
+      errorParagraph
+    );
+  }
 };
 
 addDriverButton.addEventListener("click", () => {
   errorParagraph.innerText = "";
-  toggleFormVisibility(formAddDriver, formFields);
+  toggleFormVisibility(
+    formAddDriver,
+    formFieldsAdd,
+    "add",
+    errors,
+    errorParagraph
+  );
 });
 formAddDriver.addEventListener("submit", onSubmitAddDriverForm);
 
 formCloseButton.addEventListener("click", () => {
   errorParagraph.innerText = "";
-  toggleFormVisibility(formAddDriver, formFields);
+  toggleFormVisibility(
+    formAddDriver,
+    formFieldsAdd,
+    "add",
+    errors,
+    errorParagraph
+  );
 });
 
 document.addEventListener("click", (event) => {
@@ -372,42 +417,57 @@ document.addEventListener("click", (event) => {
 
 document.addEventListener("click", (event) => {
   if (event.target.classList.contains("edit-button")) {
-    console.log("Edit Clicked");
+    const driverId = event.target.getAttribute("data-id");
     fetch("/drivers/get_edit_driver_data", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ driver_id: event.target.getAttribute("data-id") }),
+      body: JSON.stringify({ driver_id: driverId }),
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         driverShiftEdit.value = data.driverShift;
         const selectedDays = data.driverDays;
         driverStartPointEdit.value = data.driverStartPoint;
         driverEndPointEdit.value = data.driverEndPoint;
 
-        selectedDays.forEach((day) => {
-          console.log(`checkbox-${dayToNumberMap[day]}-edit`);
-          const checkedDay = document.getElementById(
+        const allDays = Object.keys(dayToNumberMap);
+
+        allDays.forEach((day) => {
+          const checkbox = document.getElementById(
             `checkbox-${dayToNumberMap[day]}-edit`
           );
-          console.log(checkedDay);
-          checkedDay.checked = true;
+          if (selectedDays.includes(day)) {
+            checkbox.checked = true;
+          } else {
+            checkbox.checked = false;
+          }
         });
         formEditDriver.setAttribute(
           "data-id",
           event.target.getAttribute("data-id")
         );
-        toggleFormVisibility(formEditDriver);
+        toggleFormVisibility(
+          formEditDriver,
+          formFieldsEdit,
+          "edit",
+          errors,
+          errorParagraph
+        );
       })
       .catch((error) => console.log(error));
   }
 });
 
 editFormCloseButton.addEventListener("click", () => {
-  toggleFormVisibility(formEditDriver);
+  toggleFormVisibility(
+    formEditDriver,
+    formFieldsEdit,
+    "edit",
+    errors,
+    errorParagraph
+  );
 });
 
 logoutDiv.addEventListener("click", () => {
@@ -419,5 +479,4 @@ selectedDay.addEventListener("change", viewDriversoFDay);
 formEditDriver.addEventListener("submit", (event) => {
   event.preventDefault();
   editDriver(event);
-  toggleFormVisibility(formEditDriver);
 });

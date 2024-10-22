@@ -12,6 +12,7 @@ class Driver:
         for day in avaliable_days:
             self.avaliable_seates_on_days[day] = int(self.car_capacity)
         
+    # To be used for adding a new driver to the drivers.json file
     def to_dict(self):
         driver_dict = {
             "id": self.id,

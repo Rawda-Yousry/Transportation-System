@@ -2,12 +2,9 @@ from flask import render_template, request, Blueprint, session, jsonify
 from helper import get_data, write_data
 from models.employee import Employee, Admin
 from config import SHIFTS
-import re
+import uuid
 
 auth = Blueprint("auth", __name__)
-
-
-
 
 @auth.route("/register", methods = ["POST", "GET"])
 def register():
@@ -18,12 +15,14 @@ def register():
         password = data.get('password')
         user_name = data.get('user_name')
         users = get_data("users.json")
+        user_id = str(uuid.uuid4())
+        
         if not email.strip() == "" :
                 for user in users:
                     if user["email"].lower() == email.lower():
                         message = "You already registered before !"
                 if message == "":
-                    new_employee = Employee(user_name, email, password)
+                    new_employee = Employee(user_id, user_name, email, password)
                     new_employee_dict = new_employee.to_dict()
                     users.append(new_employee_dict)
                     check_write = write_data(users, "users.json")
@@ -46,7 +45,7 @@ def login():
                 if user["id"] == "111":
                     return jsonify({"redirectURL":"/drivers", "name": user["name"],  "message":"Drivers Details: "})
                 else:
-                    print("sesssion + " + session["id"])
+                    # To be used in local storage to show some messages
                     return jsonify({"redirectURL":"/view_booked_rides", "name": user["name"], "message":"Your Booked Rides: ", "messageavaliable": "Avaliable Rides: "})
         return jsonify({"message_login":"Incorrect email or password"})
     return render_template("homepage.html")
@@ -58,7 +57,6 @@ def admin_dashboard():
 @auth.route("/logout")
 def logout():
     session.pop('id', None)
-    print(session)
     return render_template("homepage.html")
 
 

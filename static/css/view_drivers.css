@@ -1,10 +1,11 @@
 @import "./base.css";
 
-.add-form__header, .edit-form__header {
+.add-form__header,
+.edit-form__header {
   display: flex;
   justify-content: space-between;
+  padding-left: 10px;
 }
-
 
 .home__buttons {
   display: flex;
@@ -162,9 +163,14 @@
   padding-left: 3%;
 }
 
-
-#form-close, #form-edit-close {
+#form-close,
+#form-edit-close {
   font-size: 22px;
   padding: 10px;
   cursor: pointer;
+}
+
+#paragraph-error {
+  padding-left: 10px;
+  color: red;
 }

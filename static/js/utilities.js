@@ -1,3 +1,4 @@
+// Functions that used alot in the project
 export const showError = (field, errorMessage) => {
   const existingError = field.nextElementSibling;
   const spanError = document.getElementById("span-error");
@@ -59,8 +60,35 @@ export const deleteEntity = (event, entityType) => {
   }
 };
 
-export const toggleFormVisibility = (form, formFields = "") => {
+export const toggleFormVisibility = (
+  form,
+  formFields,
+  isAdd,
+  errors,
+  errorParagraph
+) => {
   if (form.style.display == "block") {
     form.style.display = "none";
-  } else form.style.display = "block";
+  } else {
+    if (errors && errors.length > 0) {
+      for (let i = 0; i < errors.length; i++) {
+        errors[i].innerText = "";
+      }
+    }
+
+    errorParagraph.innerText = "";
+
+    if (isAdd === "add") {
+      for (let i = 1; i < 6; i++) {
+        const checkbox = document.getElementById(`checkbox-${i}`);
+        checkbox.checked = false;
+      }
+    }
+    if (isAdd == "add" || isAdd == "seeAvaliable")
+      formFields.forEach((field) => {
+        field.value = "";
+      });
+
+    form.style.display = "block";
+  }
 };

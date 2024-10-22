@@ -25,7 +25,6 @@ const checkToSubmit = (route, requestData) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (data.redirectURL) {
           window.location.href = data.redirectURL;
           localStorage.setItem("AdminMessage", data.message);

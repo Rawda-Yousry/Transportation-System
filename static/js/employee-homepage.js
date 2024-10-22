@@ -17,9 +17,14 @@ const selectedDay = document.getElementById("choose-day");
 const paragraphName = document.getElementById("info");
 const closeButton = document.getElementById("form-close");
 const logout = document.getElementById("logout");
+const errors = document.getElementsByClassName("error");
 
-const formFields = [rideStartPoint, rideEndPoint, rideShift, rideDay]
+// Array to be send to when toggle the form to reset the values
+const formFields = [rideStartPoint, rideEndPoint, rideShift, rideDay];
+
+// This message changes depending on request from login
 paragraphName.innerText = localStorage.getItem("EmployeeMessage");
+
 const displayAvaliableCars = (data) => {
   paragraphName.innerText = localStorage.getItem("MessageAvaliable");
   const avaliableRidesTable = document.createElement("table");
@@ -47,7 +52,6 @@ const displayAvaliableCars = (data) => {
 
 const bookRide = (event) => {
   const clickedButton = event.target;
-  console.log(clickedButton);
   const bookedDriverId = clickedButton.getAttribute("data-id");
   const employeeId = formAvaliableRides.getAttribute("data-id");
   const formData = {
@@ -70,7 +74,7 @@ const bookRide = (event) => {
       alert(data.message);
       const avaliableRidesTable = document.getElementById("drivers-table");
       if (avaliableRidesTable) {
-        avaliableRidesTable.remove();
+        avaliableRidesTable.remove(); // Remove the table after booking
       }
     })
     .catch((error) => console.log(error));
@@ -108,7 +112,7 @@ const seeAvaliableRides = (event) => {
     startPoint: rideStartPoint.value,
     endPoint: rideEndPoint.value,
   };
-  const errorsNumber = document.getElementsByClassName("error").length;
+  const errorsNumber = errors.length;
   if (errorsNumber === 0) {
     fetch("/see_avaliable_cars", {
       method: "POST",
@@ -123,8 +127,13 @@ const seeAvaliableRides = (event) => {
           errorParagraph.innerText = data.message;
         } else {
           errorParagraph.innerText = "";
-          console.log(data);
-          toggleFormVisibility(formAvaliableRides, formFields);
+          toggleFormVisibility(
+            formAvaliableRides,
+            formFields,
+            "seeAvaliable",
+            errors,
+            errorParagraph
+          );
           const driversTable = document.getElementById("drivers-table");
           if (driversTable) {
             driversTable.remove();
@@ -148,13 +157,11 @@ const viewBookedRidesOfDay = () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       const driversTable = document.getElementById("drivers-table");
       if (driversTable) {
         driversTable.remove();
       }
       if (data.message) {
-        console.log(data.message);
       } else {
         displayBookedRidesOfDay(data.booked_rides);
       }
@@ -163,7 +170,6 @@ const viewBookedRidesOfDay = () => {
 };
 
 const displayBookedRidesOfDay = (data) => {
-  console.log(data);
   const avaliableRidesTable = document.createElement("table");
   avaliableRidesTable.className = "table";
   avaliableRidesTable.setAttribute("id", "drivers-table");
@@ -190,7 +196,6 @@ const displayBookedRidesOfDay = (data) => {
   }
 };
 
-// employeeBookForm.addEventListener("submit", bookRide);
 formAvaliableRides.addEventListener("submit", seeAvaliableRides);
 
 document.addEventListener("click", (event) => {
@@ -206,12 +211,23 @@ document.addEventListener("click", (event) => {
 });
 
 formButton.addEventListener("click", () => {
-  toggleFormVisibility(formAvaliableRides, formFields);
+  toggleFormVisibility(
+    formAvaliableRides,
+    formFields,
+    "seeAvaliable",
+    errors,
+    errorParagraph
+  );
 });
 
 closeButton.addEventListener("click", () => {
-  console.log("Clicked");
-  toggleFormVisibility(formAvaliableRides, formFields);
+  toggleFormVisibility(
+    formAvaliableRides,
+    formFields,
+    "seeAvaliable",
+    errors,
+    errorParagraph
+  );
 });
 
 selectedDay.addEventListener("change", viewBookedRidesOfDay);
