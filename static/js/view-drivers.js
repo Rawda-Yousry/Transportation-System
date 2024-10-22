@@ -10,6 +10,7 @@ const addDriverButton = document.getElementById("add-button");
 const errorParagraph = document.getElementById("paragraph-error");
 const paragraphName = document.getElementById("info");
 const formCloseButton = document.getElementById("form-close");
+const logoutDiv = document.getElementById("logout");
 
 const selectedDay = document.getElementById("choose-day");
 const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
@@ -241,6 +242,7 @@ const onSubmitAddDriverForm = (e) => {
             if (selectedDay.value == "" || selectedDay.value == "allDays") {
               if (table) {
                 table.innerHTML += `
+                <tr data-id="${data.id}" class="rows">
                   <td>${driverName.value.trim()}</td>
                   <td>${driverShift.value}</td>
                   <td>${driverStartPoint.value} - ${driverEndPoint.value}</td>
@@ -255,6 +257,7 @@ const onSubmitAddDriverForm = (e) => {
                       class="bi-pencil-fill edit-button"
                       data-id="${data.id}"></i>
                   </td>
+                </tr>
                   `;
               }
             }
@@ -280,6 +283,10 @@ document.addEventListener("click", (event) => {
   if (event.target.classList.contains("delete-button")) {
     deleteEntity(event, "driver");
   }
+});
+
+logoutDiv.addEventListener("click", () => {
+  window.location.href = "/logout";
 });
 
 selectedDay.addEventListener("change", viewDriversoFDay);

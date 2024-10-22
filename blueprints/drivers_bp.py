@@ -47,12 +47,11 @@ def add_driver():
     admin = Admin(name="", email="", password="")
     for driver in drivers:
         if driver["email"] == email:
-            if driver["shift"] == shift:
-                message = "Registered before for the same shift"
-                return jsonify({"message": message})
+            message = "This Email Registered Before"
+            return jsonify({"message": message})
     for employee in employees:
         if employee["email"] == email:
-            message = "Registered before for an employee"
+            message = "Registered Before For An Employee"
             return jsonify({"message": message})
 
 

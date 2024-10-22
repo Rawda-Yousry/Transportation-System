@@ -30,26 +30,26 @@
   margin: 0px;
   font-size: small;
   color: red;
-
 }
 
-.home{
+.home {
   margin: 0;
   padding: 0;
   display: flex;
   justify-content: center;
 }
 
-.home, .main {
+.home,
+.main {
   background-color: var(--color-page);
   font-family: var(--font-family);
   align-items: center;
   height: 100vh;
   overflow: hidden;
-
 }
 
-.form__title, .message {
+.form__title,
+.message {
   font-weight: bold;
   font-size: 37px;
 }
@@ -88,9 +88,8 @@
 
 .form__link a {
   cursor: pointer;
-  color: var(--color-button);
+  color: var(--color-text-on-page);
   font-weight: bold;
-
 }
 
 .error {
@@ -110,24 +109,23 @@
   justify-content: left;
 }
 
-.button__right{
+.button__right {
   display: flex;
   justify-content: right;
   width: 62%;
   margin-bottom: 12px;
-
 }
 
-.button{
+.button {
   border-radius: 5px;
   color: var(--color-form);
   border: #ffffff;
 }
 
-.navbar{
+.navbar {
   background-color: #000000;
   color: var(--color-form);
-  border-radius: 5px ;
+  border-radius: 5px;
   height: 50px;
   display: flex;
   justify-content: right;
@@ -139,24 +137,30 @@
   grid-template-rows: 1fr;
   grid-column-gap: 15px;
   grid-row-gap: 0px;
-  
 }
 
-.message{
-  width:60%;
+.message {
+  width: 60%;
   padding: 10%;
   align-self: start;
-  margin-top:10% ;
+  margin-top: 10%;
   font-size: 30px;
 }
 
-#form-login{
+#form-login {
   width: 60%;
 }
 
-#form-close{
+#form-close {
   font-size: 22px;
   padding: 10px;
   cursor: pointer;
 }
 
+.drivers__page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: var(--color-page);
+  font-family: var(--font-family);
+}

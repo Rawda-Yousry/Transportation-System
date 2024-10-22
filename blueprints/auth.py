@@ -42,18 +42,23 @@ def login():
         password = data.get("password")
         for user in get_data("users.json"):
             if user["email"] == user_email and user["password"] == password:
-                if user["role"] == "admin":
-                    session["role"] = "admin"
+                session["id"] = user["id"]
+                if user["id"] == "111":
                     return jsonify({"redirectURL":"/drivers", "name": user["name"],  "message":"Drivers Details: "})
                 else:
-                    session["id"] = user["id"]
                     print("sesssion + " + session["id"])
                     return jsonify({"redirectURL":"/view_booked_rides", "name": user["name"], "message":"Your Booked Rides: ", "messageavaliable": "Avaliable Rides: "})
         return jsonify({"message_login":"Incorrect email or password"})
-    return render_template("login.html")
+    return render_template("homepage.html")
     
 @auth.route("/admin_dashboard")
 def admin_dashboard():
     return render_template("admin_dashboard.html")
+
+@auth.route("/logout")
+def logout():
+    session.pop('id', None)
+    print(session)
+    return render_template("homepage.html")
 
 

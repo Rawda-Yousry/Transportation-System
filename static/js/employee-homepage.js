@@ -15,7 +15,7 @@ const avaliableRidesDiv = document.getElementById("booked-rides-wrapper");
 const errorParagraph = document.getElementById("error-message");
 const selectedDay = document.getElementById("choose-day");
 const paragraphName = document.getElementById("info");
-const bookedRidesDiv = document.getElementById("booked-rides-wrapper");
+const closeButton = document.getElementById("form-close");
 
 paragraphName.innerText = localStorage.getItem("EmployeeMessage");
 const displayAvaliableCars = (data) => {
@@ -32,7 +32,7 @@ const displayAvaliableCars = (data) => {
   avaliableRidesTable.innerHTML = headers;
   for (let i = 0; i < data.length; i++) {
     avaliableRidesTable.innerHTML += `
-    <tr data-id=${data[i].id} class="rows" >
+    <tr data-id=${data[i].id}  class="ride__wrapper" >
       <td>${data[i].name}</td>
       <td>${data[i].shift}</td>
       <td>${data[i].start_point} - ${data[i].end_point}</td>
@@ -161,6 +161,7 @@ const viewBookedRidesOfDay = () => {
 };
 
 const displayBookedRidesOfDay = (data) => {
+  console.log(data);
   const avaliableRidesTable = document.createElement("table");
   avaliableRidesTable.className = "table";
   avaliableRidesTable.setAttribute("id", "drivers-table");
@@ -174,14 +175,14 @@ const displayBookedRidesOfDay = (data) => {
   }
   for (let i = 0; i < data.length; i++) {
     avaliableRidesTable.innerHTML += `
-    <tr data-id=${data[i].id} class="rows" >
+    <tr data-id=${data[i].id}  class="ride__wrapper" >
       <td>${data[i].shift}</td>
       <td>${data[i].start_point} - ${data[i].end_point}</td>
             <td class="actions"><i class="bi bi-x delete-button" data-id=${data[i].id} ></i></td>
             <td class="actions"><i class="bi-pencil-fill edit-button" data-id=${data[i].id} ></i></td>
     </tr>
     `;
-    bookedRidesDiv.appendChild(avaliableRidesTable);
+    avaliableRidesDiv.appendChild(avaliableRidesTable);
   }
 };
 
@@ -190,7 +191,6 @@ formAvaliableRides.addEventListener("submit", seeAvaliableRides);
 
 document.addEventListener("click", (event) => {
   if (event.target.classList.contains("delete-button")) {
-    console.log("Clicked");
     deleteEntity(event, "ride");
   }
 });
@@ -202,6 +202,11 @@ document.addEventListener("click", (event) => {
 });
 
 formButton.addEventListener("click", () => {
+  toggleFormVisibility(formAvaliableRides);
+});
+
+closeButton.addEventListener("click", () => {
+  console.log("Clicked");
   toggleFormVisibility(formAvaliableRides);
 });
 

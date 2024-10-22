@@ -48,9 +48,12 @@ def view_booked_rides_of_day():
     selected_day = data["selectedDay"]
     for user in users:
         if user["id"] == session["id"]: 
-            for ride in user["booked_rides"]:
-                if ride["day"] == selected_day:
-                    booked_rides.append(ride)
+            if selected_day == "allDays":
+                booked_rides = user["booked_rides"]
+            else:
+                for ride in user["booked_rides"]:
+                    if ride["day"] == selected_day:
+                        booked_rides.append(ride)
             break 
     if booked_rides == []:
         message+= "No Booked Rides"

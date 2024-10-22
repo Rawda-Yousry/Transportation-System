@@ -3,10 +3,9 @@
 .add-form__header {
   display: flex;
   justify-content: space-between;
-
 }
 
-#form__close{
+#form__close {
   color: var(--color-text-on-page);
   font-size: 23px;
   padding: 10px;
@@ -75,11 +74,11 @@
   background-color: #666262;
   color: var(--color-form);
   border-radius: 5px;
-  width: 20%;
+  width: 15%;
   font-size: 18px;
   text-align: center;
   font-weight: bold;
-  cursor: pointer;
+  padding: 10px;
 }
 
 .form__field--smaller {
@@ -165,12 +164,6 @@
   padding: 20px;
 }
 
-.drivers__page{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.div__center{
+.div__center {
   padding-left: 3%;
 }

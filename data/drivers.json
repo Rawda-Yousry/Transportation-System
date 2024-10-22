@@ -14,18 +14,6 @@
         }
     },
     {
-        "id": "dffc3975-e177-4884-9291-867c959ccb4a",
-        "email": "Ahmed@gmail.com",
-        "name": "Ahmed",
-        "start_point": "Company",
-        "end_point": "",
-        "shift": "Night",
-        "car_capacity": 11,
-        "avaliable_seats_on_days": {
-            "Sunday": 11
-        }
-    },
-    {
         "id": "fe9e019b-16ad-4e05-9c42-b6ed5c06ee4a",
         "email": "Hassannn@gmail.com",
         "name": "Hassan",
@@ -36,44 +24,6 @@
         "avaliable_seats_on_days": {
             "Monday": 12,
             "Tuesday": 12
-        }
-    },
-    {
-        "id": "f6b7bbda-31bb-4ee0-8a12-fc972eefd4f4",
-        "email": "aliiiiiii@gmail.com",
-        "name": "Aliii",
-        "start_point": "Makram Ebeid",
-        "end_point": "Company",
-        "shift": "Night",
-        "car_capacity": 13,
-        "avaliable_seats_on_days": {
-            "Sunday": 13,
-            "Tuesday": 13
-        }
-    },
-    {
-        "id": "8e5f17c4-cba7-4e09-9c07-289afba99e8c",
-        "email": "Mohamed@gmail.com",
-        "name": "Mohameddd",
-        "start_point": "Makram Ebeid",
-        "end_point": "Company",
-        "shift": "Morning",
-        "car_capacity": 12,
-        "avaliable_seats_on_days": {
-            "Monday": 12,
-            "Tuesday": 12
-        }
-    },
-    {
-        "id": "6cc250c5-3a4f-4707-bd8e-1060fe2c843c",
-        "email": "Hussein@gmail.com",
-        "name": "Huse",
-        "start_point": "Almaadi",
-        "end_point": "Company",
-        "shift": "Morning",
-        "car_capacity": 13,
-        "avaliable_seats_on_days": {
-            "Sunday": 13
         }
     }
 ]
