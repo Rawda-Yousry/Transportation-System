@@ -76,8 +76,9 @@ const bookRide = (event) => {
       if (avaliableRidesTable) {
         avaliableRidesTable.remove(); // Remove the table after booking
       }
+      window.location.href = "/view_booked_rides";
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {});
 };
 
 const seeAvaliableRides = (event) => {
@@ -141,7 +142,7 @@ const seeAvaliableRides = (event) => {
           displayAvaliableCars(data);
         }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {});
   }
 };
 
@@ -166,7 +167,7 @@ const viewBookedRidesOfDay = () => {
         displayBookedRidesOfDay(data.booked_rides);
       }
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {});
 };
 
 const displayBookedRidesOfDay = (data) => {
