@@ -6,7 +6,7 @@ This project is a transportation management system designed for a company where 
   It allows employees to view available rides based on specific shifts and routes. Employees can also delete their assigned rides.
 
 - **What is the "new feature" which you have implemented that we haven't seen before?**  
-  Used Jinja templating to display data and enable editing, with the data to be edited appearing dynamically in a form. I also integrated modern JavaScript features, including using `fetch` to update certain components of the page without refreshing, improving user experience. Additionally, I learned about and implemented CSS variables for consistent styling and used the `forEach` loop in JavaScript for efficient data handling.
+  Used Jinja templating to display data and enable editing, with the data to be edited appearing dynamically in a form. I also integrated modern JavaScript features, including using `fetch` to update certain components of the page without refreshing, improving user experience. Additionally, I learned about and implemented CSS variables for consistent styling and used the `forEach` loop in JavaScript for efficient data handling, explored HTML document features like nextSibling to improve DOM manipulation.
 
 ## Prerequisites
 

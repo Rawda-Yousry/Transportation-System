@@ -2,7 +2,6 @@
 export const showError = (field, errorMessage) => {
   const existingError = field.nextElementSibling;
   const spanError = document.getElementById("span-error");
-  console.log("existing error", existingError);
   if (spanError && spanError.innerText !== "") {
     spanError.innerText = "";
   }
@@ -19,14 +18,12 @@ export const showError = (field, errorMessage) => {
 
 export const checkErrorExists = (field) => {
   const errorElement = field.nextElementSibling;
-  console.log("element", errorElement);
   if (errorElement && errorElement.classList.contains("error")) {
     errorElement.remove();
   }
 };
 
 export const deleteEntity = (event, entityType) => {
-  console.log("deleteeeee");
   const clickedButton = event.target;
   const deletedId = clickedButton.getAttribute("data-id");
   const divClassName = entityType === "ride" ? "ride__wrapper" : "rows";
@@ -54,7 +51,7 @@ export const deleteEntity = (event, entityType) => {
         .then(() => {
           divs[i].remove();
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {});
       break;
     }
   }
