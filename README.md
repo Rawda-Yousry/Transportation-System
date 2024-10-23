@@ -13,6 +13,7 @@ This project is a transportation management system designed for a company where 
 To run this project, you'll need to install the following modules:
 
 - Flask: `pip install flask`
+- Write in terminal flask run.
 
 ## Project Checklist
 
@@ -45,6 +46,9 @@ To run this project, you'll need to install the following modules:
 
 ## Login Page
 ![Alt text](./readme_images/LoginPage.PNG)
+
+## Register Page
+![Alt text](./readme_images/RegisterPage.PNG)
 
 ## Admin Page
 ![Alt text](./readme_images/AdminPage.PNG)
