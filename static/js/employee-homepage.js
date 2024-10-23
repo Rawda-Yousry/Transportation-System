@@ -25,11 +25,16 @@ const formFields = [rideStartPoint, rideEndPoint, rideShift, rideDay];
 // This message changes depending on request from login
 paragraphName.innerText = localStorage.getItem("EmployeeMessage");
 
+
+// Function to display the avaliable cars
 const displayAvaliableCars = (data) => {
+  // Display message in local storage
   paragraphName.innerText = localStorage.getItem("MessageAvaliable");
   const avaliableRidesTable = document.createElement("table");
   avaliableRidesTable.className = "table";
   avaliableRidesTable.setAttribute("id", "drivers-table");
+
+  // Headers of the table
   const headers = `<tr class="table__header">
       <td>Driver Name</td>
       <td>Shift</td>
@@ -50,6 +55,8 @@ const displayAvaliableCars = (data) => {
   }
 };
 
+
+// Function to book a ride and send the data to the server
 const bookRide = (event) => {
   const clickedButton = event.target;
   const bookedDriverId = clickedButton.getAttribute("data-id");
@@ -81,8 +88,13 @@ const bookRide = (event) => {
     .catch((error) => {});
 };
 
+
+// Function to see the avaliable rides
 const seeAvaliableRides = (event) => {
+  // Prevent the default action of the form
   event.preventDefault();
+
+  // Check if the fields are empty
   if (rideDay.value === "") {
     showError(rideDay, "You should choose a day");
   } else {
@@ -114,6 +126,8 @@ const seeAvaliableRides = (event) => {
     endPoint: rideEndPoint.value,
   };
   const errorsNumber = errors.length;
+
+  // If there are no errors, send the data to the server
   if (errorsNumber === 0) {
     fetch("/see_avaliable_cars", {
       method: "POST",
@@ -139,6 +153,7 @@ const seeAvaliableRides = (event) => {
           if (driversTable) {
             driversTable.remove();
           }
+          // Display the avaliable cars
           displayAvaliableCars(data);
         }
       })
@@ -146,8 +161,13 @@ const seeAvaliableRides = (event) => {
   }
 };
 
+
+// Function to view the booked rides of the day
 const viewBookedRidesOfDay = () => {
+  // Display message in local storage
   paragraphName.innerText = localStorage.getItem("EmployeeMessage");
+
+  // Get the value of the selected day
   const selectedDayValue = selectedDay.value;
   fetch("/view_booked_rides_of_day", {
     method: "POST",
@@ -164,12 +184,15 @@ const viewBookedRidesOfDay = () => {
       }
       if (data.message) {
       } else {
+        // Display the booked rides of the day
         displayBookedRidesOfDay(data.booked_rides);
       }
     })
     .catch((error) => {});
 };
 
+
+// Function to display the booked rides of the day
 const displayBookedRidesOfDay = (data) => {
   const avaliableRidesTable = document.createElement("table");
   avaliableRidesTable.className = "table";
@@ -205,12 +228,15 @@ document.addEventListener("click", (event) => {
   }
 });
 
+// Event listener to book a ride to get to know which driver id is selected
 document.addEventListener("click", (event) => {
   if (event.target.classList.contains("book-button")) {
     bookRide(event);
   }
 });
 
+
+// Event listener to toggle form visibility
 formButton.addEventListener("click", () => {
   toggleFormVisibility(
     formAvaliableRides,

@@ -12,6 +12,7 @@ class Employee:
         self.password = password
         self.role = "employee"
 
+    # Method to convert the employee object to a dictionary used in registering the employee
     def to_dict(self):
         employee_dict = {
             "id": self.id,
@@ -23,6 +24,7 @@ class Employee:
         }
         return employee_dict
 
+    # Method to view the booked rides of the employee
     def view_booked_rides(self):
         users = get_data("users.json")
         booked_rides = [{}]
@@ -31,16 +33,21 @@ class Employee:
                 booked_rides = user["booked_rides"]
         return booked_rides
 
+    # Method to book a ride for the employee
     def book_ride(self, day, start_point, end_point, shift, driver_id):
         users = get_data("users.json")
         drivers = get_data("drivers.json")
         for driver in drivers:
             if driver["id"] == driver_id:
+                # Check if the driver has available seats for the day and shift then decrease the avaliable seats
                 driver["avaliable_seats_on_days"][day] -= 1
                 break
+            
+        # Write the updated drivers back to the drivers.json file
         check_write = write_data(drivers, "drivers.json")
         for user in users:
             if user["id"] == self.id:
+                # Add the booked ride to the user's booked rides
                 booked_ride = {
                     "id": str(uuid.uuid4()),
                     "driver_id": driver_id,
@@ -54,7 +61,7 @@ class Employee:
         check_write = write_data(users, "users.json")
         return booked_ride
     
-
+    # Method to delete a ride for the employee
     def delete_ride(self, ride_id):
         users = get_data("users.json")
         drivers = get_data("drivers.json")
@@ -93,12 +100,13 @@ class Employee:
 
 
 
-
+# Admin class that inherits from the Employee class 
 class Admin(Employee):
     def __init__(self, id, name, email, password):
         super().__init__(id, name, email, password)
         self.role = "admin"
 
+    # Method to add a new driver
     def add_driver(self, email, name, start_point, end_point, shift, car_capacity, avaliable_days):
         new_driver = Driver(email, name, start_point, end_point, shift, car_capacity, avaliable_days)
         new_driver_dict = new_driver.to_dict()
@@ -107,10 +115,12 @@ class Admin(Employee):
         check_write = write_data(drivers , "drivers.json")
         return new_driver_dict
     
+    # Method to view the drivers
     def view_drivers(self):
         drivers = get_data("drivers.json")
         return drivers
     
+    # Method to delete a driver
     def delete_driver(self, driver_id):
         users = get_data("users.json")
         drivers = get_data("drivers.json")

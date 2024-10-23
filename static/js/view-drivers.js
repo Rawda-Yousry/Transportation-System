@@ -4,6 +4,8 @@ import {
   deleteEntity,
   toggleFormVisibility,
 } from "./utilities.js";
+
+// Form elements Add driver
 const formAddDriver = document.getElementById("add-form");
 const driversDiv = document.getElementsByClassName("home__div")[0];
 const addDriverButton = document.getElementById("add-button");
@@ -14,11 +16,13 @@ const logoutDiv = document.getElementById("logout");
 const formEditDriver = document.getElementById("edit-form");
 const editFormCloseButton = document.getElementById("form-edit-close");
 
+// Form elements View driver
 const driverShiftEdit = document.getElementById("driver-shift-edit");
 const driverDaysEdit = document.getElementById("days-check-box-edit");
 const driverStartPointEdit = document.getElementById("driver-start-point-edit");
 const driverEndPointEdit = document.getElementById("driver-end-point-edit");
 
+// Form elements Add driver
 const driverEmail = document.getElementById("driver-email");
 const driverName = document.getElementById("driver-name");
 const driverShift = document.getElementById("driver-shift");
@@ -59,6 +63,7 @@ const dayToNumberMap = {
   Thursday: 5,
 };
 
+// Function to display the drivers
 const displayDrivers = (data, selectedDay) => {
   const tableExist = document.getElementById("table");
   if (tableExist) {
@@ -122,6 +127,7 @@ const displayDrivers = (data, selectedDay) => {
   driversDiv.appendChild(table);
 };
 
+// Create New Driver and append it to table
 const createDriver = (data, selectedDaysValue) => {
   const element = `
         <tr data-id=${data.id} class="rows">
@@ -153,6 +159,7 @@ const createDriver = (data, selectedDaysValue) => {
   }
 };
 
+// Function to view the drivers of the selected day
 const viewDriversoFDay = () => {
   const selectedDayValue = selectedDay.value;
   fetch("drivers/view_drivers_of_day", {
@@ -174,6 +181,8 @@ const viewDriversoFDay = () => {
     .catch((error) => console.log(error));
 };
 
+
+// To see selected days and return them as an array to be used in form add
 const getSelectedDays = () => {
   let selectedDaysValue = [];
   for (let i = 1; i < 6; i++) {
@@ -185,12 +194,15 @@ const getSelectedDays = () => {
   return selectedDaysValue;
 };
 
+// Function to submit the form
 const onSubmitAddDriverForm = (e) => {
   e.preventDefault();
   const errorElements = document.getElementsByClassName("error");
   const selectedDaysValue = getSelectedDays();
   const daysCheckBox = document.getElementById("days-check-box");
 
+
+  // Checkout the form fields
   if (driverEmail.value.trim() === "") {
     showError(driverEmail, "You should enter the driver's email");
   } else if (!emailRegex.test(driverEmail.value.trim())) {
@@ -240,6 +252,8 @@ const onSubmitAddDriverForm = (e) => {
   } else {
     checkErrorExists(daysCheckBox);
   }
+
+  // If there are no errors, send the data to the server          
   if (errorElements.length === 0) {
     const formData = {
       email: driverEmail.value.trim(),
@@ -312,6 +326,7 @@ const onSubmitAddDriverForm = (e) => {
   }
 };
 
+// Function to edit the driver in the table
 const editDriverInTable = (data, driverEditId) => {
   const rows = document.getElementsByClassName("rows");
   for (let i = 0; i < rows.length; i++) {
@@ -335,6 +350,7 @@ const editDriverInTable = (data, driverEditId) => {
   }
 };
 
+// Function to edit get the data edited in the form 
 const editDriver = (event) => {
   const driverEditId = event.target.getAttribute("data-id");
 
@@ -345,6 +361,8 @@ const editDriver = (event) => {
       selectedDaysValue.push(checkbox.value);
     }
   }
+
+  // Checkout the form fields
   if (selectedDaysValue.length == 0) {
     showError(driverDaysEdit, "You should choose at least one day");
   } else {
@@ -368,7 +386,7 @@ const editDriver = (event) => {
       driverEndPointEdit: driverEndPointEdit.value,
     };
     fetch("/drivers/edit_data", {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
@@ -386,6 +404,7 @@ const editDriver = (event) => {
   }
 };
 
+// Toggle the form visibility
 addDriverButton.addEventListener("click", () => {
   errorParagraph.innerText = "";
   toggleFormVisibility(
@@ -398,6 +417,7 @@ addDriverButton.addEventListener("click", () => {
 });
 formAddDriver.addEventListener("submit", onSubmitAddDriverForm);
 
+// Toggle the form visibility
 formCloseButton.addEventListener("click", () => {
   errorParagraph.innerText = "";
   toggleFormVisibility(
@@ -409,12 +429,14 @@ formCloseButton.addEventListener("click", () => {
   );
 });
 
+// To be able to get the driver id and delete the driver
 document.addEventListener("click", (event) => {
   if (event.target.classList.contains("delete-button")) {
     deleteEntity(event, "driver");
   }
 });
 
+// To be able to get the driver id and edit the driver
 document.addEventListener("click", (event) => {
   if (event.target.classList.contains("edit-button")) {
     const driverId = event.target.getAttribute("data-id");
@@ -460,6 +482,7 @@ document.addEventListener("click", (event) => {
   }
 });
 
+// Toggle the form visibility
 editFormCloseButton.addEventListener("click", () => {
   toggleFormVisibility(
     formEditDriver,
@@ -470,12 +493,15 @@ editFormCloseButton.addEventListener("click", () => {
   );
 });
 
+// Logout
 logoutDiv.addEventListener("click", () => {
   window.location.href = "/logout";
 });
 
+// To view the drivers of the selected day
 selectedDay.addEventListener("change", viewDriversoFDay);
 
+// To submit the form to edit the driver
 formEditDriver.addEventListener("submit", (event) => {
   event.preventDefault();
   editDriver(event);

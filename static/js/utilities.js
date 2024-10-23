@@ -1,10 +1,14 @@
-// Functions that used alot in the project
+// Show error message for input fields
 export const showError = (field, errorMessage) => {
+  // Takes the next element after the field
   const existingError = field.nextElementSibling;
   const spanError = document.getElementById("span-error");
+
+  // Check if there is an existing error message so empty it
   if (spanError && spanError.innerText !== "") {
     spanError.innerText = "";
   }
+  // Check if the element is already created
   if (!existingError) {
     const errorElement = document.createElement("span");
     errorElement.className = "error";
@@ -16,6 +20,8 @@ export const showError = (field, errorMessage) => {
   }
 };
 
+
+// Check if there is an error message and remove it
 export const checkErrorExists = (field) => {
   const errorElement = field.nextElementSibling;
   if (errorElement && errorElement.classList.contains("error")) {
@@ -23,6 +29,7 @@ export const checkErrorExists = (field) => {
   }
 };
 
+// Delete an entity from the page 
 export const deleteEntity = (event, entityType) => {
   const clickedButton = event.target;
   const deletedId = clickedButton.getAttribute("data-id");
@@ -51,41 +58,15 @@ export const deleteEntity = (event, entityType) => {
         .then(() => {
           divs[i].remove();
         })
-        .catch((error) => {});
+        .catch((error) => console.log(error));
       break;
     }
   }
 };
 
-export const toggleFormVisibility = (
-  form,
-  formFields,
-  isAdd,
-  errors,
-  errorParagraph
-) => {
+// Toggle the visibility of a form
+export const toggleFormVisibility = (form) => {
   if (form.style.display == "block") {
     form.style.display = "none";
-  } else {
-    if (errors && errors.length > 0) {
-      for (let i = 0; i < errors.length; i++) {
-        errors[i].innerText = "";
-      }
-    }
-
-    errorParagraph.innerText = "";
-
-    if (isAdd === "add") {
-      for (let i = 1; i < 6; i++) {
-        const checkbox = document.getElementById(`checkbox-${i}`);
-        checkbox.checked = false;
-      }
-    }
-    if (isAdd == "add" || isAdd == "seeAvaliable")
-      formFields.forEach((field) => {
-        field.value = "";
-      });
-
-    form.style.display = "block";
-  }
+  } else form.style.display = "block";
 };

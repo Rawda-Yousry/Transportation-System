@@ -14,9 +14,9 @@
         "role": "employee",
         "booked_rides": [
             {
-                "id": "48b27627-b98c-41ef-8ea7-d21cd75400ce",
-                "driver_id": "04b8932a-4961-4f36-8943-9dff86c1f4b9",
-                "day": "Sunday",
+                "id": "e585df25-76ef-42f6-ac39-41ab05c802e1",
+                "driver_id": "e36d5bc2-0994-4958-b0b2-c178ddfa671b",
+                "day": "Thursday",
                 "start_point": "Company",
                 "end_point": "Almaadi",
                 "shift": "Morning"
@@ -30,6 +30,15 @@
         "email": "rawdayousry@gmail.com",
         "password": "1223",
         "role": "employee",
-        "booked_rides": []
+        "booked_rides": [
+            {
+                "id": "509b8af5-1716-4f13-9cea-a4f5070df4cf",
+                "driver_id": "e36d5bc2-0994-4958-b0b2-c178ddfa671b",
+                "day": "Sunday",
+                "start_point": "Company",
+                "end_point": "Almaadi",
+                "shift": "Morning"
+            }
+        ]
     }
 ]
