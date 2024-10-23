@@ -42,3 +42,22 @@ To run this project, you'll need to install the following modules:
 - [x] It is styled using your own CSS.
 - [x] The code follows the code and style conventions introduced in the course, is fully documented using comments, and doesn't contain unused or experimental code.
 - [x] All exercises have been completed as per the requirements and pushed to the respective GitHub repository.
+
+## Login Page
+![Alt text](./readme_images/LoginPage.PNG)
+
+## Admin Page
+![Alt text](./readme_images/AdminPage.PNG)
+
+## Employee Page
+![Alt text](./readme_images/EmployeeBookedRides.PNG)
+
+## Edit Form
+![Alt text](./readme_images/EditForm.PNG)
+
+## Add Driver Form
+![Alt text](./readme_images/AddDriverForm.PNG)
+
+## Book Ride Form
+![Alt text](./readme_images/BookRideForm.PNG)
+
